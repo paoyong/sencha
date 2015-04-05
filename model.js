@@ -105,6 +105,20 @@ function createNewTextPost(author, title, selfText, url, subpy, callback) {
     });
 }
 
+// ------------------------------
+// grabUser
+// ------------------------------
+// Returns a user given a user id.
+function grabUser(userId, callback) {
+    new User({id: userId}).fetch().then(function(fetchedUser) {
+        if (fetchedUser) {
+            callback(null, fetchedUser);
+        } else {
+            callback('User not found.', null);
+        }
+    });
+}
+
 module.exports = {
     User: User,
     Post: Post,
