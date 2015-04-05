@@ -1,0 +1,42 @@
+extends layout
+
+block content
+    h1
+        span.fa.fa-sign-in
+        | 
+        = title
+
+    if errorMessage
+        p.errorMessage Error signing in: 
+            span= errorMessage
+
+    form(name="signin", action="/signin", method="post")
+        div.row
+            div.six.columns
+                    label(for="username") Username
+                    input.u-full-width(type="text", name="username", placeholder="Enter your username...")
+
+                    label(for="password") Password
+                    input.u-full-width(type="password", name="password", required="true", placeholder="Enter your password...")
+
+        div.row
+            input(type="submit", value="Login")
+
+    a(href="/signup") Sign up for an account.
+    br
+
+    h2 Or register with
+    a.button(href="/auth/facebook")
+        span.fa.fa-facebook
+        |  Facebook
+
+    a.button(href="/auth/twitter")
+        span.fa.fa-twitter
+        |  Twitter
+
+    a.button(href="/auth/google")
+        span.fa.fa-google-plus
+        |  Google
+
+
+
