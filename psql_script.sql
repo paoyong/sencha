@@ -3,6 +3,16 @@ CREATE DATABASE pyramus;
 \connect pyramus;
 
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS post;
+DROP TABLE IF EXISTS subscribed_to;
+DROP TABLE IF EXISTS subpy;
+
+CREATE TABLE IF NOT EXISTS subpy (
+    id              serial,
+    name            VARCHAR(50) NOT NULL UNIQUE,
+    creation_time   timestamptz NOT NULL,
+    PRIMARY KEY (id)
+);
 
 CREATE TABLE IF NOT EXISTS users (
     id              serial,
@@ -10,17 +20,18 @@ CREATE TABLE IF NOT EXISTS users (
     password        VARCHAR(100) NOT NULL,
     posts_score     integer,
     comment_score   integer,
-    creation_time   timestamptz,
+    creation_time   timestamptz NOT NULL,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS post (
     id              bigserial,
-    author          VARCHAR(100),
-    title           TEXT,
+    author          VARCHAR(100) NOT NULL,
+    title           TEXT NOT NULL,
+    url             TEXT,
     self_text       TEXT,
-    subpy           VARCHAR(50),
-    creation_time   timestamptz,
+    subpy           VARCHAR(50) NOT NULL,
+    creation_time   timestamptz NOT NULL,
     FOREIGN KEY (author) REFERENCES users(username)
         ON UPDATE CASCADE
         ON DELETE NO ACTION,
@@ -31,20 +42,13 @@ CREATE TABLE IF NOT EXISTS post (
 );
 
 CREATE TABLE IF NOT EXISTS subscribed_to (
-    user_id         INTEGER,
-    subpy           INTEGER,
+    user_id         INTEGER NOT NULL,
+    subpy           VARCHAR(50) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
     FOREIGN KEY (subpy) REFERENCES subpy(name)
         ON UPDATE CASCADE
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
     PRIMARY KEY (user_id, subpy)
-);
-
-CREATE TABLE IF NOT EXISTS subpy (
-    id              serial,
-    name            VARCHAR(50) NOT NULL UNIQUE,
-    creation_time   timestamptz,
-    PRIMARY KEY (id)
 );
