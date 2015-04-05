@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS users (
     id              serial,
     username        VARCHAR(100) NOT NULL UNIQUE,
     password        VARCHAR(100) NOT NULL,
-    score           integer,
+    posts_score     integer,
+    comment_score   integer,
     creation_time   timestamptz,
     PRIMARY KEY (id)
 );
@@ -23,8 +24,27 @@ CREATE TABLE IF NOT EXISTS post (
     FOREIGN KEY (author) REFERENCES users(username)
         ON UPDATE CASCADE
         ON DELETE NO ACTION,
-    FOREIGN KEY (subpy) REFERENCES users(username)
+    FOREIGN KEY (subpy) REFERENCES subpy(name)
         ON UPDATE CASCADE
         ON DELETE NO ACTION,
-    PRIMARY KEY (a)
-)
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS subscribed_to (
+    user_id         INTEGER,
+    subpy           INTEGER,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    FOREIGN KEY (subpy) REFERENCES subpy(name)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+    PRIMARY KEY (user_id, subpy)
+);
+
+CREATE TABLE IF NOT EXISTS subpy (
+    id              serial,
+    name            VARCHAR(50) NOT NULL UNIQUE,
+    creation_time   timestamptz,
+    PRIMARY KEY (id)
+);
