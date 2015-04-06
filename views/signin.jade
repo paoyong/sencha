@@ -7,8 +7,7 @@ block content
         = title
 
     if errorMessage
-        p.errorMessage Error signing in: 
-            span= errorMessage
+        p.errorMessage= errorMessage
 
     form(name="signin", action="/signin", method="post")
         div.row

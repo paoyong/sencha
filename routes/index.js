@@ -8,13 +8,16 @@ var Model = require('../model.js');
 // Home page
 // ------------------------------
 router.get('/', function(req, res, next) {
-    res.render('index', { title: config.websiteName, subpy: 'Front Page', user: req.user });
+    res.render('index', { title: config.websiteName, subpy: 'frontpage', user: req.user });
 });
 
 // ------------------------------
 // signin routes
 // ------------------------------
 router.get('/signin', function(req, res, next) {
+    if (req.query.error === 'post_before_login') {
+        res.render('signin', {errorMessage: 'Please login before posting.'});
+    }
     if (req.isAuthenticated()) {
         res.redirect('/');
     } else {

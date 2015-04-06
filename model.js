@@ -3,7 +3,7 @@ var bcrypt = require('bcrypt-nodejs');
 var knex = require('knex')({
     client: 'postgres',
     // Uncomment to enable SQL query logging in console.
-    // debug   : true,
+    debug   : true,
     connection: {
         host    : '127.0.0.1',
         user    : 'postgres',
@@ -77,6 +77,7 @@ function createNewLinkPost(author, title, url, subpy, callback) {
         author: author,
         title: title,
         url: url,
+        subpy: subpy
     }
 
     new Post(newPostValues).save().then(function(savedLinkPost) {
