@@ -1,13 +1,14 @@
 var express = require('express');
 var config = require('../config');
 var router = express.Router();
+var passport = require('passport');
 var Model = require('../model.js');
 
 // ------------------------------
 // Home page
 // ------------------------------
 router.get('/', function(req, res, next) {
-  res.render('index', { title: config.websiteName, subpy: 'Front Page' });
+    res.render('index', { title: config.websiteName, subpy: 'Front Page', user: req.user });
 });
 
 // ------------------------------
@@ -79,7 +80,7 @@ router.get('/signout', function(req, res, next) {
         res.redirect('/', { errorMessage: 'You are not logged in' });
     } else {
         req.logout();
-        res.redirect('/signin');
+        res.redirect('/');
     }
 });
 

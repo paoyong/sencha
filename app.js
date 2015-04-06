@@ -5,11 +5,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var config = require('./config');
-
+var passport = require('passport');
+var session = require('express-session');
 var indexRouter = require('./routes/index');
 var rRouter = require('./routes/r');
-
 var app = express();
+require('./passport.js')(passport);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -22,6 +23,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({ secret: 'hamster kitten fight' }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(session({ secret: 'hamster kitten fight' }));
 
 app.use('/', indexRouter);
 app.use('/r', rRouter);
