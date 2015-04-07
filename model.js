@@ -144,7 +144,7 @@ function grabUserByUsername(username, callback) {
 function getRecentPosts(subpy, limit, callback) {
     knex('post').select('*')
     .join('subpy', 'subpy.name', '=', 'post.subpy')
-    .orderBy('creation_time', 'desc')
+    .orderBy('post.creation_time', 'desc')
     .limit(limit)
     .then(function(rows) {
         callback(rows);
