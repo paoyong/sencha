@@ -1,4 +1,7 @@
-.postsApp ul {
+body {
+    /* font-size: 16px; */
+}
+.posts-app ul {
     list-style-type: none;
 }
 
@@ -7,14 +10,29 @@
 }
 
 .post {
-    padding: 10px;
-}
-
-.post-score-app {
+    padding: 10px 5px 0px 0px;
 }
 
 .post-author-age {
     color: #999;
+}
+
+.post-title-author-age {
+}
+
+.post-score-app {
+    display: inline-block;
+    text-align: center;
+}
+
+.post-score {
+    display: inline;
+    font-size: 2rem;
+}
+
+.upvote-button {
+    font-size: 2rem;
+    cursor: pointer;
 }
 
 .post-title {

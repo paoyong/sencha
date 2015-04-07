@@ -27,7 +27,7 @@ var App = React.createClass({
     },
     render: function() {
         return (
-            <div className="postsApp">
+            <div className="posts-app">
                 <PostsList posts={this.state.posts}/>
             </div>
         );
@@ -56,15 +56,11 @@ var Post = React.createClass({
 
         return (
             <li className="post row">
-                <div className="one column">
                     <Score postId={post.id} postScore={post.score} className="two columns" />
-                </div>
-                <div className="eleven columns">
-                    <div className="row">
-                        <a href={post.url} className="post-title">{post.title}</a>
-                    </div>
+                    <div className="post-title-author-age">
+                    <a href={post.url} className="post-title">{post.title}</a>
                     <AuthorAgeBanner age={post.age} author={post.author}/>
-                </div>
+                    </div>
             </li>
         );
     }
@@ -143,7 +139,7 @@ var Score = React.createClass({
 
         return (
            <div className="post-score-app">
-                <div className="fa fa-chevron-up"></div>
+                <a className="upvote-button fa fa-chevron-up"></a><br />
                 <div className="post-score">{postScore}</div>
             </div>
         );
@@ -152,5 +148,5 @@ var Score = React.createClass({
 
 React.render(
     <App url={'/posts/' + subpy} pollInterval={pollInterval}/>,
-    document.getElementById("posts-app")
+    document.getElementById("react-posts-app-mount")
 );

@@ -94,7 +94,7 @@ function createNewLinkPost(author, title, url, subpy, callback) {
 // NOTE: Does not check for whether the
 // user or subpy exists or not. This is
 // done on the application level.
-function createNewTextPost(author, title, selfText, url, subpy, callback) {
+function createNewTextPost(author, title, selfText, subpy, callback) {
     var newPostValues = {
         author: author,
         title: title,
@@ -106,8 +106,6 @@ function createNewTextPost(author, title, selfText, url, subpy, callback) {
     new Post(newPostValues).save().then(function(savedTextPost) {
         callback(null, savedTextPost);
     });
-
-
 }
 
 // ------------------------------

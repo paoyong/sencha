@@ -27,9 +27,11 @@ router.get('/:subpy/submit', function(req, res, next) {
     if (req.user === undefined) {
         res.redirect('/signin?error=post_before_login');
     } else {
+        var isTextPost = req.query.text;
         res.render('newpost', {
             title: config.websiteName,
-            subpy: subpy
+            subpy: subpy,
+            textPost: isTextPost
         });
     }
 });
@@ -43,8 +45,9 @@ router.post('/:subpy/submit', function(req, res, next) {
             console.log(submitttedPost);
         });
     } else {
-        // TODO: Otherwise create new text post
-
+        Model.createNewTextPost(user.username, body.title, body.selftext, req.params.subpy, function(submittedPost) {
+            console.log(submittedPost);
+        });
     }
 
     res.redirect('/r/' + req.params.subpy);
