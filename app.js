@@ -9,7 +9,8 @@ var passport = require('passport');
 var session = require('express-session');
 
 var indexRouter = require('./routes/index');
-var postsRouter = require('./routes/posts')
+var localAuthRouter = require('./routes/local-auth');
+var postsRouter = require('./routes/posts');
 var rRouter = require('./routes/r');
 var uRouter = require('./routes/u');
 
@@ -36,6 +37,7 @@ app.use(passport.session());
 app.use(session({ secret: 'hamster kitten fight' }));
 
 app.use('/', indexRouter);
+app.use('/', localAuthRouter);
 app.use('/r', rRouter);
 app.use('/u', uRouter);
 app.use('/posts', postsRouter);

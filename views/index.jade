@@ -10,7 +10,9 @@ block content
         div.three.columns
             if user
                 a(href='/u/' + user.username)= user.username
-                |  | 
+                | (
+                span= user.posts_score
+                | ) | 
                 a(href='/signout') logout
             else
                 a(href='/signin') Sign In
