@@ -1,0 +1,14 @@
+extends layout
+block content
+    if text
+        h2 Submit a new text post
+    else
+        h2 Submit a new link post
+    form(name="newpost", action= "/r/" + subpy + "/submit", method="post")
+        label(for="title") Title
+        input.u-full-width(type="text", name="title", required="true", placeholder="Title...")
+        if text
+            input.u-full-width(type="text", name="selftext", placeholder="Self text...")
+        else
+            label(for="link") Link
+            input.u-full-width(type="text", name="link", required="true", placeholder="URL...")

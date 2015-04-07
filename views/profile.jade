@@ -1,0 +1,18 @@
+extends layout
+
+block content
+    div.row
+        h1#title= title 
+    div.row
+        div.app.nine.columns
+            ul
+                // User Posts and Comments
+        div.sidebar.three.columns
+            if user
+                h3= user.username
+                p= user.posts_score
+                    |  post score
+                p= user.comment_score
+                    |  comment score
+            if errorMessage
+                p.error-message= errorMessage
