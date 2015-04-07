@@ -43,6 +43,7 @@ router.post('/:subpy/submit', function(req, res, next) {
             console.log(submitttedPost);
         });
     } else {
+        // TODO: Otherwise create new text post
 
     }
 
