@@ -1,12 +1,12 @@
 var express = require('express');
 var config = require('../config');
 var router = express.Router();
+var Model = require('../model.js');
 
 router.get('/:subpy', function(req, res, next) {
     var subpy = req.params.subpy;
-    res.render('index', { 
-        title: config.websiteName,
-        subpy: subpy
+    Model.getRecentPosts(subpy, config.numPostsToShow, function(rows) {
+        res.send(rows);
     });
 });
 

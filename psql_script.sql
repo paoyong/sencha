@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS post (
     title           TEXT NOT NULL,
     url             TEXT,
     self_text       TEXT,
+    score           integer,
     subpy           VARCHAR(50) NOT NULL,
     creation_time   timestamptz NOT NULL,
     FOREIGN KEY (author) REFERENCES users(username)

@@ -5,6 +5,7 @@ var Model = require('../model');
 
 router.get('/:subpy', function(req, res, next) {
     var subpy = req.params.subpy;
+
     res.render('index', { 
         title: config.websiteName,
         subpy: subpy,
@@ -15,7 +16,6 @@ router.get('/:subpy', function(req, res, next) {
 router.get('/:subpy/submit', function(req, res, next) {
     var subpy = req.params.subpy;
 
-    console.log(req.user);
     if (req.user === undefined) {
         res.redirect('/signin?error=post_before_login');
     } else {
@@ -30,8 +30,6 @@ router.post('/:subpy/submit', function(req, res, next) {
     var body = req.body;
     var user = req.user;
 
-    // If a link post
-    // function createNewLinkPost(author, title, url, subpy, callback) {
     if (body.link) {
         Model.createNewLinkPost(user.username, body.title, body.link, req.params.subpy, function(submittedPost) {
             console.log(submitttedPost);

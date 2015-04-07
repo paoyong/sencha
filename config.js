@@ -1,4 +1,5 @@
 module.exports = {
     port: 8083,
-    websiteName: 'pyramus'
+    websiteName: 'pyramus',
+    numPostsToShow: 25
 };

@@ -77,6 +77,7 @@ function createNewLinkPost(author, title, url, subpy, callback) {
         author: author,
         title: title,
         url: url,
+        score: 0, 
         subpy: subpy
     }
 
@@ -98,6 +99,7 @@ function createNewTextPost(author, title, selfText, url, subpy, callback) {
         author: author,
         title: title,
         self_text: selfText,
+        score: 0,
         subpy: subpy
     }
 
@@ -120,6 +122,53 @@ function grabUser(userId, callback) {
     });
 }
 
+// ------------------------------
+// grabUserByUsername
+// ------------------------------
+// Returns a user given a username.
+function grabUserByUsername(username, callback) {
+    new User({username: username}).fetch().then(function(fetchedUser) {
+        if (fetchedUser) {
+            callback(null, fetchedUser.toJSON());
+        } else {
+            callback('User not found.', null);
+        }
+    });
+}
+
+// ------------------------------
+// getRecentPosts
+// ------------------------------
+// get [limit] amount of most recent posts in a
+// subreddit
+function getRecentPosts(subpy, limit, callback) {
+    knex('post').select('*')
+    .join('subpy', 'subpy.name', '=', 'post.subpy')
+    .orderBy('creation_time', 'desc')
+    .limit(limit)
+    .then(function(rows) {
+        callback(rows);
+    });
+}
+
+// ------------------------------
+// doesSubpyExist
+// ------------------------------
+// Checks to see whether a subpy
+// exists or not, then returns the
+// answer via callback.
+function doesSubpyExist(subpy, callback) {
+    knex('subpy').count('*')
+    .where('name', '=', subpy)
+    .then(function(rows) {
+        if (rows[0].count === '1') {
+            callback(true);
+        } else {
+            callback(false);
+        }
+    });
+}
+
 module.exports = {
     User: User,
     Post: Post,
@@ -127,5 +176,8 @@ module.exports = {
     createNewUser: createNewUser,
     createNewLinkPost: createNewLinkPost,
     createNewTextPost: createNewTextPost,
-    grabUser: grabUser
+    grabUser: grabUser,
+    grabUserByUsername: grabUserByUsername,
+    getRecentPosts: getRecentPosts,
+    doesSubpyExist: doesSubpyExist
 };

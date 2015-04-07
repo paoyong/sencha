@@ -2,17 +2,26 @@ extends layout
 
 block content
     div.row
-        h1#title= title 
-    div.row
-        div.app.nine.columns
-            h2#subpy= subpy
-            ul
-        div.sidebar.three.columns
+        div.nine.columns
+            h1
+                a(href='/')#title= title
+                | /r/
+                a(href='/r/' + subpy)#subpy= subpy
+        div.three.columns
             if user
                 a(href='/u/' + user.username)= user.username
                 |  | 
                 a(href='/signout') logout
             else
                 a(href='/signin') Sign In
-            a.button(href= subpy + '/submit') Link Post
-            a.button(href= subpy + '/submit?text=true') Text Post
+    hr
+    div.row
+        div.app.nine.columns
+            ul
+        div.sidebar.three.columns
+            div.row
+                h5 Submit a new post
+                a.button.u-full-width(href= subpy + '/submit') Link Post
+
+            div.row
+                a.button.u-full-width(href= subpy + '/submit?text=true') Text Post

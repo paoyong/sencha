@@ -8,7 +8,8 @@ var Model = require('../model.js');
 // Home page
 // ------------------------------
 router.get('/', function(req, res, next) {
-    res.render('index', { title: config.websiteName, subpy: 'frontpage', user: req.user });
+    res.redirect('/r/all');
+    // res.render('index', { title: config.websiteName, subpy: 'frontpage', user: req.user });
 });
 
 // ------------------------------
