@@ -18,8 +18,12 @@ block content
                 a(href='/signin') Sign In
     hr
     div.row
-        div.app.nine.columns
-            ul
+        div.nine.columns
+            h3 Hot
+            // This is where React comes in
+            div.posts-app
+
+
         div.sidebar.three.columns
             div.row
                 h5 Submit a new post
@@ -27,3 +31,6 @@ block content
 
             div.row
                 a.button.u-full-width(href= subpy + '/submit?text=true') Text Post
+    script(src="http://fb.me/JSXTransformer-0.13.1.js")
+    script(src="http://fb.me/react-0.13.1.js")
+    script(src="/javascripts/postsfiller.js", type="text/jsx")
