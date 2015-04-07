@@ -1,2 +1,22 @@
-div {
+.postsApp ul {
+    list-style-type: none;
+}
+
+.postsList li:nth-child(even) {
+    background: #fdfdfd;
+}
+
+.post {
+    padding: 10px;
+}
+
+.post-score-app {
+}
+
+.post-author-age {
+    color: #999;
+}
+
+.post-title {
+    font-size: 2rem;
 }

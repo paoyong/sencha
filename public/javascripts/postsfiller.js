@@ -1,20 +1,29 @@
 var subpy = $('#subpy').text();
 
-console.log('hihihihihi');
+// ajax calls every X milliseconds
+var pollInterval = 4000;
+
 var App = React.createClass({
     getInitialState: function() {
         return {
             posts: []
         };
     },
-    componentDidMount: function() {
+    loadPostsFromServer: function() {
         $.ajax({
-            url: '/posts/' + subpy,
+            url: this.props.url,
             dataType: 'json',
             success: function(data) {
                 this.setState({posts: data});
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(this.props.url, status, err.toString());
             }.bind(this)
         });
+    },
+    componentDidMount: function() {
+        this.loadPostsFromServer();
+        setInterval(this.loadPostsFromServer, this.props.pollInterval);
     },
     render: function() {
         return (
@@ -34,9 +43,9 @@ var PostsList = React.createClass({
         });
 
         return (
-            <ol className="postsList">
+            <ul className="postsList">
                 {posts}
-            </ol>
+            </ul>
         );
     }
 });
@@ -44,16 +53,17 @@ var PostsList = React.createClass({
 var Post = React.createClass({
     render: function() {
         var post = this.props.post;
-        console.log(post);
 
         return (
-            <li className="post">
-                <div class="row">
+            <li className="post row">
+                <div className="one column">
                     <Score postId={post.id} postScore={post.score} className="two columns" />
-                    <a href={post.url} className="post-title">{post.title}</a>
                 </div>
-                <div className="post-author-age row">
-                    <p>Submitted by {post.author}</p>
+                <div className="eleven columns">
+                    <div className="row">
+                        <a href={post.url} className="post-title">{post.title}</a>
+                    </div>
+                    <AuthorAgeBanner age={post.age} author={post.author}/>
                 </div>
             </li>
         );
@@ -63,7 +73,6 @@ var Post = React.createClass({
 var TextPost = React.createClass({
     render: function() {
         var post = this.props.post;
-        console.log(post);
 
         return (
             <li className="post">
@@ -76,6 +85,56 @@ var TextPost = React.createClass({
     }
 });
 
+var AuthorAgeBanner = React.createClass({
+    render: function() {
+        var bannerAge = '';
+        var age = this.props.age;
+
+        // Format the age accordingly
+        if (age.days) {
+            bannerAge = age.days;
+
+            if (age.days === 1) {
+                bannerAge += ' day ';
+            } else {
+                bannerAge += ' days '
+            }
+        }
+        else if (age.hours) {
+            bannerAge = age.hours;
+
+            if (age.hours === 1) {
+                bannerAge += ' hour ';
+            } else {
+                bannerAge += ' hours '
+            }
+        }
+        else if (age.minutes) {
+            bannerAge = age.minutes;
+
+            if (age.minutes === 1) {
+                bannerAge += ' minute ';
+            } else {
+                bannerAge += ' minutes ';
+            }
+        } else {
+            bannerAge = age.seconds;
+
+            if (age.seconds === 1) {
+                bannerAge += ' second ';
+            } else {
+                bannerAge += ' seconds ';
+            }
+        }
+
+        return (
+            <div className="post-author-age row">
+                <p>Submitted {bannerAge} ago by {this.props.author}</p>
+            </div>
+        )
+    }
+});
+
 // Upvote, downvote, and score
 var Score = React.createClass({
     render: function() {
@@ -83,15 +142,15 @@ var Score = React.createClass({
         var postScore = this.props.postScore;
 
         return (
-            <span className="score">
-                <span className="fa fa-chevron-up"></span>
-                <span className="post-score">{postScore}</span>
-            </span>
+           <div className="post-score-app">
+                <div className="fa fa-chevron-up"></div>
+                <div className="post-score">{postScore}</div>
+            </div>
         );
     }
 });
 
 React.render(
-    <App />,
+    <App url={'/posts/' + subpy} pollInterval={pollInterval}/>,
     document.getElementById("posts-app")
 );

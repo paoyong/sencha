@@ -106,6 +106,8 @@ function createNewTextPost(author, title, selfText, url, subpy, callback) {
     new Post(newPostValues).save().then(function(savedTextPost) {
         callback(null, savedTextPost);
     });
+
+
 }
 
 // ------------------------------
@@ -152,7 +154,7 @@ function getRecentPosts(subpy, limit, callback) {
     // });
 
     // Not sure how to do age(post.creation_time) with knex without using raw query. Until then I will use raw query.
-    knex.raw('SELECT *, age(post.creation_time) as age FROM post INNER JOIN subpy ON subpy.name = post.subpy ORDER BY post.creation_time DESC LIMIT ' + limit).then(function(result) {
+    knex.raw('SELECT *, now() - post.creation_time as age FROM post INNER JOIN subpy ON subpy.name = post.subpy ORDER BY post.creation_time DESC LIMIT ' + limit).then(function(result) {
         callback(result.rows);
     });
 }
