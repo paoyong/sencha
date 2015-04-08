@@ -21,6 +21,10 @@ body {
     text-decoration: underline;
 }
 
+.posts-app p {
+    margin: 0;
+}
+
 .posts-app ul {
     list-style-type: none;
 }
@@ -28,6 +32,7 @@ body {
 .post {
     border: 1px solid #dedede;
     margin-bottom: 10px;
+    padding: 10px;
 }
 
 .post-title {
