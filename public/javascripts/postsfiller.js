@@ -9,6 +9,9 @@ var App = React.createClass({
             posts: []
         };
     },
+    handleUpvote: function(e) {
+        console.log(e);
+    },
     loadPostsFromServer: function() {
         $.ajax({
             url: this.props.url,
@@ -28,7 +31,7 @@ var App = React.createClass({
     render: function() {
         return (
             <div className="posts-app">
-                <PostsList posts={this.state.posts}/>
+                <PostsList handleUpvote={this.handleUpvote} posts={this.state.posts}/>
             </div>
         );
     }
@@ -36,9 +39,10 @@ var App = React.createClass({
 
 var PostsList = React.createClass({
     render: function() {
+        var handleUpvote = this.props.handleUpvote;
         var posts = this.props.posts.map(function(post) {
             return (
-                <Post post={post} />
+                <Post handleUpvote={handleUpvote} post={post} />
             );
         });
 
@@ -56,6 +60,7 @@ var Post = React.createClass({
 
         return (
             <li className="post row">
+                <UpvoteButton handleUpvote={this.props.handleUpvote}/>
                 <PostTitle post={post} />
                 <PostInfoBanner score={post.score} age={post.age} author={post.author} />
             </li>
@@ -127,6 +132,12 @@ var PostInfoBanner = React.createClass({
                 <p>{this.props.score} points | Submitted {bannerAge} ago by {this.props.author}</p>
             </div>
         );
+    }
+});
+
+var UpvoteButton = React.createClass({
+    render: function() {
+        return <img src="/images/upvote.svg" onClick={this.props.handleUpvote} className="upvote-button" />
     }
 });
 

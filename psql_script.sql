@@ -2,10 +2,11 @@ DROP DATABASE IF EXISTS pyramus;
 CREATE DATABASE pyramus;
 \connect pyramus;
 
+DROP TABLE IF EXISTS subpy;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS post;
+DROP TABLE IF EXISTS upvoted;
 DROP TABLE IF EXISTS subscribed_to;
-DROP TABLE IF EXISTS subpy;
 
 CREATE TABLE IF NOT EXISTS subpy (
     id              serial,
@@ -40,6 +41,12 @@ CREATE TABLE IF NOT EXISTS post (
         ON UPDATE CASCADE
         ON DELETE NO ACTION,
     PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS upvoted (
+    user_id         integer references users(id),
+    post_id         bigint references post(id),
+    PRIMARY KEY (user_id, post_id)
 );
 
 CREATE TABLE IF NOT EXISTS subscribed_to (
