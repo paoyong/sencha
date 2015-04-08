@@ -56,24 +56,8 @@ var Post = React.createClass({
 
         return (
             <li className="post row">
-                    <Score postId={post.id} postScore={post.score} />
-                    <PostTitle post={post} />
-                    <AuthorAgeBanner age={post.age} author={post.author}/>
-            </li>
-        );
-    }
-});
-
-var TextPost = React.createClass({
-    render: function() {
-        var post = this.props.post;
-
-        return (
-            <li className="post">
-            <p>
-                <span class="post-score">{post.score}</span>
-                <span class="post-title">{post.title}</span>
-            </p>
+                <PostTitle post={post} />
+                <PostInfoBanner score={post.score} age={post.age} author={post.author} />
             </li>
         );
     }
@@ -83,6 +67,7 @@ var PostTitle = React.createClass({
     render: function() {
         var post = this.props.post;
 
+        // TODO: Handle case where no self text but is not link
         if (post.selfText) {
             return (
                 <span className="post-title">{post.title}</span>
@@ -95,7 +80,7 @@ var PostTitle = React.createClass({
     }
 });
 
-var AuthorAgeBanner = React.createClass({
+var PostInfoBanner = React.createClass({
     render: function() {
         var bannerAge = '';
         var age = this.props.age;
@@ -138,23 +123,8 @@ var AuthorAgeBanner = React.createClass({
         }
 
         return (
-            <div className="post-author-age row">
-                <p>Submitted {bannerAge} ago by {this.props.author}</p>
-            </div>
-        );
-    }
-});
-
-// Upvote, downvote, and score
-var Score = React.createClass({
-    render: function() {
-        var postId = this.props.postId;
-        var postScore = this.props.postScore;
-
-        return (
-           <div className="post-score-app">
-                <a className="upvote-button fa fa-chevron-up"></a><br />
-                <div className="post-score">{postScore}</div>
+            <div className="post-info-banner">
+                <p>{this.props.score} points | Submitted {bannerAge} ago by {this.props.author}</p>
             </div>
         );
     }
