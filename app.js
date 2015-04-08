@@ -12,6 +12,7 @@ var indexRouter = require('./routes/index');
 var localAuthRouter = require('./routes/local-auth');
 var postsRouter = require('./routes/posts');
 var rRouter = require('./routes/r');
+var submitRouter = require('./routes/submit');
 var uRouter = require('./routes/u');
 
 var app = express();
@@ -39,6 +40,7 @@ app.use(session({ secret: 'hamster kitten fight' }));
 app.use('/', indexRouter);
 app.use('/', localAuthRouter);
 app.use('/r', rRouter);
+app.use('/r', submitRouter);
 app.use('/u', uRouter);
 app.use('/posts', postsRouter);
 

@@ -10,4 +10,13 @@ router.get('/:subpy', function(req, res, next) {
     });
 });
 
+router.post('/upvote/:postId', function(req, res, next) {
+    var user = req.user;
+
+    if (!user) {
+        res.redirect('/signin');
+    } else {
+        
+    }
+});
 module.exports = router;

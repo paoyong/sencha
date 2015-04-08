@@ -1,4 +1,5 @@
 var bcrypt = require('bcrypt-nodejs');
+var async = require('async');
 
 var knex = require('knex')({
     client: 'postgres',
@@ -58,7 +59,7 @@ function createNewUser(username, password, callback) {
             };
 
             new User(newUserValues).save().then(function(savedUser) {
-                callback(null, savedUser);
+                callback(null, savedUser.toJSON());
             });
         }
     });
@@ -82,7 +83,7 @@ function createNewLinkPost(author, title, url, subpy, callback) {
     }
 
     new Post(newPostValues).save().then(function(savedLinkPost) {
-        callback(null, savedLinkPost);
+        callback(null, savedLinkPost.toJSON());
     });
 }
 
@@ -118,6 +119,31 @@ function grabUser(userId, callback) {
             callback(null, fetchedUser.toJSON());
         } else {
             callback('User not found.', null);
+        }
+    });
+}
+
+
+// ------------------------------
+// upvote
+// ------------------------------
+// Upvotes a post, given user.id 
+// and post.id
+function upvote(userId, postId, callback) {
+    async.parallel({
+        one: function(callback) {
+            knex('upvoted').insert({
+                user_id: userId,
+                post_id: postId
+            }).then(function(insertedRow) {
+                callback(insertedRow);
+            });
+        },
+        two: function() {
+            knex('users').where('id', '=', userId).increment('posts_score', 1).then();
+        },
+        three: function() {
+            knex('post').where('id', '=', postId).increment('score', 1).then();
         }
     });
 }
@@ -184,6 +210,7 @@ module.exports = {
     createNewTextPost: createNewTextPost,
     grabUser: grabUser,
     grabUserByUsername: grabUserByUsername,
+    upvote: upvote,
     getRecentPosts: getRecentPosts,
-    doesSubpyExist: doesSubpyExist
+    doesSubpyExist: doesSubpyExist,
 };
