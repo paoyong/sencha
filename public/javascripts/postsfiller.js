@@ -56,11 +56,9 @@ var Post = React.createClass({
 
         return (
             <li className="post row">
-                    <Score postId={post.id} postScore={post.score} className="two columns" />
-                    <div className="post-title-author-age">
-                    <a href={post.url} className="post-title">{post.title}</a>
+                    <Score postId={post.id} postScore={post.score} />
+                    <PostTitle post={post} />
                     <AuthorAgeBanner age={post.age} author={post.author}/>
-                    </div>
             </li>
         );
     }
@@ -81,6 +79,22 @@ var TextPost = React.createClass({
     }
 });
 
+var PostTitle = React.createClass({
+    render: function() {
+        var post = this.props.post;
+
+        if (post.selfText) {
+            return (
+                <span className="post-title">{post.title}</span>
+            );
+        } else {
+            return (
+                <a href={post.url} className="post-title">{post.title}</a>
+            );
+        }
+    }
+});
+
 var AuthorAgeBanner = React.createClass({
     render: function() {
         var bannerAge = '';
@@ -93,7 +107,7 @@ var AuthorAgeBanner = React.createClass({
             if (age.days === 1) {
                 bannerAge += ' day ';
             } else {
-                bannerAge += ' days '
+                bannerAge += ' days ';
             }
         }
         else if (age.hours) {
@@ -102,7 +116,7 @@ var AuthorAgeBanner = React.createClass({
             if (age.hours === 1) {
                 bannerAge += ' hour ';
             } else {
-                bannerAge += ' hours '
+                bannerAge += ' hours ';
             }
         }
         else if (age.minutes) {
@@ -127,7 +141,7 @@ var AuthorAgeBanner = React.createClass({
             <div className="post-author-age row">
                 <p>Submitted {bannerAge} ago by {this.props.author}</p>
             </div>
-        )
+        );
     }
 });
 
