@@ -168,21 +168,24 @@ function grabUserByUsername(username, callback) {
 // get [limit] amount of most recent posts in a
 // subreddit
 function getRecentPosts(subpy, limit, callback) {
-
-    // knex('post').select('*')
-    // .join('subpy', 'subpy.name', '=', 'post.subpy')
-    // .orderBy('post.creation_time', 'desc')
-    // .limit(limit)
-    // .then(function(rows) {
-    //     callback(rows);
-    // });
-
     // Not sure how to do age(post.creation_time) with knex without using raw query. Until then I will use raw query.
-    knex.raw('SELECT *, now() - post.creation_time as age FROM post INNER JOIN subpy ON subpy.name = post.subpy ORDER BY post.creation_time DESC LIMIT ' + limit).then(function(result) {
+    knex.raw('SELECT *, now() - post.creation_time as age FROM post WHERE post.subpy=$1 ORDER BY post.creation_time DESC LIMIT $2', [subpy, limit]).then(function(result) {
         callback(result.rows);
     });
 }
 
+// ------------------------------
+// getRecentPostsWithUpvotes
+// ------------------------------
+// Given a username, gets the recent posts
+// and shows whether the user upvoted the
+// post or not.
+function getRecentPostsWithUpvotes(userId, subpy, limit, callback) {
+    knex.raw('SELECT *, now() - post.creation_time as age FROM post INNER JOIN subpy ON subpy.name = post.subpy ORDER BY post.creation_time DESC LIMIT ' + limit).then(function(result) {
+        callback(result.rows);
+    });
+}
+//
 // ------------------------------
 // doesSubpyExist
 // ------------------------------
