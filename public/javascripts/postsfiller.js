@@ -9,21 +9,36 @@ var App = React.createClass({
             posts: []
         };
     },
-    // handleDownvote
     handleUpvote: function(postId) {
+        var currPosts = this.state.posts;
+        for (var i = 0, len = currPosts.length; i < len; i++) {
+            if (currPosts[i].id === postId) {
+                // Make it upvoted
+                currPosts[i].user_id = 1;
+                currPosts[i].score++;
+            }
+        }
+        this.setState({posts: currPosts});
+
         $.ajax({
             type: 'POST',
-            url: '/posts/upvote/' + postId,
-            success: function() {
-                var currPosts = this.state.posts;
-                for (var i = 0, len = currPosts.length; i < len; i++) {
-                    if (currPosts[i].id === postId) {
-                        currPosts[i].user_id = 1;
-                    }
-                }
-                console.log(currPosts);
-                this.setState({posts: currPosts});
-            }.bind(this)
+            url: '/posts/upvote/' + postId
+        });
+    },
+    handleRemoveUpvote: function(postId) {
+        var currPosts = this.state.posts;
+        for (var i = 0, len = currPosts.length; i < len; i++) {
+            if (currPosts[i].id === postId) {
+                // Make it not voted
+                currPosts[i].user_id = null;
+                currPosts[i].score--;
+            }
+        }
+        this.setState({posts: currPosts});
+
+        $.ajax({
+            type: 'POST',
+            url: '/posts/remove-upvote/' + postId
         });
     },
     loadPostsFromServer: function() {
@@ -45,7 +60,7 @@ var App = React.createClass({
     render: function() {
         return (
             <div className="posts-app">
-                <PostsList handleUpvote={this.handleUpvote} posts={this.state.posts}/>
+            <PostsList handleUpvote={this.handleUpvote} handleRemoveUpvote={this.handleRemoveUpvote} posts={this.state.posts}/>
             </div>
         );
     }
@@ -54,9 +69,10 @@ var App = React.createClass({
 var PostsList = React.createClass({
     render: function() {
         var handleUpvote = this.props.handleUpvote;
+        var handleRemoveUpvote = this.props.handleRemoveUpvote;
         var posts = this.props.posts.map(function(post) {
             return (
-                <Post handleUpvote={handleUpvote} post={post} />
+                <Post handleUpvote={handleUpvote} handleRemoveUpvote={handleRemoveUpvote} post={post} />
             );
         });
 
@@ -74,7 +90,7 @@ var Post = React.createClass({
 
         return (
             <li className="post row">
-                <UpvoteButton handleUpvote={this.props.handleUpvote}postId={post.id} upvoted={post.user_id}/>
+                <UpvoteButton handleUpvote={this.props.handleUpvote} handleRemoveUpvote={this.props.handleRemoveUpvote} postId={post.id} upvoted={post.user_id}/>
                 <PostTitle post={post} />
                 <PostInfoBanner score={post.score} age={post.age} author={post.author} />
             </li>
@@ -103,6 +119,10 @@ var PostInfoBanner = React.createClass({
     render: function() {
         var bannerAge = '';
         var age = this.props.age;
+
+        if (age.seconds === undefined) {
+            age.seconds = 0;
+        }
 
         // Format the age accordingly
         if (age.days) {
@@ -141,9 +161,12 @@ var PostInfoBanner = React.createClass({
             }
         }
 
+        var authorURL = '/u/' + this.props.author;
         return (
             <div className="post-info-banner">
-                <p>{this.props.score} points | Submitted {bannerAge} ago by {this.props.author}</p>
+            <p>
+            <span className="post-points">{this.props.score}</span> points | Submitted by <a href={authorURL} className="post-author">{this.props.author}</a> <span className="post-age">{bannerAge}</span> ago
+            </p>
             </div>
         );
     }
@@ -157,9 +180,17 @@ var UpvoteButton = React.createClass({
             return "/images/upvote.svg"
         }
     },
+    getUpvoteFunction: function() {
+        if (this.props.upvoted) {
+            return this.props.handleRemoveUpvote;
+        } else { 
+            return this.props.handleUpvote;
+        }
+    },
     render: function() {
         var imageSrc = this.getImage();
-        return <img src={imageSrc} onClick={this.props.handleUpvote.bind(null, this.props.postId)} className="upvote-button" />
+        var upvoteFunction = this.getUpvoteFunction();
+        return <img className="upvote-button" src={imageSrc} onClick={upvoteFunction.bind(null, this.props.postId)} className="upvote-button" />
     }
 });
 

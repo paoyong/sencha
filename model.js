@@ -131,7 +131,7 @@ function grabUser(userId, callback) {
 // and post.id
 function upvote(userId, postId, callback) {
     async.parallel({
-        one: function(callback) {
+        one: function() {
             knex('upvoted').insert({
                 user_id: userId,
                 post_id: postId
@@ -140,10 +140,29 @@ function upvote(userId, postId, callback) {
             });
         },
         two: function() {
+            // TODO: this is erroneous.
             knex('users').where('id', '=', userId).increment('posts_score', 1).then();
         },
         three: function() {
             knex('post').where('id', '=', postId).increment('score', 1).then();
+        }
+    });
+}
+
+// ------------------------------
+// removeUpvote
+// ------------------------------
+// Stops the upvoting
+function removeUpvote(userId, postId, callback) {
+    async.parallel({
+        one: function() {
+            knex.raw('DELETE FROM upvoted WHERE user_id=$1 AND post_id=$2', [userId, postId]).then();
+        },
+        two: function() {
+            knex('users').where('id', '=', userId).decrement('posts_score', 1).then();
+        },
+        three: function() {
+            knex('post').where('id', '=', postId).decrement('score', 1).then();
         }
     });
 }
@@ -214,6 +233,7 @@ module.exports = {
     grabUser: grabUser,
     grabUserByUsername: grabUserByUsername,
     upvote: upvote,
+    removeUpvote: removeUpvote,
     getRecentPosts: getRecentPosts,
     getRecentPostsWithUpvotes: getRecentPostsWithUpvotes,
     doesSubpyExist: doesSubpyExist,

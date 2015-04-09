@@ -42,3 +42,11 @@ body {
 .post-info-banner {
     color: #acacac;
 }
+
+.post-author, .post-points {
+    color: #616161;
+}
+
+.upvote-button {
+    cursor: pointer;
+}

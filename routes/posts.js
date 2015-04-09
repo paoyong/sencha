@@ -31,4 +31,17 @@ router.post('/upvote/:postId', function(req, res, next) {
         });
     }
 });
+
+router.post('/remove-upvote/:postId', function(req, res, next) {
+    var user = req.user;
+
+    if (!user) {
+        res.redirect('/signin?error=upvote_before_login');
+    } else {
+        // function upvote(userId, postId, callback) {
+        Model.removeUpvote(user.id, req.params.postId, function() {
+            console.log('Removed upvote');
+        });
+    }
+});
 module.exports = router;
