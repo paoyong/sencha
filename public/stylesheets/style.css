@@ -13,6 +13,10 @@ body {
     font-weight: 300;
 }
 
+a {
+    color: #1EB4FF;
+}
+
 .posts-app a {
     text-decoration: none;
 }
@@ -36,17 +40,23 @@ body {
 }
 
 .post-title {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
 }
 
 .post-info-banner {
     color: #acacac;
+    font-size: 0.75rem;
 }
 
 .post-author, .post-points {
     color: #616161;
 }
 
+.post-points-upvoted {
+    color: #FCA53D;
+}
+
 .upvote-button {
     cursor: pointer;
 }
+

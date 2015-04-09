@@ -92,7 +92,7 @@ var Post = React.createClass({
             <li className="post row">
                 <UpvoteButton handleUpvote={this.props.handleUpvote} handleRemoveUpvote={this.props.handleRemoveUpvote} postId={post.id} upvoted={post.user_id}/>
                 <PostTitle post={post} />
-                <PostInfoBanner score={post.score} age={post.age} author={post.author} />
+                <PostInfoBanner score={post.score} age={post.age} author={post.author} upvoted={post.user_id} />
             </li>
         );
     }
@@ -116,7 +116,7 @@ var PostTitle = React.createClass({
 });
 
 var PostInfoBanner = React.createClass({
-    render: function() {
+    grabFormattedAge: function() {
         var bannerAge = '';
         var age = this.props.age;
 
@@ -161,12 +161,37 @@ var PostInfoBanner = React.createClass({
             }
         }
 
+        return bannerAge;
+    },
+    getPostPointsClassname: function() {
+        var ret = 'post-points ';
+
+        if (this.props.upvoted) {
+            ret += 'post-points-upvoted'
+        } else {
+            ret += 'post-points-not-upvoted'
+        }
+
+        return ret;
+    },
+    getFormattedPointsText: function() {
+        if (this.props.score === 1) {
+            return 'point';
+        } else {
+            return 'points';
+        }
+    },
+    render: function() {
+        var bannerAge = this.grabFormattedAge();
+        var postPointsClassname = this.getPostPointsClassname();
+        var formattedPointsText = this.getFormattedPointsText();
         var authorURL = '/u/' + this.props.author;
+
         return (
             <div className="post-info-banner">
-            <p>
-            <span className="post-points">{this.props.score}</span> points | Submitted by <a href={authorURL} className="post-author">{this.props.author}</a> <span className="post-age">{bannerAge}</span> ago
-            </p>
+                <p>
+                    <span className={postPointsClassname}>{this.props.score}</span> {formattedPointsText} | Submitted by <a href={authorURL} className="post-author">{this.props.author}</a> <span className="post-age">{bannerAge}</span> ago
+                </p>
             </div>
         );
     }
