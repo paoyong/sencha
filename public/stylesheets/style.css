@@ -36,7 +36,7 @@ a {
 .post {
     border: 1px solid #dedede;
     margin-bottom: 10px;
-    padding: 10px;
+    padding: 10px 10px 10px 10px;
 }
 
 .post-title {
@@ -58,5 +58,9 @@ a {
 
 .upvote-button {
     cursor: pointer;
+    float: left;
+    position: relative;
+    top: 5px;
+    margin-right: 12px;
 }
 
