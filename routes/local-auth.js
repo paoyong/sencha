@@ -11,7 +11,10 @@ router.get('/signin', function(req, res, next) {
     if (req.query.error === 'post_before_login') {
         res.render('signin', {errorMessage: 'Please login before posting.'});
     }
-    if (req.isAuthenticated()) {
+    else if (req.query.error === 'upvote_before_login') {
+        res.render('signin', {errorMessage: 'Please login before upvoting.'});
+    } 
+    else if (req.isAuthenticated()) {
         res.redirect('/');
     } else {
         res.render('signin', { title: 'Sign In' });

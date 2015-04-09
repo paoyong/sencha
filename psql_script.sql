@@ -44,7 +44,8 @@ CREATE TABLE IF NOT EXISTS post (
 );
 
 CREATE TABLE IF NOT EXISTS upvoted (
-    user_id         integer references users(id),
+    user_id         integer references users(id) 
+    ON DELETE cascade ON UPDATE cascade,
     post_id         bigint references post(id),
     PRIMARY KEY (user_id, post_id)
 );

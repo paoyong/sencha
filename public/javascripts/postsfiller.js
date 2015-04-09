@@ -9,8 +9,22 @@ var App = React.createClass({
             posts: []
         };
     },
-    handleUpvote: function(e) {
-        console.log(e);
+    // handleDownvote
+    handleUpvote: function(postId) {
+        $.ajax({
+            type: 'POST',
+            url: '/posts/upvote/' + postId,
+            success: function() {
+                var currPosts = this.state.posts;
+                for (var i = 0, len = currPosts.length; i < len; i++) {
+                    if (currPosts[i].id === postId) {
+                        currPosts[i].user_id = 1;
+                    }
+                }
+                console.log(currPosts);
+                this.setState({posts: currPosts});
+            }.bind(this)
+        });
     },
     loadPostsFromServer: function() {
         $.ajax({
@@ -60,7 +74,7 @@ var Post = React.createClass({
 
         return (
             <li className="post row">
-                <UpvoteButton handleUpvote={this.props.handleUpvote}/>
+                <UpvoteButton handleUpvote={this.props.handleUpvote}postId={post.id} upvoted={post.user_id}/>
                 <PostTitle post={post} />
                 <PostInfoBanner score={post.score} age={post.age} author={post.author} />
             </li>
@@ -136,8 +150,16 @@ var PostInfoBanner = React.createClass({
 });
 
 var UpvoteButton = React.createClass({
+    getImage: function() {
+        if (this.props.upvoted) {
+            return "/images/upvoted.svg"
+        } else {
+            return "/images/upvote.svg"
+        }
+    },
     render: function() {
-        return <img src="/images/upvote.svg" onClick={this.props.handleUpvote} className="upvote-button" />
+        var imageSrc = this.getImage();
+        return <img src={imageSrc} onClick={this.props.handleUpvote.bind(null, this.props.postId)} className="upvote-button" />
     }
 });
 

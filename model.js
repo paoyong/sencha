@@ -181,7 +181,7 @@ function getRecentPosts(subpy, limit, callback) {
 // and shows whether the user upvoted the
 // post or not.
 function getRecentPostsWithUpvotes(userId, subpy, limit, callback) {
-    knex.raw('SELECT *, now() - post.creation_time as age FROM post INNER JOIN subpy ON subpy.name = post.subpy ORDER BY post.creation_time DESC LIMIT ' + limit).then(function(result) {
+    knex.raw('SELECT *, now() - post.creation_time as age FROM post LEFT OUTER JOIN upvoted on upvoted.post_id = post.id WHERE subpy=$1 AND user_id=$2 OR user_id is null ORDER BY post.creation_time DESC LIMIT $3', [subpy, userId, limit]).then(function(result) {
         callback(result.rows);
     });
 }
@@ -215,5 +215,6 @@ module.exports = {
     grabUserByUsername: grabUserByUsername,
     upvote: upvote,
     getRecentPosts: getRecentPosts,
+    getRecentPostsWithUpvotes: getRecentPostsWithUpvotes,
     doesSubpyExist: doesSubpyExist,
 };
