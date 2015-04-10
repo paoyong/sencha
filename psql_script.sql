@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS subscribed_to (
 CREATE OR REPLACE FUNCTION post_upvote_update_scores() RETURNS TRIGGER AS
 $$
     DECLARE
-        post_author integer;
+        post_author varchar(100);
     BEGIN
         -- We want to increment the score for the person that made the post, not the person who gave away the upvote. So we want to increment for the post author.
         SELECT author INTO STRICT post_author FROM post
@@ -73,13 +73,15 @@ $$
 
         -- Increment post author's post_score on upvote
         UPDATE users
-            SET posts_score = posts_core + 1
+            SET posts_score = posts_score + 1
             WHERE username = post_author;
 
         -- Increment post score
         UPDATE post
             SET score = score + 1
             WHERE id = NEW.post_id;
+
+        RETURN NEW;
     END;
 $$ language plpgsql;
 
