@@ -9,57 +9,55 @@ DROP TABLE IF EXISTS upvoted;
 DROP TABLE IF EXISTS subscribed_to;
 
 CREATE TABLE IF NOT EXISTS subpy (
-    id              SERIAL,
-    name            VARCHAR(50) NOT NULL UNIQUE,
-    creation_time   TIMESTAMPTZ NOT NULL,
+    id              serial,
+    name            varchar(50) NOT NULL UNIQUE,
+    creation_time   timestamptz NOT NULL default now(),
     PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS users (
-    id              SERIAL,
-    username        VARCHAR(100) NOT NULL UNIQUE,
-    password        VARCHAR(100) NOT NULL,
-    posts_score     INTEGER,
-    comment_score   INTEGER,
-    creation_time   TIMESTAMPTZ NOT NULL,
+    id              serial,
+    username        varchar(100) NOT NULL UNIQUE,
+    password        varchar(100) NOT NULL,
+    posts_score     integer,
+    comment_score   integer,
+    creation_time   timestamptz NOT NULL default now(),
     PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS post (
-    id              BIGSERIAL,
-    author          VARCHAR(100) NOT NULL,
-    title           TEXT NOT NULL,
-    url             TEXT,
-    self_text       TEXT,
-    score           INTEGER,
-    subpy           VARCHAR(50) NOT NULL,
-    creation_time   TIMESTAMPTZ NOT NULL,
-    FOREIGN KEY (author) REFERENCES users(username)
-        ON UPDATE CASCADE
-        ON DELETE NO ACTION,
-    FOREIGN KEY (subpy) REFERENCES subpy(name)
-        ON UPDATE CASCADE
-        ON DELETE NO ACTION,
+    id              bigserial,
+    author          varchar(100) NOT NULL
+        REFERENCES users(username)
+        ON UPDATE CASCADE ON DELETE NO ACTION,
+    title           text NOT NULL,
+    url             text,
+    self_text       text,
+    score           integer,
+    subpy           varchar(50) NOT NULL
+        REFERENCES subpy(name)
+        ON UPDATE CASCADE ON DELETE NO ACTION,
+    creation_time   timestamptz NOT NULL default now(),
     PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS upvoted (
-    user_id         INTEGER REFERENCES users(id)
-    ON DELETE cascade ON UPDATE cascade,
-    post_id         BIGINT REFERENCES post(id)
-    ON DELETE cascade ON UPDATE cascade,
+    user_id         integer
+        REFERENCES users(id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    post_id         bigint
+        REFERENCES post(id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (user_id, post_id)
 );
 
 CREATE TABLE IF NOT EXISTS subscribed_to (
-    user_id         INTEGER NOT NULL,
-    subpy           VARCHAR(50) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE,
-    FOREIGN KEY (subpy) REFERENCES subpy(name)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE,
+    user_id         integer NOT NULL
+        REFERENCES users(id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    subpy           varchar(50) NOT NULL
+        REFERENCES subpy(name)
+        ON UPDATE CASCADE ON DELETE CASCADE,
     PRIMARY KEY (user_id, subpy)
 );
 
