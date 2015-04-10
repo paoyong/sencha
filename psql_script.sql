@@ -73,10 +73,9 @@ $$
         -- We want to update the score for the person that
         -- made the post, not the person who gave away the
         -- upvote. So we want to increment for the post author.
-        SELECT author INTO STRICT post_author FROM post
-            WHERE id = NEW.post_id;
-
         IF TG_OP = 'INSERT'
+            SELECT author INTO STRICT post_author FROM post
+                WHERE id = NEW.post_id;
             UPDATE users
                 SET posts_score = posts_score + 1
                 WHERE username = post_author;
@@ -85,6 +84,8 @@ $$
 
                 WHERE id = NEW.post_id;
         ELSIF TG_OP = 'DELETE' THEN
+            SELECT author INTO STRICT post_author FROM post
+                WHERE id = OLD.post_id;
             UPDATE users
                 SET posts_score = posts_score - 1
                 WHERE username = post_author;
