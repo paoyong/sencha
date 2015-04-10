@@ -68,13 +68,18 @@ $$
         post_author integer;
     BEGIN
         -- We want to increment the score for the person that made the post, not the person who gave away the upvote. So we want to increment for the post author.
-        SELECT post.author INTO STRICT post_author FROM post
-            WHERE post.id = NEW.post_id;
+        SELECT author INTO STRICT post_author FROM post
+            WHERE id = NEW.post_id;
 
         -- Increment post author's post_score on upvote
         UPDATE users
             SET posts_score = posts_core + 1
             WHERE username = post_author;
+
+        -- Increment post score
+        UPDATE post
+            SET score = score + 1
+            WHERE id = NEW.post_id;
     END;
 $$ language plpgsql;
 
