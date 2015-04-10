@@ -86,4 +86,4 @@ $$ language plpgsql;
 CREATE TRIGGER upvote_insert
     AFTER INSERT ON upvoted
     FOR EACH ROW
-    EXECUTE PROCEDURE post_upvote_update_scores(user_id, post_id);
+    EXECUTE PROCEDURE post_upvote_update_scores();

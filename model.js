@@ -131,8 +131,8 @@ function grabUser(userId, callback) {
 function upvote(userId, postId, callback) {
     // pg automatically increments post author's score so we don't have to do it.
     knex('upvoted').insert({
-        user_id: userId,
-        post_id: postId
+        user_id: parseInt(userId),
+        post_id: parseInt(postId)
     }).then(function(insertedRow) {
         callback(insertedRow);
     });
