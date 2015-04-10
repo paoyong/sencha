@@ -61,31 +61,43 @@ CREATE TABLE IF NOT EXISTS subscribed_to (
     PRIMARY KEY (user_id, subpy)
 );
 
--- On INSERT INTO upvoted, we want to increment user post karma
+-- TRIGGER FUNCTIONS
+
+-- On INSERT INTO upvoted, we want to increment user
+-- total score and also post score. Vice versa for DELETE.
 CREATE OR REPLACE FUNCTION post_upvote_update_scores() RETURNS TRIGGER AS
 $$
     DECLARE
         post_author varchar(100);
     BEGIN
-        -- We want to increment the score for the person that made the post, not the person who gave away the upvote. So we want to increment for the post author.
+        -- We want to update the score for the person that
+        -- made the post, not the person who gave away the
+        -- upvote. So we want to increment for the post author.
         SELECT author INTO STRICT post_author FROM post
             WHERE id = NEW.post_id;
 
-        -- Increment post author's post_score on upvote
-        UPDATE users
-            SET posts_score = posts_score + 1
-            WHERE username = post_author;
+        IF TG_OP = 'INSERT'
+            UPDATE users
+                SET posts_score = posts_score + 1
+                WHERE username = post_author;
+            UPDATE post
+                SET score = score + 1
 
-        -- Increment post score
-        UPDATE post
-            SET score = score + 1
-            WHERE id = NEW.post_id;
+                WHERE id = NEW.post_id;
+        ELSIF TG_OP = 'DELETE' THEN
+            UPDATE users
+                SET posts_score = posts_score - 1
+                WHERE username = post_author;
+            UPDATE post
+                SET score = score - 1
+                WHERE id = OLD.post_id;
+        END IF;
 
         RETURN NEW;
     END;
 $$ language plpgsql;
 
 CREATE TRIGGER upvote_insert
-    AFTER INSERT ON upvoted
+    AFTER INSERT OR DELETE ON upvoted
     FOR EACH ROW
     EXECUTE PROCEDURE post_upvote_update_scores();
