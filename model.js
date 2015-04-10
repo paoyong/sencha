@@ -12,7 +12,7 @@ var knex = require('knex')({
         database: 'pyramus',
         charset : 'utf8',
         timezone: 'UTC'
-    }        
+    }
 });
 
 var DB = require('bookshelf')(knex);
@@ -38,7 +38,7 @@ var Subpy = DB.Model.extend({
 // ------------------------------
 // createNewUser
 // ------------------------------
-// Makes a new user in the database with 
+// Makes a new user in the database with
 // automatic incremented ID. Then, returns
 // that user's ID after the user is created.
 function createNewUser(username, password, callback) {
@@ -78,7 +78,7 @@ function createNewLinkPost(author, title, url, subpy, callback) {
         author: author,
         title: title,
         url: url,
-        score: 0, 
+        score: 0,
         subpy: subpy
     }
 
@@ -123,29 +123,18 @@ function grabUser(userId, callback) {
     });
 }
 
-
 // ------------------------------
 // upvote
 // ------------------------------
-// Upvotes a post, given user.id 
+// Upvotes a post, given user.id
 // and post.id
 function upvote(userId, postId, callback) {
-    async.parallel({
-        one: function() {
-            knex('upvoted').insert({
-                user_id: userId,
-                post_id: postId
-            }).then(function(insertedRow) {
-                callback(insertedRow);
-            });
-        },
-        two: function() {
-            // TODO: this is erroneous.
-            knex('users').where('id', '=', userId).increment('posts_score', 1).then();
-        },
-        three: function() {
-            knex('post').where('id', '=', postId).increment('score', 1).then();
-        }
+    // pg automatically increments user score so we don't have to do it.
+    knex('upvoted').insert({
+        user_id: userId,
+        post_id: postId
+    }).then(function(insertedRow) {
+        callback(insertedRow);
     });
 }
 
@@ -204,7 +193,7 @@ function getRecentPostsWithUpvotes(userId, subpy, limit, callback) {
         callback(result.rows);
     });
 }
-//
+
 // ------------------------------
 // doesSubpyExist
 // ------------------------------
