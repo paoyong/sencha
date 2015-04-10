@@ -143,17 +143,7 @@ function upvote(userId, postId, callback) {
 // ------------------------------
 // Stops the upvoting
 function removeUpvote(userId, postId, callback) {
-    async.parallel({
-        one: function() {
-            knex.raw('DELETE FROM upvoted WHERE user_id=$1 AND post_id=$2', [userId, postId]).then();
-        },
-        two: function() {
-            knex('users').where('id', '=', userId).decrement('posts_score', 1).then();
-        },
-        three: function() {
-            knex('post').where('id', '=', postId).decrement('score', 1).then();
-        }
-    });
+    knex.raw('DELETE FROM upvoted WHERE user_id=$1 AND post_id=$2', [userId, postId]).then();
 }
 
 // ------------------------------

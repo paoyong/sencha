@@ -73,7 +73,7 @@ $$
         -- We want to update the score for the person that
         -- made the post, not the person who gave away the
         -- upvote. So we want to increment for the post author.
-        IF TG_OP = 'INSERT'
+        IF TG_OP = 'INSERT' THEN
             SELECT author INTO STRICT post_author FROM post
                 WHERE id = NEW.post_id;
             UPDATE users
@@ -81,8 +81,8 @@ $$
                 WHERE username = post_author;
             UPDATE post
                 SET score = score + 1
-
                 WHERE id = NEW.post_id;
+            RETURN NEW;
         ELSIF TG_OP = 'DELETE' THEN
             SELECT author INTO STRICT post_author FROM post
                 WHERE id = OLD.post_id;
@@ -92,9 +92,9 @@ $$
             UPDATE post
                 SET score = score - 1
                 WHERE id = OLD.post_id;
+            RETURN OLD;
         END IF;
 
-        RETURN NEW;
     END;
 $$ language plpgsql;
 
