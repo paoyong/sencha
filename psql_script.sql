@@ -58,8 +58,25 @@ CREATE TABLE IF NOT EXISTS subscribed_to (
         ON DELETE CASCADE ON UPDATE CASCADE,
     subpy           varchar(50) NOT NULL
         REFERENCES subpy(name)
-        ON UPDATE CASCADE ON DELETE CASCADE,
+        ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (user_id, subpy)
+);
+
+-- Schema adopted from
+-- http://cramer.io/2010/05/30/scaling-threaded-comments-on-django-at-disqus/
+CREATE TABLE IF NOT EXISTS comments (
+    id              bigserial,
+    message         text,
+    author          varchar(100)
+        REFERENCES users(username)
+        ON DELETE NO ACTION ON UPDATE CASCADE,
+    creation_time   timestamptz default now(),
+    post_id         bigint NOT NULL
+        REFERENCES post(id)
+        ON DELETE CASCADE ON UPDATE NO ACTION,
+    parent_id       INTEGER
+        REFERENCES comments(id)
+    PRIMARY KEY (id)
 );
 
 -- TRIGGER FUNCTIONS
