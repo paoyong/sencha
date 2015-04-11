@@ -18,14 +18,6 @@ var submitRouter = require('./routes/submit');
 var uRouter = require('./routes/u');
 var subpylistRouter = require('./routes/subpylist')
 
-app.use('/', indexRouter);
-app.use('/', localAuthRouter);
-app.use('/r', rRouter);
-app.use('/r', submitRouter);
-app.use('/u', uRouter);
-app.use('/posts', postsRouter);
-app.use('/subpylist', subpylistRouter);
-
 require('./passport.js')(passport);
 
 // view engine setup
@@ -44,7 +36,14 @@ app.use(session({ secret: 'hamster kitten fight' }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(session({ secret: 'hamster kitten fight' }));
+app.use('/', indexRouter);
+app.use('/', localAuthRouter);
+app.use('/r', rRouter);
+app.use('/r', submitRouter);
+app.use('/u', uRouter);
+app.use('/posts', postsRouter);
+app.use('/subpylist', subpylistRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
