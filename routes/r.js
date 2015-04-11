@@ -8,7 +8,7 @@ router.get('/:subpy', function(req, res, next) {
 
     Model.doesSubpyExist(subpy, function(doesExist) {
         if (doesExist === true) {
-            res.render('index', { 
+            res.render('index', {
                 title: config.websiteName,
                 subpy: subpy,
                 user: req.user

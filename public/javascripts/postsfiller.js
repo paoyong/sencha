@@ -1,4 +1,5 @@
 var subpy = $('#subpy').text();
+var defaultURL = '/posts/' + subpy + '?age=day&sort_by=new';
 
 // ajax calls every X milliseconds
 var pollInterval = 4000;
@@ -222,6 +223,6 @@ var UpvoteButton = React.createClass({
 });
 
 React.render(
-    <App url={'/posts/' + subpy} pollInterval={pollInterval}/>,
+    <App url={defaultURL} pollInterval={pollInterval}/>,
     document.getElementById("react-posts-app-mount")
 );

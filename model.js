@@ -1,10 +1,11 @@
 var bcrypt = require('bcrypt-nodejs');
 var async = require('async');
+var config = require('./config');
 
 var knex = require('knex')({
     client: 'postgres',
     // Uncomment to enable SQL query logging in console.
-    // debug   : true,
+    debug   : true,
     connection: {
         host    : '127.0.0.1',
         user    : 'postgres',
@@ -173,56 +174,45 @@ function getRecentPosts(subpy, limit, callback) {
 }
 
 // ------------------------------
-// getRecentPostsWithUpvotes
+// getPostsLoggedIn
 // ------------------------------
-// Given a username, gets the recent posts
+// Given a username, gets the posts
 // and shows whether the user upvoted the
 // post or not.
-function getRecentPostsWithUpvotes(userId, subpy, limit, callback) {
-    // user_id is null is erroneous.
-    knex.raw('SELECT DISTINCT ON (post.id) *, user_id, CASE WHEN user_id=$1 THEN true ELSE false END as upvoted, now() - post.creation_time as age FROM post LEFT OUTER JOIN upvoted ON post_id = post.id WHERE subpy=$2 ORDER BY post.id, upvoted DESC, age DESC LIMIT $3', [userId, subpy, limit])
-             .then(function(result) {
-        var rows = result.rows;
+function getPostsLoggedIn(userId, subpy, sortBy, ageWord, limit, callback) {
+    var orderBy = '';
+    var maxAge = '';
 
-        // for (var i = 0, len = rows.length; i < len; i++) {
-        //     if (rows[i].upvoted != userId) {
-        //         rows[i].upvoted = false;
-        //     } else {
-        //         rows[i].upvoted = true;
-        //     }
-        // }
-        console.log(rows);
-        callback(rows);
+    if (sortBy === 'new') {
+        orderBy = 'age DESC';
+    }
+    else if (sortBy === 'top') {
+        orderBy = 'post.score DESC';
+    }
+
+    var confAges = config.supportedAgeWords;
+    for (var i = 0, len = confAges.length; i < len; i++) {
+        if (ageWord === confAges[i]) {
+            maxAge = '1 ' + confAges[i];
+        }
+    }
+
+    if (ageWord === 'all time') {
+        // TODO: Hacky but works. A less hacky solution would be great.
+        maxAge = '100000 years'
+    }
+
+    var ageSelection = 'now() - post.creation_time';
+
+    var query = 'SELECT DISTINCT ON (post.id) *, user_id, CASE WHEN user_id=$1 THEN true ELSE false END as upvoted, ' + ageSelection + ' as age FROM post LEFT OUTER JOIN upvoted ON post_id = post.id WHERE subpy=$2 AND ' + ageSelection + ' < INTERVAL \'' + maxAge + '\' ORDER BY post.id, upvoted DESC, $3 DESC LIMIT $4';
+
+    var queryBindings = [userId, subpy, orderBy, limit];
+
+    knex.raw(query, queryBindings).then(function(result) {
+        callback(result.rows);
     });
 }
 
-// ------------------------------
-// TODO: getPosts
-// ------------------------------
-// General all purpose function to grab
-// posts depending on options given.
-function getPosts(options, callback) {
-    var query = 'SELECT *, now() - post.creation_time FROM post ';
-    var sortBy = 'ORDER BY ';
-
-    if (!options.sortBy || !options.subpy || !options.limit) {
-        callback('Options must contain limit, subpy and sortBy', null);
-    } else {
-        // If user is logged in, we want to get posts WITH upvotes
-        if (options.user) {
-            sortBy += 'post.id, upvoted DESC'
-        }
-
-        if (options.sortBy === 'top') {
-            sortBy += 'post.score DESC,';
-        }
-        else if (options.sortBy === 'new') {
-            sortBy += 'post.creation_time DESC,';
-        }
-
-    }
-
-}
 
 // ------------------------------
 // doesSubpyExist
@@ -254,6 +244,6 @@ module.exports = {
     upvote: upvote,
     removeUpvote: removeUpvote,
     getRecentPosts: getRecentPosts,
-    getRecentPostsWithUpvotes: getRecentPostsWithUpvotes,
+    getPostsLoggedIn: getPostsLoggedIn,
     doesSubpyExist: doesSubpyExist,
 };
