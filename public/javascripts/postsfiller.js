@@ -11,13 +11,14 @@ var App = React.createClass({
     },
     handleUpvote: function(postId) {
         var currPosts = this.state.posts;
+
         for (var i = 0, len = currPosts.length; i < len; i++) {
             if (currPosts[i].id === postId) {
-                // Make it upvoted
-                currPosts[i].user_id = 1;
+                currPosts[i].upvoted = true;
                 currPosts[i].score++;
             }
         }
+
         this.setState({posts: currPosts});
 
         $.ajax({
@@ -27,13 +28,14 @@ var App = React.createClass({
     },
     handleRemoveUpvote: function(postId) {
         var currPosts = this.state.posts;
+
         for (var i = 0, len = currPosts.length; i < len; i++) {
             if (currPosts[i].id === postId) {
-                // Make it not voted
-                currPosts[i].user_id = null;
+                currPosts[i].upvoted = false;
                 currPosts[i].score--;
             }
         }
+
         this.setState({posts: currPosts});
 
         $.ajax({
@@ -90,9 +92,9 @@ var Post = React.createClass({
 
         return (
             <li className="post row">
-                <UpvoteButton handleUpvote={this.props.handleUpvote} handleRemoveUpvote={this.props.handleRemoveUpvote} postId={post.id} upvoted={post.user_id}/>
+                <UpvoteButton handleUpvote={this.props.handleUpvote} handleRemoveUpvote={this.props.handleRemoveUpvote} postId={post.id} upvoted={post.upvoted}/>
                 <PostTitle post={post} />
-                <PostInfoBanner score={post.score} age={post.age} author={post.author} upvoted={post.user_id} />
+                <PostInfoBanner score={post.score} age={post.age} author={post.author} upvoted={post.upvoted} />
             </li>
         );
     }
@@ -208,7 +210,7 @@ var UpvoteButton = React.createClass({
     getUpvoteFunction: function() {
         if (this.props.upvoted) {
             return this.props.handleRemoveUpvote;
-        } else { 
+        } else {
             return this.props.handleUpvote;
         }
     },

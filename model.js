@@ -4,7 +4,7 @@ var async = require('async');
 var knex = require('knex')({
     client: 'postgres',
     // Uncomment to enable SQL query logging in console.
-    debug   : true,
+    // debug   : true,
     connection: {
         host    : '127.0.0.1',
         user    : 'postgres',
@@ -179,9 +179,49 @@ function getRecentPosts(subpy, limit, callback) {
 // and shows whether the user upvoted the
 // post or not.
 function getRecentPostsWithUpvotes(userId, subpy, limit, callback) {
-    knex.raw('SELECT *, now() - post.creation_time as age FROM post LEFT OUTER JOIN upvoted on upvoted.post_id = post.id WHERE subpy=$1 AND user_id=$2 OR user_id is null ORDER BY post.creation_time DESC LIMIT $3', [subpy, userId, limit]).then(function(result) {
-        callback(result.rows);
+    // user_id is null is erroneous.
+    knex.raw('SELECT DISTINCT ON (post.id) *, user_id, CASE WHEN user_id=$1 THEN true ELSE false END as upvoted, now() - post.creation_time as age FROM post LEFT OUTER JOIN upvoted ON post_id = post.id WHERE subpy=$2 ORDER BY post.id, upvoted DESC, age DESC LIMIT $3', [userId, subpy, limit])
+             .then(function(result) {
+        var rows = result.rows;
+
+        // for (var i = 0, len = rows.length; i < len; i++) {
+        //     if (rows[i].upvoted != userId) {
+        //         rows[i].upvoted = false;
+        //     } else {
+        //         rows[i].upvoted = true;
+        //     }
+        // }
+        console.log(rows);
+        callback(rows);
     });
+}
+
+// ------------------------------
+// TODO: getPosts
+// ------------------------------
+// General all purpose function to grab
+// posts depending on options given.
+function getPosts(options, callback) {
+    var query = 'SELECT *, now() - post.creation_time FROM post ';
+    var sortBy = 'ORDER BY ';
+
+    if (!options.sortBy || !options.subpy || !options.limit) {
+        callback('Options must contain limit, subpy and sortBy', null);
+    } else {
+        // If user is logged in, we want to get posts WITH upvotes
+        if (options.user) {
+            sortBy += 'post.id, upvoted DESC'
+        }
+
+        if (options.sortBy === 'top') {
+            sortBy += 'post.score DESC,';
+        }
+        else if (options.sortBy === 'new') {
+            sortBy += 'post.creation_time DESC,';
+        }
+
+    }
+
 }
 
 // ------------------------------

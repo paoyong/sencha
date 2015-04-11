@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS post (
     id              bigserial,
-    author          varchar(100) NOT NULL
+    author          varchar(100)
         REFERENCES users(username)
         ON UPDATE CASCADE ON DELETE NO ACTION,
     title           text NOT NULL,
@@ -94,7 +94,6 @@ $$
                 WHERE id = OLD.post_id;
             RETURN OLD;
         END IF;
-
     END;
 $$ language plpgsql;
 
