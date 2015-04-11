@@ -19,8 +19,8 @@ CREATE TABLE IF NOT EXISTS users (
     id              serial,
     username        varchar(100) NOT NULL UNIQUE,
     password        varchar(100) NOT NULL,
-    posts_score     integer,
-    comment_score   integer,
+    posts_score     integer NOT NULL default 0,
+    comment_score   integer NOT NULL default 0,
     creation_time   timestamptz NOT NULL default now(),
     PRIMARY KEY (id)
 );
@@ -31,9 +31,10 @@ CREATE TABLE IF NOT EXISTS post (
         REFERENCES users(username)
         ON UPDATE CASCADE ON DELETE CASCADE,
     title           text NOT NULL,
+    -- Null URL means it is a text post
     url             text,
     self_text       text,
-    score           integer,
+    score           integer NOT NULL default 0,
     subpy           varchar(50) NOT NULL
         REFERENCES subpy(name)
         ON UPDATE CASCADE ON DELETE NO ACTION,
@@ -42,10 +43,10 @@ CREATE TABLE IF NOT EXISTS post (
 );
 
 CREATE TABLE IF NOT EXISTS upvoted (
-    user_id         integer
+    user_id         integer NOT NULL
         REFERENCES users(id)
         ON DELETE CASCADE ON UPDATE CASCADE,
-    post_id         bigint
+    post_id         bigint NOT NULL
         REFERENCES post(id)
         ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (user_id, post_id)
