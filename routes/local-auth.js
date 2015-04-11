@@ -13,7 +13,7 @@ router.get('/signin', function(req, res, next) {
     }
     else if (req.query.error === 'upvote_before_login') {
         res.render('signin', {errorMessage: 'Please login before upvoting.'});
-    } 
+    }
     else if (req.isAuthenticated()) {
         res.redirect('/');
     } else {

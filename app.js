@@ -8,14 +8,23 @@ var config = require('./config');
 var passport = require('passport');
 var session = require('express-session');
 
+var app = express();
+
 var indexRouter = require('./routes/index');
 var localAuthRouter = require('./routes/local-auth');
 var postsRouter = require('./routes/posts');
 var rRouter = require('./routes/r');
 var submitRouter = require('./routes/submit');
 var uRouter = require('./routes/u');
+var subpylistRouter = require('./routes/subpylist')
 
-var app = express();
+app.use('/', indexRouter);
+app.use('/', localAuthRouter);
+app.use('/r', rRouter);
+app.use('/r', submitRouter);
+app.use('/u', uRouter);
+app.use('/posts', postsRouter);
+app.use('/subpylist', subpylistRouter);
 
 require('./passport.js')(passport);
 
@@ -30,19 +39,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-   
+
 app.use(session({ secret: 'hamster kitten fight' }));
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(session({ secret: 'hamster kitten fight' }));
-
-app.use('/', indexRouter);
-app.use('/', localAuthRouter);
-app.use('/r', rRouter);
-app.use('/r', submitRouter);
-app.use('/u', uRouter);
-app.use('/posts', postsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

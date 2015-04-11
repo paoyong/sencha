@@ -12,23 +12,20 @@ block content
                 a(href='/u/' + user.username)= user.username
                 | (
                 span= user.posts_score
-                | ) | 
+                | ) |
                 a(href='/signout') logout
             else
                 a(href='/signin') Sign In
     hr
     div.row
-        div.nine.columns
-            h3 Hot
-            div#react-posts-app-mount
+        div#react-posts-app-mount
 
-        div.sidebar.three.columns
-            div.row
-                h5 Submit a new post
-                a.button.u-full-width(href= subpy + '/submit') Link Post
+        div.row
+            h5 Submit a new post
+            a.button.u-full-width(href= subpy + '/submit') Link Post
 
-            div.row
-                a.button.u-full-width(href= subpy + '/submit?text=true') Text Post
+        div.row
+            a.button.u-full-width(href= subpy + '/submit?text=true') Text Post
     script(src="https://code.jquery.com/jquery-2.1.3.js")
     script(src="http://fb.me/JSXTransformer-0.13.1.js")
     script(src="http://fb.me/react-0.13.1.js")

@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS post (
     id              bigserial,
     author          varchar(100)
         REFERENCES users(username)
-        ON UPDATE CASCADE ON DELETE NO ACTION,
+        ON UPDATE CASCADE ON DELETE CASCADE,
     title           text NOT NULL,
     url             text,
     self_text       text,

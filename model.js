@@ -232,6 +232,16 @@ function doesSubpyExist(subpy, callback) {
     });
 }
 
+// ------------------------------
+// getSubpys
+// ------------------------------
+// Get all subpys available, with limit.
+function getSubpys(limit, callback) {
+    knex('subpy').select('*').limit(limit).then(function(rows) {
+        callback(rows);
+    });
+}
+
 module.exports = {
     User: User,
     Post: Post,
@@ -246,4 +256,5 @@ module.exports = {
     getRecentPosts: getRecentPosts,
     getPostsLoggedIn: getPostsLoggedIn,
     doesSubpyExist: doesSubpyExist,
+    getSubpys: getSubpys
 };
