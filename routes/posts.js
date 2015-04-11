@@ -29,7 +29,7 @@ router.get('/:subpy', function(req, res, next) {
     }
 });
 
-// TODO: Find a way to implement calls to upvote a post without relying on routing.
+// TODO: Find a way to implement calls to upvote a post without relying on routing. Or doing batch upvoting.
 router.post('/upvote/:postId', function(req, res, next) {
     var user = req.user;
 
@@ -48,7 +48,6 @@ router.post('/remove-upvote/:postId', function(req, res, next) {
     if (!user) {
         res.redirect('/signin?error=upvote_before_login');
     } else {
-        // function upvote(userId, postId, callback) {
         Model.removeUpvote(user.id, req.params.postId, function() {
             console.log('Removed upvote');
         });

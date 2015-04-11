@@ -131,11 +131,9 @@ function grabUser(userId, callback) {
 // and post.id
 function upvote(userId, postId, callback) {
     // pg automatically increments post author's score so we don't have to do it.
-    knex('upvoted').insert({
-        user_id: parseInt(userId),
-        post_id: parseInt(postId)
-    }).then(function(insertedRow) {
-        callback(insertedRow);
+    // Here we are inserting if not exists
+    knex.raw('INSERT INTO upvoted (user_id, post_id) SELECT $1, $2 WHERE NOT EXISTS (SELECT user_id, post_id FROM upvoted WHERE user_id=$1 AND post_id=$2)', [userId, postId]).then(function() {
+        callback();
     });
 }
 
@@ -144,7 +142,7 @@ function upvote(userId, postId, callback) {
 // ------------------------------
 // Stops the upvoting
 function removeUpvote(userId, postId, callback) {
-    knex.raw('DELETE FROM upvoted WHERE user_id=$1 AND post_id=$2', [userId, postId]).then();
+    knex.raw('DELETE FROM upvoted WHERE user_id=$1 AND post_id=$2', [userId, postId]).then(function() { callback() });
 }
 
 // ------------------------------

@@ -1,48 +1,64 @@
 var subpy = $('#subpy').text();
 var defaultURL = '/posts/' + subpy + '?age=day&sort_by=new';
 
-// ajax calls every X milliseconds
+// Milliseconds for every ajax call to the server
 var pollInterval = 4000;
 
 var App = React.createClass({
     getInitialState: function() {
         return {
-            posts: []
+            posts: [],
+            upvotePool: {}
         };
     },
-    handleUpvote: function(postId) {
+    sendUpvotesToServer: function() {
+        // TODO
+    },
+    updateUpvotePool: function(postId, isUpvoting) {
+        var newUpvotePool = this.state.upvotePool;
+        newUpvotePool[postId] = isUpvoting;
+        this.setState(newUpvotePool);
+    },
+    updatePostsAfterUpvote: function(postId, isUpvoting) {
+        // Update the state of posts for client side.
+        // We are just mimicing server side updates.
         var currPosts = this.state.posts;
 
         for (var i = 0, len = currPosts.length; i < len; i++) {
             if (currPosts[i].id === postId) {
-                currPosts[i].upvoted = true;
-                currPosts[i].score++;
+                currPosts[i].upvoted = isUpvoting;
+
+                if (isUpvoting) {
+                    currPosts[i].score++;
+                } else {
+                    currPosts[i].score--;
+                }
             }
         }
 
         this.setState({posts: currPosts});
+    },
+    updateAfterUpvote: function(postId, isUpvoting) {
+        this.updatePostsAfterUpvote(postId, isUpvoting);
+        this.updateUpvotePool(postId, isUpvoting);
+
+        var ajaxURL = '/posts/'
+        if (isUpvoting) {
+            ajaxURL += 'upvote/' + postId;
+        } else {
+            ajaxURL += 'remove-upvote/' + postId;
+        }
 
         $.ajax({
             type: 'POST',
-            url: '/posts/upvote/' + postId
+            url: ajaxURL
         });
     },
+    handleUpvote: function(postId) {
+        this.updateAfterUpvote(postId, true);
+    },
     handleRemoveUpvote: function(postId) {
-        var currPosts = this.state.posts;
-
-        for (var i = 0, len = currPosts.length; i < len; i++) {
-            if (currPosts[i].id === postId) {
-                currPosts[i].upvoted = false;
-                currPosts[i].score--;
-            }
-        }
-
-        this.setState({posts: currPosts});
-
-        $.ajax({
-            type: 'POST',
-            url: '/posts/remove-upvote/' + postId
-        });
+        this.updateAfterUpvote(postId, false);
     },
     loadPostsFromServer: function() {
         $.ajax({
