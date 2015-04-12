@@ -16,13 +16,14 @@ var Post = React.createClass({
             age: React.PropTypes.object
         }),
         upvoteImageURL: React.PropTypes.string.isRequired,
-        upvotedImageURL: React.PropTypes.string.isRequired
+        upvotedImageURL: React.PropTypes.string.isRequired,
+        commentsURL: React.PropTypes.string.isRequired
     },
     render: function() {
         var post = this.props.post;
 
         return (
-            <li className="post row">
+            <li className="post">
                 <UpvoteButton
                     handleUpvote={this.props.handleUpvote}
                     handleRemoveUpvote={this.props.handleRemoveUpvote}

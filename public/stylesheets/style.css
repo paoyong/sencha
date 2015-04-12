@@ -22,7 +22,7 @@ body {
 }
 
 a {
-    color: #1EB4FF;
+    color: #5395FF;
     text-decoration: none;
 }
 
@@ -50,6 +50,9 @@ hr {
 
 #subpy {
     font-weight: 400;
+    font-size: 2.25rem;
+    margin-bottom: 20px;
+    display: block;
 }
 
 #content {
@@ -57,6 +60,7 @@ hr {
     float: left;
     padding-left: 10px;
     padding-right: 10px;
+    margin-left: 300px;
 }
 
 #topbar {
@@ -106,18 +110,22 @@ hr {
  * Post.jsx
  * ------------------------------ */
 .post {
-    border: 1px solid #dedede;
     margin-bottom: 10px;
     padding: 10px 10px 10px 10px;
 }
 
 .post-title {
     font-size: 1.25rem;
+    display: block;
+    margin-bottom: 5px;
+    margin-left: 50px;
 }
 
 .post-info-banner {
+    margin-left: 50px;
     color: #acacac;
     font-size: 0.75rem;
+    display: block;
 }
 
 .post-author, .post-points {
