@@ -4,5 +4,10 @@ var router = express.Router();
 var Model = require('../model.js');
 
 router.get('/:postid', function(req, res, next) {
-    var postId = req.params.postid
+    var postId = req.params.postid;
+    Model.getComments(postId, function(rows) {
+        res.send(rows);
+    });
 });
+
+module.exports = router;

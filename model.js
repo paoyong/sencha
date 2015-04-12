@@ -246,7 +246,7 @@ function getSubpys(limit, callback) {
 // Given a postId, returns a comment thread
 function getComments(postId, callback) {
     // Query adapted from http://cramer.io/2010/05/30/scaling-threaded-comments-on-django-at-disqus/
-    var query = 'WITH RECURSIVE cte (id, message, author, creation_time, post_id, path, parent_id, depth)  AS ( SELECT  id, message, author, creation_time, post_id, array[id] AS path, parent_id, 1 AS depth FROM    comments WHERE   parent_id IS NULL UNION ALL SELECT  comments.id, comments.message, comments.author, comments.creation_time, comments.post_id, cte.path || comments.id, comments.parent_id, cte.depth + 1 AS depth FROM    comments JOIN cte ON comments.parent_id = cte.id) SELECT id, message, author, now() - creation_time as age, path, depth FROM cte WHERE post_id=$1 ORDER BY path';
+    var query = 'WITH RECURSIVE cte (id, author, message, score, creation_time, post_id, path, parent_id, depth)  AS ( SELECT  id, author, message, score, creation_time, post_id, array[id] AS path, parent_id, 1 AS depth FROM    comments WHERE   parent_id IS NULL UNION ALL SELECT  comments.id, comments.author, comments.message, comments.score, comments.creation_time, comments.post_id, cte.path || comments.id, comments.parent_id, cte.depth + 1 AS depth FROM    comments JOIN cte ON comments.parent_id = cte.id) SELECT id, author, message, score, now() - creation_time as age, path, depth FROM cte WHERE post_id=$1 ORDER BY path';
     knex.raw(query, [postId]).then(function(result) {
         callback(result.rows);
     });

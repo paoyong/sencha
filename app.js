@@ -16,7 +16,8 @@ var postsRouter = require('./routes/posts');
 var rRouter = require('./routes/r');
 var submitRouter = require('./routes/submit');
 var uRouter = require('./routes/u');
-var subpylistRouter = require('./routes/subpylist')
+var subpylistRouter = require('./routes/subpylist');
+var commentsRouter = require('./routes/comments');
 
 require('./passport.js')(passport);
 
@@ -43,6 +44,7 @@ app.use('/r', submitRouter);
 app.use('/u', uRouter);
 app.use('/posts', postsRouter);
 app.use('/subpylist', subpylistRouter);
+app.use('/comments', commentsRouter);
 
 
 // catch 404 and forward to error handler

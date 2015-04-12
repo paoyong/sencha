@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS upvoted;
 DROP TABLE IF EXISTS subscribed_to;
+DROP TABLE IF EXISTS comments;
 
 CREATE TABLE IF NOT EXISTS subpy (
     id              serial,
@@ -52,6 +53,16 @@ CREATE TABLE IF NOT EXISTS upvoted (
     PRIMARY KEY (user_id, post_id)
 );
 
+CREATE TABLE IF NOT EXISTS comment_upvoted (
+    user_id         integer NOT NULL
+        REFERENCES users(id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    comment_id      bigint NOT NULL
+        REFERENCES comments(id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (user_id, post_id)
+);
+
 CREATE TABLE IF NOT EXISTS subscribed_to (
     user_id         integer NOT NULL
         REFERENCES users(id)
@@ -70,48 +81,56 @@ CREATE TABLE IF NOT EXISTS comments (
     author          varchar(100)
         REFERENCES users(username)
         ON DELETE NO ACTION ON UPDATE CASCADE,
+    score           integer NOT NULL default 0,
     creation_time   timestamptz default now(),
     post_id         bigint NOT NULL
         REFERENCES post(id)
         ON DELETE CASCADE ON UPDATE NO ACTION,
-    parent_id       INTEGER
+    parent_id       integer
         REFERENCES comments(id),
     PRIMARY KEY (id)
 );
 
+/* CREATE TYPE comment_row AS ( */
+/*     message         text, */
+/*     author          varchar(100), */
+/*     creation_time   timestamptz, */
+/*     post_id         bigint, */
+/*     parent_id       integer */
+/* ); */
+
 /* -- Comment Thread query */
 /* CREATE OR REPLACE FUNCTION get_comments(integer) RETURNS setof record AS */
-/* $$ */
-/* BEGIN */
-/*     WITH RECURSIVE cte (id, message, author, creation_time, post_id, path, parent_id, depth)  AS ( */
-/*         SELECT  id, */
-/*             message, */
-/*             author, */
-/*             creation_time, */
-/*             post_id, */
-/*             array[id] AS path, */
-/*             parent_id, */
-/*             1 AS depth */
-/*         FROM    comments */
-/*         WHERE   parent_id IS NULL */
+/* ' */
+/* WITH RECURSIVE cte (id, message, author, creation_time, post_id, path, parent_id, depth)  AS ( */
+/*     SELECT  id, */
+/*         message, */
+/*         author, */
+/*         creation_time, */
+/*         post_id, */
+/*         array[id] AS path, */
+/*         parent_id, */
+/*         1 AS depth */
+/*     FROM    comments */
+/*     WHERE   parent_id IS NULL */
 
-/*         UNION ALL */
+/*     UNION ALL */
 
-/*         SELECT  comments.id, */
-/*             comments.message, */
-/*             comments.author, */
-/*             comments.creation_time, */
-/*             comments.post_id, */
-/*             cte.path || comments.id, */
-/*             comments.parent_id, */
-/*             cte.depth + 1 AS depth */
-/*         FROM    comments */
-/*         JOIN cte ON comments.parent_id = cte.id */
-/*         ) */
-/*         SELECT id, message, author, now() - creation_time as age, path, depth FROM cte WHERE post_id=$1 */
-/*     ORDER BY path; */
-/* END; */
-/* $$ language 'plpgsql'; */
+/*     SELECT  comments.id, */
+/*         comments.message, */
+/*         comments.author, */
+/*         comments.creation_time, */
+/*         comments.post_id, */
+/*         cte.path || comments.id, */
+/*         comments.parent_id, */
+/*         cte.depth + 1 AS depth */
+/*     FROM    comments */
+/*     JOIN cte ON comments.parent_id = cte.id */
+/*     ) */
+/*     SELECT id, message, author, now() - creation_time as age, path, depth FROM cte WHERE post_id=$1 */
+/* ORDER BY path; */
+/* ' */
+/* LANGUAGE SQL; */
 
 -- TRIGGER FUNCTIONS
 
