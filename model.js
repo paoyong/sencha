@@ -160,24 +160,12 @@ function grabUserByUsername(username, callback) {
 }
 
 // ------------------------------
-// getRecentPosts
-// ------------------------------
-// get [limit] amount of most recent posts in a
-// subreddit
-function getRecentPosts(subpy, limit, callback) {
-    // Not sure how to do age(post.creation_time) with knex without using raw query. Until then I will use raw query.
-    knex.raw('SELECT *, now() - post.creation_time as age FROM post WHERE post.subpy=$1 ORDER BY post.creation_time DESC LIMIT $2', [subpy, limit]).then(function(result) {
-        callback(result.rows);
-    });
-}
-
-// ------------------------------
-// getPostsLoggedIn
+// getPosts
 // ------------------------------
 // Given a username, gets the posts
 // and shows whether the user upvoted the
 // post or not.
-function getPostsLoggedIn(userId, subpy, sortBy, ageWord, limit, callback) {
+function getPosts(userId, subpy, sortBy, ageWord, limit, callback) {
     var orderBy = '';
     var maxAge = '';
 
@@ -196,15 +184,27 @@ function getPostsLoggedIn(userId, subpy, sortBy, ageWord, limit, callback) {
     }
 
     if (ageWord === 'all time') {
-        // TODO: Hacky but works. A less hacky solution would be great.
         maxAge = '100000 years'
     }
 
     var ageSelection = 'now() - post.creation_time';
 
-    var query = 'SELECT DISTINCT ON (post.id) *, user_id, CASE WHEN user_id=$1 THEN true ELSE false END as upvoted, ' + ageSelection + ' as age FROM post LEFT OUTER JOIN upvoted ON post_id = post.id WHERE subpy=$2 AND ' + ageSelection + ' < INTERVAL \'' + maxAge + '\' ORDER BY post.id, upvoted DESC, $3 DESC LIMIT $4';
+    var select = 'post.id, post.author, post.title, post.url, post.self_text, post.score, post.subpy';
 
-    var queryBindings = [userId, subpy, orderBy, limit];
+    var maxAgeWhereClause = 'AND ' + ageSelection + ' < INTERVAL \'' + maxAge + '\''
+
+    var query = '';
+    var queryBindings = [];
+
+    // If not logged in, no need to do all those joins
+    if (userId === null) {
+        query = 'SELECT ' + select + ', ' + ageSelection + ' as age FROM post WHERE post.subpy=$1 ' + maxAgeWhereClause + ' ORDER BY $2 LIMIT $3';
+        queryBindings = [subpy, orderBy, limit];
+    } else {
+        query = 'SELECT DISTINCT ON (post.id) ' + select + ', CASE WHEN user_id=$1 THEN true ELSE false END as upvoted, ' + ageSelection + ' as age FROM post LEFT OUTER JOIN upvoted ON post_id = post.id WHERE subpy=$2 ' + maxAgeWhereClause + ' ORDER BY post.id, upvoted DESC, $3 LIMIT $4';
+
+        queryBindings = [userId, subpy, orderBy, limit];
+    }
 
     knex.raw(query, queryBindings).then(function(result) {
         callback(result.rows);
@@ -252,7 +252,7 @@ module.exports = {
     upvote: upvote,
     removeUpvote: removeUpvote,
     getRecentPosts: getRecentPosts,
-    getPostsLoggedIn: getPostsLoggedIn,
+    getPosts: getPosts,
     doesSubpyExist: doesSubpyExist,
     getSubpys: getSubpys
 };

@@ -8,6 +8,14 @@ router.get('/:subpy', function(req, res, next) {
     var subpy = req.params.subpy;
     var user = req.user;
 
+    var userId;
+    if (user) {
+        userId = user.id;
+    } else {
+        userId = null;
+    }
+
+
     var sortBy = req.query.sort_by;
     var ageWord = req.query.age;
     var limit = req.query.limit;
@@ -18,15 +26,9 @@ router.get('/:subpy', function(req, res, next) {
     }
 
     // If logged in, get posts as a logged in user to show upvotes.
-    if (user) {
-        Model.getPostsLoggedIn(user.id, subpy, sortBy, ageWord, config.numPostsToShow, function(rows) {
-            res.send(rows);
-        });
-    } else {
-        Model.getRecentPosts(subpy, config.numPostsToShow, function(rows) {
-            res.send(rows);
-        });
-    }
+    Model.getPosts(userId, subpy, sortBy, ageWord, config.numPostsToShow, function(rows) {
+        res.send(rows);
+    });
 });
 
 router.get('/:subpy/:post/comments', function(req, res, next) {

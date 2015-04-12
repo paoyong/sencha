@@ -1,4 +1,23 @@
+/** @jsx React.DOM */
+
 var Post = React.createClass({
+    propTypes: {
+        handleUpvote: React.PropTypes.func.isRequired,
+        handleRemoveUpvote: React.PropTypes.func.isRequired,
+        post: React.PropTypes.shape({
+            id: React.PropTypes.number,
+            author: React.PropTypes.string,
+            title: React.PropTypes.string,
+            url: React.PropTypes.string,
+            self_text: React.PropTypes.string,
+            score: React.PropTypes.number,
+            subpy: React.PropTypes.string,
+            upvoted: React.PropTypes.bool,
+            age: React.PropTypes.object
+        }),
+        upvoteImageURL: React.PropTypes.string.isRequired,
+        upvotedImageURL: React.PropTypes.string.isRequired
+    },
     render: function() {
         var post = this.props.post;
 
@@ -129,16 +148,16 @@ var UpvoteButton = React.createClass({
             return "/images/upvote.svg"
         }
     },
-    getUpvoteFunction: function() {
-        if (this.props.upvoted) {
-            return this.props.handleRemoveUpvote;
-        } else {
-            return this.props.handleUpvote;
-        }
-    },
     render: function() {
         var imageSrc = this.getImage();
-        var upvoteFunction = this.getUpvoteFunction();
+        var upvoteFunction;
+
+        if (this.props.upvoted) {
+            upvoteFunction = this.props.handleRemoveUpvote;
+        } else {
+            upvoteFunction = this.props.handleUpvote;
+        }
+
         return <img className="upvote-button" src={imageSrc} onClick={upvoteFunction.bind(null, this.props.postId)} className="upvote-button" />
     }
 });
