@@ -80,10 +80,13 @@ var App = React.createClass({
     render: function() {
         return (
             <div className="posts-app">
-            <PostsList
-                handleUpvote={this.handleUpvote}
-                handleRemoveUpvote={this.handleRemoveUpvote}
-                posts={this.state.posts}/>
+                <PostsList
+                    handleUpvote={this.handleUpvote}
+                    handleRemoveUpvote={this.handleRemoveUpvote}
+                    posts={this.state.posts}
+                    upvoteImageURL={this.props.upvoteImageURL}
+                    upvotedImageURL={this.props.upvotedImageURL}
+                />
             </div>
         );
     }
@@ -93,12 +96,17 @@ var PostsList = React.createClass({
     render: function() {
         var handleUpvote = this.props.handleUpvote;
         var handleRemoveUpvote = this.props.handleRemoveUpvote;
+        var upvoteImageURL = this.props.upvoteImageURL;
+        var upvotedImageURL = this.props.upvotedImageURL;
         var posts = this.props.posts.map(function(post) {
             return (
                 <Post
                     handleUpvote={handleUpvote}
                     handleRemoveUpvote={handleRemoveUpvote}
-                    post={post} />
+                    post={post}
+                    upvoteImageURL={upvoteImageURL}
+                    upvotedImageURL={upvotedImageURL}
+                />
             );
         });
 
@@ -112,6 +120,11 @@ var PostsList = React.createClass({
 
 
 React.render(
-    <App url={defaultURL} pollInterval={pollInterval}/>,
+    <App
+        url={defaultURL}
+        pollInterval={pollInterval}
+        upvoteImageURL={"/images/upvote.svg"}
+        upvotedImageURL={"/images/upvoted.svg"}
+    />,
     document.getElementById("react-posts-app-mount")
 );

@@ -251,7 +251,6 @@ module.exports = {
     grabUserByUsername: grabUserByUsername,
     upvote: upvote,
     removeUpvote: removeUpvote,
-    getRecentPosts: getRecentPosts,
     getPosts: getPosts,
     doesSubpyExist: doesSubpyExist,
     getSubpys: getSubpys

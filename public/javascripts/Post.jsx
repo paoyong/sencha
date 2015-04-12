@@ -28,6 +28,8 @@ var Post = React.createClass({
                     handleRemoveUpvote={this.props.handleRemoveUpvote}
                     postId={post.id}
                     upvoted={post.upvoted}
+                    upvoteImageURL={this.props.upvoteImageURL}
+                    upvotedImageURL={this.props.upvotedImageURL}
                 />
                 <PostTitle post={post} />
                 <PostInfoBanner
@@ -143,9 +145,9 @@ var PostInfoBanner = React.createClass({
 var UpvoteButton = React.createClass({
     getImage: function() {
         if (this.props.upvoted) {
-            return "/images/upvoted.svg"
+            return this.props.upvotedImageURL;
         } else {
-            return "/images/upvote.svg"
+            return this.props.upvoteImageURL;
         }
     },
     render: function() {

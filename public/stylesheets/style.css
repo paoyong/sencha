@@ -102,6 +102,9 @@ hr {
     list-style-type: none;
 }
 
+/* ------------------------------
+ * Post.jsx
+ * ------------------------------ */
 .post {
     border: 1px solid #dedede;
     margin-bottom: 10px;
