@@ -1,0 +1,7 @@
+extends layout
+
+block content
+    h1
+        a(href='/r/' + subpy)#subpy= subpy
+    div#react-posts-app-mount
+        script(id="postfiller-script", src="/javascripts/postsfiller.js", type="text/jsx", subpy= subpy)

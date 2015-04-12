@@ -1,5 +1,10 @@
+/* universal */
 * {
     box-sizing: border-box;
+}
+
+h1 {
+    margin: 0;
 }
 
 ul, li {
@@ -8,15 +13,79 @@ ul, li {
 }
 
 body {
+    margin: 0;
     /* font-size: 16px; */
     font-family: 'Nunito', sans-serif;
     font-weight: 300;
+    color: #333;
+    font-size: 16px;
 }
 
 a {
     color: #1EB4FF;
+    text-decoration: none;
 }
 
+h1 a {
+    color: #333;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+hr {
+    border-width: 0;
+    border-top: 1px solid #ddd;
+    margin-top: 5px;
+}
+
+/* ------------------------------
+ * layout.jade
+ * ------------------------------ */
+#sidebar {
+    width: 250px;
+    float: right;
+}
+
+#subpy {
+    font-weight: 400;
+}
+
+#content {
+    width: calc(100% - 250px);
+    float: left;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#topbar {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 10px 20px 10px;
+    margin-bottom: 10px;
+    background-color: #333;
+    color: white;
+}
+
+#topbar h1 a {
+    color: white;
+}
+
+#user-bar {
+    float: right;
+}
+
+/* ------------------------------
+ * subpyfiller.js
+ * ------------------------------ */
+.subpys-list li {
+    display: inline;
+    margin-right: 6px;
+}
+
+/* ------------------------------
+ * postsfiller.js
+ * ------------------------------ */
 .posts-app a {
     text-decoration: none;
 }
@@ -63,4 +132,3 @@ a {
     top: 5px;
     margin-right: 12px;
 }
-

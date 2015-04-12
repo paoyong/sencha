@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS subscribed_to (
     PRIMARY KEY (user_id, subpy)
 );
 
--- Schema adopted from
+-- Schema copied and adapted from
 -- http://cramer.io/2010/05/30/scaling-threaded-comments-on-django-at-disqus/
 CREATE TABLE IF NOT EXISTS comments (
     id              bigserial,
