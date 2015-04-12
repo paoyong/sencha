@@ -5,7 +5,15 @@ var Model = require('../model.js');
 
 router.get('/:postid', function(req, res, next) {
     var postId = req.params.postid;
-    Model.getComments(postId, function(rows) {
+
+    var userId;
+    if (req.user) {
+        userId = req.user.id;
+    } else {
+        userId = null;
+    }
+
+    Model.getComments(userId, postId, function(rows) {
         res.send(rows);
     });
 });

@@ -2,12 +2,14 @@ DROP DATABASE IF EXISTS pyramus;
 CREATE DATABASE pyramus;
 \connect pyramus;
 
-DROP TABLE IF EXISTS subpy;
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS post;
-DROP TABLE IF EXISTS upvoted;
-DROP TABLE IF EXISTS subscribed_to;
-DROP TABLE IF EXISTS comments;
+DROP TABLE IF EXISTS upvoted CASCADE;
+DROP TABLE IF EXISTS subscribed_to CASCADE;
+DROP TABLE IF EXISTS comment_upvoted CASCADE;
+DROP TABLE IF EXISTS comments CASCADE;
+DROP TABLE IF EXISTS post CASCADE;
+DROP TABLE IF EXISTS subpy CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+
 
 CREATE TABLE IF NOT EXISTS subpy (
     id              serial,
@@ -21,7 +23,7 @@ CREATE TABLE IF NOT EXISTS users (
     username        varchar(100) NOT NULL UNIQUE,
     password        varchar(100) NOT NULL,
     posts_score     integer NOT NULL default 0,
-    comment_score   integer NOT NULL default 0,
+    comments_score  integer NOT NULL default 0,
     creation_time   timestamptz NOT NULL default now(),
     PRIMARY KEY (id)
 );
@@ -49,16 +51,6 @@ CREATE TABLE IF NOT EXISTS upvoted (
         ON DELETE CASCADE ON UPDATE CASCADE,
     post_id         bigint NOT NULL
         REFERENCES post(id)
-        ON DELETE CASCADE ON UPDATE CASCADE,
-    PRIMARY KEY (user_id, post_id)
-);
-
-CREATE TABLE IF NOT EXISTS comment_upvoted (
-    user_id         integer NOT NULL
-        REFERENCES users(id)
-        ON DELETE CASCADE ON UPDATE CASCADE,
-    comment_id      bigint NOT NULL
-        REFERENCES comments(id)
         ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (user_id, post_id)
 );
@@ -91,46 +83,15 @@ CREATE TABLE IF NOT EXISTS comments (
     PRIMARY KEY (id)
 );
 
-/* CREATE TYPE comment_row AS ( */
-/*     message         text, */
-/*     author          varchar(100), */
-/*     creation_time   timestamptz, */
-/*     post_id         bigint, */
-/*     parent_id       integer */
-/* ); */
-
-/* -- Comment Thread query */
-/* CREATE OR REPLACE FUNCTION get_comments(integer) RETURNS setof record AS */
-/* ' */
-/* WITH RECURSIVE cte (id, message, author, creation_time, post_id, path, parent_id, depth)  AS ( */
-/*     SELECT  id, */
-/*         message, */
-/*         author, */
-/*         creation_time, */
-/*         post_id, */
-/*         array[id] AS path, */
-/*         parent_id, */
-/*         1 AS depth */
-/*     FROM    comments */
-/*     WHERE   parent_id IS NULL */
-
-/*     UNION ALL */
-
-/*     SELECT  comments.id, */
-/*         comments.message, */
-/*         comments.author, */
-/*         comments.creation_time, */
-/*         comments.post_id, */
-/*         cte.path || comments.id, */
-/*         comments.parent_id, */
-/*         cte.depth + 1 AS depth */
-/*     FROM    comments */
-/*     JOIN cte ON comments.parent_id = cte.id */
-/*     ) */
-/*     SELECT id, message, author, now() - creation_time as age, path, depth FROM cte WHERE post_id=$1 */
-/* ORDER BY path; */
-/* ' */
-/* LANGUAGE SQL; */
+CREATE TABLE IF NOT EXISTS comment_upvoted (
+    user_id         integer NOT NULL
+        REFERENCES users(id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    comment_id      bigint NOT NULL
+        REFERENCES comments(id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (user_id, comment_id)
+);
 
 -- TRIGGER FUNCTIONS
 
@@ -172,3 +133,38 @@ CREATE TRIGGER upvote_insert
     AFTER INSERT OR DELETE ON upvoted
     FOR EACH ROW
     EXECUTE PROCEDURE post_upvote_update_scores();
+
+CREATE OR REPLACE FUNCTION comment_upvote_update_scores() RETURNS TRIGGER AS
+$$
+    DECLARE
+        comment_author varchar(100);
+    BEGIN
+        IF TG_OP = 'INSERT' THEN
+            SELECT author INTO STRICT comment_author FROM comments
+                WHERE id = NEW.comment_id;
+            UPDATE users
+                SET comments_score = comments_score + 1
+                WHERE username = comment_author;
+            UPDATE post
+                SET score = score + 1
+                WHERE id = NEW.comment_id;
+            RETURN NEW;
+        ELSIF TG_OP = 'DELETE' THEN
+            SELECT author INTO STRICT comment_author FROM post
+                WHERE id = OLD.comment_id;
+            UPDATE users
+                SET comments_score = comments_score - 1
+                WHERE username = comment_author;
+            UPDATE post
+                SET score = score - 1
+                WHERE id = OLD.comment_id;
+            RETURN OLD;
+        END IF;
+    END;
+$$ language plpgsql;
+
+CREATE TRIGGER comment_upvote_insert
+    AFTER INSERT OR DELETE ON comments_upvoted
+    FOR EACH ROW
+    EXECUTE PROCEDURE comment_upvote_update_scores();
+
