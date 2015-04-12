@@ -23,6 +23,7 @@ var Comment = React.createClass({
         var post = this.props.post;
 
         return (
+
         );
     }
 });

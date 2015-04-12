@@ -164,7 +164,7 @@ $$
 $$ language plpgsql;
 
 CREATE TRIGGER comment_upvote_insert
-    AFTER INSERT OR DELETE ON comments_upvoted
+    AFTER INSERT OR DELETE ON comment_upvoted
     FOR EACH ROW
     EXECUTE PROCEDURE comment_upvote_update_scores();
 
