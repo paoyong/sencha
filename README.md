@@ -7,6 +7,5 @@ Reddit clone with React data binding, express routing, and psql database.
 ## Todo
 These are the big todos in my list currently:
 
-* Upvoting system
-* Comments for every post
-* Integrate `memcached` to my sql queries.
+* Caching queries to improve website load times
+* Browserify jsx components

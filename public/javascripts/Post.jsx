@@ -32,7 +32,7 @@ var Post = React.createClass({
                     upvoteImageURL={this.props.upvoteImageURL}
                     upvotedImageURL={this.props.upvotedImageURL}
                     targetId={post.id}
-                    defaultClassName="upvote-button"
+                    defaultClassName="post-upvote-button"
                 />
                 <PostTitle post={post} />
                 <PostInfoBanner

@@ -186,7 +186,7 @@ li {
     color: #FCA53D;
 }
 
-.upvote-button {
+.post-upvote-button {
     cursor: pointer;
     float: left;
     position: relative;
@@ -194,11 +194,11 @@ li {
     margin-right: 12px;
 }
 
-.upvote-button-upvote {
+.post-upvote-button-not-upvoted {
     opacity: 0.75;
 }
 
-.upvote-button-upvote:hover {
+.post-upvote-button-not-upvoted:hover {
     opacity: 1.0;
 }
 
