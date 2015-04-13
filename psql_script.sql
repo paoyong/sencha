@@ -169,10 +169,18 @@ CREATE TRIGGER comment_upvote_insert
     FOR EACH ROW
     EXECUTE PROCEDURE comment_upvote_update_scores();
 
-CREATE OR REPLACE FUNCTION increment_post_comment_count_on_comment_insert() RETURNS TRIGGER AS
+CREATE OR REPLACE FUNCTION on_add_delete_comment() RETURNS TRIGGER AS
 $$
+    DECLARE
+        user_id integer;
     BEGIN
         IF TG_OP = 'INSERT' THEN
+            -- On comment insert, we want to increment the post's
+            -- comment count, and also upvote the same comment.
+            SELECT id INTO STRICT user_id FROM users
+                WHERE username=NEW.author;
+            INSERT INTO comment_upvoted VALUES (user_id, NEW.id);
+            -- Increment post comment count
             UPDATE post
                 SET comment_count = comment_count + 1
                 WHERE post.id = NEW.post_id;
@@ -189,4 +197,4 @@ $$ language plpgsql;
 CREATE TRIGGER comment_insert
     AFTER INSERT OR DELETE ON comments
     FOR EACH ROW
-    EXECUTE PROCEDURE increment_post_comment_count_on_comment_insert();
+    EXECUTE PROCEDURE on_add_delete_comment();
