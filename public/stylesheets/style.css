@@ -182,7 +182,7 @@ li {
     color: #616161;
 }
 
-.post-points-upvoted {
+.post-points-banner-upvoted {
     color: #FCA53D;
 }
 
@@ -231,4 +231,7 @@ li {
     font-weight: 700;
     color: #5395FF;
 }
-
+ 
+.comment-points-banner-upvoted {
+    color: #FCA53D;
+}

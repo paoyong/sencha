@@ -32,6 +32,7 @@ var Comment = React.createClass({
         return (
             <li className={className}>
                 <CommentTopBanner
+                    upvoted       = {comment.upvoted} 
                     author        = {comment.author}
                     score         = {comment.score}
                     age           = {comment.age}
@@ -68,9 +69,10 @@ var CommentMessage = React.createClass({
 
 var CommentTopBanner = React.createClass({
     propTypes: {
-        author : React.PropTypes.string.isRequired,
-        score  : React.PropTypes.number.isRequired,
-        age    : React.PropTypes.object.isRequired
+        upvoted : React.PropTypes.bool.isRequired,
+        author  : React.PropTypes.string.isRequired,
+        score   : React.PropTypes.number.isRequired,
+        age     : React.PropTypes.object.isRequired
     },
     render: function() {
         var ageString = getAgeString(this.props.age);
@@ -79,8 +81,16 @@ var CommentTopBanner = React.createClass({
         return (
             <p className="comment-top-banner">
                 <a href={authorHref} className="comment-author">{this.props.author}</a>
-                <span className="comment-score"> • {this.props.score} points </span>
-                <span className="comment-age"> {ageString} ago </span>
+                <span className="comment-score">
+                    <PointsBanner
+                        preText=" • "
+                        postText=" "
+                        upvoted={this.props.upvoted}
+                        score={this.props.score}
+                        defaultClassName="comment-points-banner"
+                    />
+                </span>
+                <span className="comment-age">{ageString} ago </span>
             </p>
         );
     }

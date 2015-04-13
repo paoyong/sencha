@@ -37,7 +37,6 @@ var App = React.createClass({
             url: this.props.url,
             dataType: 'json',
             success: function(data) {
-                console.log(data);
                 this.setState({comments: data});
             }.bind(this),
             error: function(xhr, status, err) {

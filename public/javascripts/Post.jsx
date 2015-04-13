@@ -66,35 +66,20 @@ var PostTitle = React.createClass({
 });
 
 var PostInfoBanner = React.createClass({
-    getPostPointsClassname: function() {
-        var ret = 'post-points ';
-
-        if (this.props.upvoted) {
-            ret += 'post-points-upvoted';
-        } else {
-            ret += 'post-points-not-upvoted';
-        }
-
-        return ret;
-    },
-    getFormattedPointsText: function() {
-        if (this.props.score === 1) {
-            return 'point';
-        } else {
-            return 'points';
-        }
-    },
     render: function() {
         var bannerAge = getAgeString(this.props.age);
-        var postPointsClassname = this.getPostPointsClassname();
-        var formattedPointsText = this.getFormattedPointsText();
         var authorURL = '/u/' + this.props.author;
         var commentString = getCommentCountString(this.props.commentCount);
 
         return (
             <div className="post-info-banner">
                 <p>
-                <span className={postPointsClassname}>{this.props.score}</span> {formattedPointsText} • Submitted by <a href={authorURL} className="post-author">{this.props.author}</a> <span className="post-age">{bannerAge}</span> ago • <a href={this.props.commentsURL}>{commentString}</a>
+                    <PointsBanner
+                        upvoted={this.props.upvoted}
+                        score={this.props.score}
+                        defaultClassName="post-points-banner"
+                    />
+                    &nbsp;• Submitted by <a href={authorURL} className="post-author">{this.props.author}</a> <span className="post-age">{bannerAge}</span> ago • <a href={this.props.commentsURL}>{commentString}</a>
                 </p>
             </div>
         );
