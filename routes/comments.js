@@ -52,7 +52,7 @@ router.post('/remove-upvote/:commentId', function(req, res, next) {
         res.status(400);
         res.send('Cannot remove upvote when not logged in!');
     } else {
-        Model.commentRemoveUpvote(user.id, req.params.commentId, function() {
+        Model.removeCommentUpvote(user.id, req.params.commentId, function() {
             res.send('Upvoted comment');
         });
     }

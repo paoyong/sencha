@@ -307,12 +307,13 @@ module.exports = {
     grabUser: grabUser,
     grabUserByUsername: grabUserByUsername,
     upvote: upvote,
-    removeCommentUpvote: removeCommentUpvote,
     getPosts: getPosts,
     doesSubpyExist: doesSubpyExist,
     getSubpys: getSubpys,
     getComments: getComments,
     postComment: postComment,
     removeUpvote: removeUpvote,
-    commentUpvote: commentUpvote
+    commentUpvote: commentUpvote,
+    removeCommentUpvote: removeCommentUpvote
+
 };
