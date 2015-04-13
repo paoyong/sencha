@@ -3,8 +3,8 @@ var config = require('../config');
 var router = express.Router();
 var Model = require('../model.js');
 
-router.get('/:postid', function(req, res, next) {
-    var postId = req.params.postid;
+router.get('/:postId', function(req, res, next) {
+    var postId = req.params.postId;
 
     var userId;
     if (req.user) {
@@ -18,4 +18,16 @@ router.get('/:postid', function(req, res, next) {
     });
 });
 
+router.post('/reply/:postId') {
+    var user = req.user;
+    var parent_id = req.query.parent_id;
+
+    if (!parent_id) {
+        parent_id = null;
+    }
+
+    Model.postComment(user.username, req.params.postId, parent_id, function(savedComment) {
+        console.log('Added comment');
+    });
+}
 module.exports = router;
