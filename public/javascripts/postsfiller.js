@@ -1,5 +1,6 @@
 var scriptDOM = document.getElementById('postfiller-script');
 var subpy = scriptDOM.getAttribute('subpy');
+var commentsRoute = '/r/' + subpy + '/comments/'
 var defaultURL = '/posts/' + subpy + '?age=day&sort_by=new';
 
 // Milliseconds for every ajax call to the server
@@ -86,6 +87,7 @@ var App = React.createClass({
                     posts={this.state.posts}
                     upvoteImageURL={this.props.upvoteImageURL}
                     upvotedImageURL={this.props.upvotedImageURL}
+                    commentsRoute={this.props.commentsRoute}
                 />
             </div>
         );
@@ -94,11 +96,16 @@ var App = React.createClass({
 
 var PostsList = React.createClass({
     render: function() {
-        var handleUpvote = this.props.handleUpvote;
+        var handleUpvote       = this.props.handleUpvote;
         var handleRemoveUpvote = this.props.handleRemoveUpvote;
-        var upvoteImageURL = this.props.upvoteImageURL;
-        var upvotedImageURL = this.props.upvotedImageURL;
+        var upvoteImageURL     = this.props.upvoteImageURL;
+        var upvotedImageURL    = this.props.upvotedImageURL;
+        var commentsRoute      = this.props.commentsRoute;
+
         var posts = this.props.posts.map(function(post) {
+            console.log(commentsRoute);
+            var commentsURL = commentsRoute + post.id
+
             return (
                 <Post
                     handleUpvote={handleUpvote}
@@ -106,6 +113,7 @@ var PostsList = React.createClass({
                     post={post}
                     upvoteImageURL={upvoteImageURL}
                     upvotedImageURL={upvotedImageURL}
+                    commentsURL={commentsURL}
                 />
             );
         });
@@ -125,6 +133,7 @@ React.render(
         pollInterval={pollInterval}
         upvoteImageURL={"/images/upvote.svg"}
         upvotedImageURL={"/images/upvoted.svg"}
+        commentsRoute={commentsRoute}
     />,
     document.getElementById("react-posts-app-mount")
 );

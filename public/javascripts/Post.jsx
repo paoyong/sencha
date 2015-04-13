@@ -1,5 +1,7 @@
 /** @jsx React.DOM */
 
+// TODO: Implement comment counting in backend
+
 var Post = React.createClass({
     propTypes: {
         handleUpvote: React.PropTypes.func.isRequired,
@@ -38,6 +40,7 @@ var Post = React.createClass({
                     age={post.age}
                     author={post.author}
                     upvoted={post.upvoted}
+                    commentsURL={this.props.commentsURL}
                 />
             </li>
         );
@@ -62,53 +65,6 @@ var PostTitle = React.createClass({
 });
 
 var PostInfoBanner = React.createClass({
-    grabFormattedAge: function() {
-        var bannerAge = '';
-        var age = this.props.age;
-
-        if (age.seconds === undefined) {
-            age.seconds = 0;
-        }
-
-        // Format the age accordingly
-        if (age.days) {
-            bannerAge = age.days;
-
-            if (age.days === 1) {
-                bannerAge += ' day ';
-            } else {
-                bannerAge += ' days ';
-            }
-        }
-        else if (age.hours) {
-            bannerAge = age.hours;
-
-            if (age.hours === 1) {
-                bannerAge += ' hour ';
-            } else {
-                bannerAge += ' hours ';
-            }
-        }
-        else if (age.minutes) {
-            bannerAge = age.minutes;
-
-            if (age.minutes === 1) {
-                bannerAge += ' minute ';
-            } else {
-                bannerAge += ' minutes ';
-            }
-        } else {
-            bannerAge = age.seconds;
-
-            if (age.seconds === 1) {
-                bannerAge += ' second ';
-            } else {
-                bannerAge += ' seconds ';
-            }
-        }
-
-        return bannerAge;
-    },
     getPostPointsClassname: function() {
         var ret = 'post-points ';
 
@@ -128,7 +84,7 @@ var PostInfoBanner = React.createClass({
         }
     },
     render: function() {
-        var bannerAge = this.grabFormattedAge();
+        var bannerAge = getAgeString(this.props.age);
         var postPointsClassname = this.getPostPointsClassname();
         var formattedPointsText = this.getFormattedPointsText();
         var authorURL = '/u/' + this.props.author;
@@ -136,7 +92,7 @@ var PostInfoBanner = React.createClass({
         return (
             <div className="post-info-banner">
                 <p>
-                    <span className={postPointsClassname}>{this.props.score}</span> {formattedPointsText} | Submitted by <a href={authorURL} className="post-author">{this.props.author}</a> <span className="post-age">{bannerAge}</span> ago
+                <span className={postPointsClassname}>{this.props.score}</span> {formattedPointsText} | Submitted by <a href={authorURL} className="post-author">{this.props.author}</a> <span className="post-age">{bannerAge}</span> ago | <a href={this.props.commentsURL}>comments</a>
                 </p>
             </div>
         );

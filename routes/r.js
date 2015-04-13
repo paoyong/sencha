@@ -22,7 +22,7 @@ router.get('/:subpy', function(req, res, next) {
 });
 
 // Go to comment thread of the post
-router.get('/:subpy/:postId/comments', function(req, res, next) {
+router.get('/:subpy/comments/:postId', function(req, res, next) {
     var subpy = req.params.subpy;
 
     res.render('comment-thread', {

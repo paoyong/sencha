@@ -33,6 +33,7 @@ var App = React.createClass({
             url: this.props.url,
             dataType: 'json',
             success: function(data) {
+                console.log(data);
                 this.setState({comments: data});
             }.bind(this),
             error: function(xhr, status, err) {
@@ -84,7 +85,7 @@ var CommentForm = React.createClass({
 var CommentThread = React.createClass({
     render: function() {
         var comments = this.props.comments.map(function(comment) {
-            return <Comment />
+            return <Comment comment={comment}/>
         });
 
         return (

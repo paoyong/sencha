@@ -13,8 +13,9 @@ ul, li {
 }
 
 body {
-    margin: 0;
+    margin: auto;
     /* font-size: 16px; */
+    max-width: 700px;
     font-family: 'Nunito', sans-serif;
     font-weight: 300;
     color: #333;
@@ -40,12 +41,16 @@ hr {
     margin-top: 5px;
 }
 
+li {
+    list-style-type: none;
+}
+
 /* ------------------------------
  * layout.jade
  * ------------------------------ */
 #sidebar {
     width: 250px;
-    float: right;
+    /* float: right; */
 }
 
 #subpy {
@@ -56,23 +61,20 @@ hr {
 }
 
 #content {
-    width: calc(100% - 250px);
-    float: left;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-left: 300px;
+    /* width: calc(100% - 250px); */
+    /* padding-left: 10px; */
+    /* padding-right: 10px; */
+    /* margin-left: 300px; */
 }
 
 #topbar {
     border-bottom: 1px solid #ddd;
-    padding: 10px 10px 20px 10px;
     margin-bottom: 10px;
-    background-color: #333;
-    color: white;
+    margin-top: 30px;
+    height: 80px;
 }
 
 #topbar h1 a {
-    color: white;
 }
 
 #user-bar {
@@ -128,7 +130,7 @@ hr {
     display: block;
 }
 
-.post-author, .post-points {
+.post-info-banner a, .post-points {
     color: #616161;
 }
 
@@ -142,4 +144,22 @@ hr {
     position: relative;
     top: 5px;
     margin-right: 12px;
+}
+
+
+/* ------------------------------
+ * Comment.jsx
+ * ------------------------------ */
+.depth2 {
+    margin-left: 50px;
+}
+
+.depth3 {
+    margin-left: 100px;
+}
+
+.comment-top-banner {
+    color: #acacac;
+    font-size: 0.75rem;
+    display: block;
 }
