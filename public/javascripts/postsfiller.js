@@ -57,9 +57,13 @@ var App = React.createClass({
         });
     },
     handleUpvote: function(postId) {
+        console.log('upvote');
+        console.log(postId);
         this.updateAfterUpvote(postId, true);
     },
     handleRemoveUpvote: function(postId) {
+        console.log('removeupvote');
+        console.log(postId);
         this.updateAfterUpvote(postId, false);
     },
     loadPostsFromServer: function() {
@@ -96,23 +100,18 @@ var App = React.createClass({
 
 var PostsList = React.createClass({
     render: function() {
-        var handleUpvote       = this.props.handleUpvote;
-        var handleRemoveUpvote = this.props.handleRemoveUpvote;
-        var upvoteImageURL     = this.props.upvoteImageURL;
-        var upvotedImageURL    = this.props.upvotedImageURL;
-        var commentsRoute      = this.props.commentsRoute;
+        var props = this.props;
 
         var posts = this.props.posts.map(function(post) {
-            console.log(commentsRoute);
-            var commentsURL = commentsRoute + post.id
+            var commentsURL = props.commentsRoute + post.id
 
             return (
                 <Post
-                    handleUpvote={handleUpvote}
-                    handleRemoveUpvote={handleRemoveUpvote}
+                    handleUpvote={props.handleUpvote}
+                    handleRemoveUpvote={props.handleRemoveUpvote}
                     post={post}
-                    upvoteImageURL={upvoteImageURL}
-                    upvotedImageURL={upvotedImageURL}
+                    upvoteImageURL={props.upvoteImageURL}
+                    upvotedImageURL={props.upvotedImageURL}
                     commentsURL={commentsURL}
                 />
             );

@@ -36,10 +36,12 @@ router.post('/upvote/:postId', function(req, res, next) {
     var user = req.user;
 
     if (!user) {
-        res.redirect('/signin?error=upvote_before_login');
+        res.status(401);
+        res.send('Cannot upvote - not logged in.');
     } else {
         Model.upvote(user.id, req.params.postId, function() {
-            console.log('upvoted');
+            res.status(200);
+            res.send('Successfully upvoted post!');
         });
     }
 });
@@ -48,11 +50,14 @@ router.post('/remove-upvote/:postId', function(req, res, next) {
     var user = req.user;
 
     if (!user) {
-        res.redirect('/signin?error=upvote_before_login');
+        res.status(401);
+        res.send('Cannot upvote - not logged in.');
     } else {
         Model.removeUpvote(user.id, req.params.postId, function() {
-            console.log('Removed upvote');
+            res.status(200);
+            res.send('Successfully un-upvoted post!');
         });
     }
 });
+
 module.exports = router;

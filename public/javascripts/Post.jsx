@@ -1,7 +1,5 @@
 /** @jsx React.DOM */
 
-// TODO: Implement comment counting in backend
-
 var Post = React.createClass({
     propTypes: {
         handleUpvote: React.PropTypes.func.isRequired,
@@ -28,12 +26,13 @@ var Post = React.createClass({
         return (
             <li className="post">
                 <UpvoteButton
-                    handleUpvote={this.props.handleUpvote}
-                    handleRemoveUpvote={this.props.handleRemoveUpvote}
-                    postId={post.id}
                     upvoted={post.upvoted}
+                    onUpvote={this.props.handleUpvote}
+                    onRemoveUpvote={this.props.handleRemoveUpvote}
                     upvoteImageURL={this.props.upvoteImageURL}
                     upvotedImageURL={this.props.upvotedImageURL}
+                    targetId={post.id}
+                    defaultClassName="upvote-button"
                 />
                 <PostTitle post={post} />
                 <PostInfoBanner
@@ -71,9 +70,9 @@ var PostInfoBanner = React.createClass({
         var ret = 'post-points ';
 
         if (this.props.upvoted) {
-            ret += 'post-points-upvoted'
+            ret += 'post-points-upvoted';
         } else {
-            ret += 'post-points-not-upvoted'
+            ret += 'post-points-not-upvoted';
         }
 
         return ret;
@@ -95,34 +94,9 @@ var PostInfoBanner = React.createClass({
         return (
             <div className="post-info-banner">
                 <p>
-                <span className={postPointsClassname}>{this.props.score}</span> {formattedPointsText} | Submitted by <a href={authorURL} className="post-author">{this.props.author}</a> <span className="post-age">{bannerAge}</span> ago | <a href={this.props.commentsURL}>{commentString}</a>
+                <span className={postPointsClassname}>{this.props.score}</span> {formattedPointsText} • Submitted by <a href={authorURL} className="post-author">{this.props.author}</a> <span className="post-age">{bannerAge}</span> ago • <a href={this.props.commentsURL}>{commentString}</a>
                 </p>
             </div>
         );
-    }
-});
-
-var UpvoteButton = React.createClass({
-    getImage: function() {
-        if (this.props.upvoted) {
-            return this.props.upvotedImageURL;
-        } else {
-            return this.props.upvoteImageURL;
-        }
-    },
-    render: function() {
-        var imageSrc = this.getImage();
-        var upvoteFunction;
-        var upvoteButtonClassName = "upvote-button";
-
-        if (this.props.upvoted) {
-            upvoteFunction = this.props.handleRemoveUpvote;
-            upvoteButtonClassName += " upvote-button-upvoted";
-        } else {
-            upvoteFunction = this.props.handleUpvote;
-            upvoteButtonClassName += " upvote-button-upvote";
-        }
-
-        return <img className={upvoteButtonClassName} src={imageSrc} onClick={upvoteFunction.bind(null, this.props.postId)} />
     }
 });

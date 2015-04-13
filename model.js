@@ -148,7 +148,29 @@ function upvote(userId, postId, callback) {
 // ------------------------------
 // Stops the upvoting
 function removeUpvote(userId, postId, callback) {
-    knex.raw('DELETE FROM upvoted WHERE user_id=$1 AND post_id=$2', [userId, postId]).then(function() { callback() });
+    knex.raw('DELETE FROM upvoted WHERE user_id=$1 AND post_id=$2', [userId, postId]).then(function() {
+        callback()
+    });
+}
+
+
+// ------------------------------
+// commentUpvote
+// ------------------------------
+function commentUpvote(userId, commentId, callback) {
+    knex.raw('INSERT INTO comment_upvoted (user_id, comment_id) SELECT $1, $2 WHERE NOT EXISTS (SELECT user_id, comment_id FROM comment_upvoted WHERE user_id=$1 AND comment_id=$2)', [userId, commentId]).then(function() {
+        callback();
+    });
+
+}
+
+// ------------------------------
+// removeCommentUpvote
+// ------------------------------
+function removeCommentUpvote(userId, commentId, callback) {
+    knex.raw('DELETE FROM comment_upvoted WHERE user_id=$1 AND comment_id=$2', [userId, commentId]).then(function() {
+        callback()
+    });
 }
 
 // ------------------------------
@@ -285,10 +307,12 @@ module.exports = {
     grabUser: grabUser,
     grabUserByUsername: grabUserByUsername,
     upvote: upvote,
-    removeUpvote: removeUpvote,
+    removeCommentUpvote: removeCommentUpvote,
     getPosts: getPosts,
     doesSubpyExist: doesSubpyExist,
     getSubpys: getSubpys,
     getComments: getComments,
-    postComment: postComment
+    postComment: postComment,
+    removeUpvote: removeUpvote,
+    commentUpvote: commentUpvote
 };

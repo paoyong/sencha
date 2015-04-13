@@ -3,8 +3,21 @@
     box-sizing: border-box;
 }
 
+#title {
+    font-size: 3.5rem;
+}
+
 h1 {
     margin: 0;
+    font-size: 3.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.25rem;
 }
 
 ul, li {
@@ -15,7 +28,7 @@ ul, li {
 body {
     margin: auto;
     /* font-size: 16px; */
-    max-width: 700px;
+    max-width: 960px;
     /* font-family: 'Source Sans Pro', sans-serif; */
     font-family: 'Lato', sans-serif;
     font-weight: 400;
@@ -28,12 +41,17 @@ a {
     text-decoration: none;
 }
 
+a:hover {
+    text-decoration: underline;
+}
+
 h1 a {
     color: #333;
 }
 
-a:hover {
-    text-decoration: underline;
+h1 a:hover {
+    text-decoration: none;
+    color: #555;
 }
 
 hr {
@@ -46,6 +64,29 @@ li {
     list-style-type: none;
 }
 
+/* Inspiration from Skeleton.css */
+.button {
+    display: inline-block;
+    text-align: center;
+    font-size: 0.75rem;
+    line-height: 38px;
+    height: 50px;
+    width: 200px;
+    border-radius: 5px;
+    padding: 5px 10px 5px 10px;
+    border: 1px solid #BABABA;
+    color: #BABABA;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.button:hover  {
+    text-decoration: none;
+    color: #777;
+    border-color: #777;
+}
 .thread-reply-textarea {
     width: 300px;
     height: 100px;
@@ -57,8 +98,7 @@ li {
  * layout.jade
  * ------------------------------ */
 #sidebar {
-    width: 250px;
-    /* float: right; */
+    float: right;
 }
 
 #subpy {
@@ -79,7 +119,7 @@ li {
     border-bottom: 1px solid #ddd;
     margin-bottom: 10px;
     margin-top: 30px;
-    height: 80px;
+    height: 120px;
 }
 
 #topbar h1 a {
@@ -134,7 +174,7 @@ li {
 .post-info-banner {
     margin-left: 50px;
     color: #acacac;
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     display: block;
 }
 
@@ -175,14 +215,20 @@ li {
     margin-left: 100px;
 }
 
+.comment {
+    margin-bottom: 20px;
+}
+.comment p {
+    margin-top: 5px;
+    margin-bottom: 0px;
+}
 .comment-top-banner {
     color: #acacac;
-    font-size: 0.75rem;
-    display: block;
+    font-size: 0.875rem;
 }
 
 .comment-author {
-    font-weight: 400;
-    color: #616161;
+    font-weight: 700;
+    color: #5395FF;
 }
 

@@ -1,4 +1,5 @@
 /** @jsx React.DOM */
+
 var converter = new Showdown.converter();
 
 var Comment = React.createClass({
@@ -19,13 +20,14 @@ var Comment = React.createClass({
         }),
         upvoteImageURL  : React.PropTypes.string.isRequired,
         upvotedImageURL : React.PropTypes.string.isRequired,
-        commentsURL     : React.PropTypes.string.isRequired,
         usernameRoute   : React.PropTypes.string.isRequired,
+    },
+    handleReply: function() {
+
     },
     render: function() {
         var comment = this.props.comment;
         var className = "comment " + "depth" + comment.depth;
-        var rawMarkup = converter.makeHtml(comment.message);
 
         return (
             <li className={className}>
@@ -35,9 +37,32 @@ var Comment = React.createClass({
                     age           = {comment.age}
                     usernameRoute = {this.props.usernameRoute}
                 />
-                <span className="comment-message" dangerouslySetInnerHTML={{__html: rawMarkup}} />
+                <CommentMessage
+                    message={comment.message}
+                />
+                <CommentBottomBanner
+                    upvoted            = {comment.upvoted} 
+                    handleUpvote       = {this.props.handleUpvote}
+                    handleRemoveUpvote = {this.props.handleRemoveUpvote}
+                    upvoteImageURL     = {this.props.upvoteImageURL}
+                    upvotedImageURL    = {this.props.upvotedImageURL}
+                    commentId          = {comment.id}
+                    onReply            = {this.handleReply}
+                />
             </li>
         );
+    }
+});
+
+var CommentMessage = React.createClass({
+    propTypes: {
+        message: React.PropTypes.string
+    },
+    render: function() {
+        var rawMarkup = converter.makeHtml(this.props.message);
+
+        return <span className="comment-message" dangerouslySetInnerHTML={{__html: rawMarkup}} />
+
     }
 });
 
@@ -54,19 +79,37 @@ var CommentTopBanner = React.createClass({
         return (
             <p className="comment-top-banner">
                 <a href={authorHref} className="comment-author">{this.props.author}</a>
-                <span className="comment-score"> {this.props.score} points </span>
+                <span className="comment-score"> • {this.props.score} points </span>
                 <span className="comment-age"> {ageString} ago </span>
             </p>
         );
     }
 });
 
-// var CommentBottomBanner = React.createClass({
-//     propTypes: {
-//         handleReply: React.PropTypes.func.isRequired
-//     },
-//     render: function() {
-//         return (
-//         );
-//     }
-// });
+var CommentBottomBanner = React.createClass({
+    propTypes: {
+        upvoted: React.PropTypes.bool.isRequired,
+        handleUpvote: React.PropTypes.func.isRequired,
+        handleRemoveUpvote: React.PropTypes.func.isRequired,
+        onReply: React.PropTypes.func.isRequired,
+        upvoted: React.PropTypes.bool,
+        upvoteImageURL: React.PropTypes.string,
+        upvotedImageURL: React.PropTypes.string,
+        commentId: React.PropTypes.string.isRequired
+    },
+    render: function() {
+        return (
+            <p className="comment-bottom-banner">
+                <UpvoteButton
+                    upvoted={this.props.upvoted}
+                    onUpvote={this.props.handleUpvote}
+                    onRemoveUpvote={this.props.handleRemoveUpvote}
+                    upvoteImageURL={this.props.upvoteImageURL}
+                    upvotedImageURL={this.props.upvotedImageURL}
+                    targetId={this.props.commentId}
+                    defaultClassName="comment-upvote-button"
+                />
+            </p>
+        );
+    }
+});

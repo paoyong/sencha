@@ -17,7 +17,7 @@ router.get('/signin', function(req, res, next) {
     else if (req.isAuthenticated()) {
         res.redirect('/');
     } else {
-        res.render('signin', { title: 'Sign In' });
+        res.render('signin', { title: config.websiteName });
     }
 });
 
@@ -27,16 +27,16 @@ router.post('/signin', function(req, res, next) {
                          failureRedirect: '/signin'
     }, function(err, user, info) {
         if (err) {
-            return res.render('signin', { title: 'Sign In', errorMessage: err.message });
+            return res.render('signin', { title: config.websiteName, errorMessage: err.message });
         }
 
         if (!user) {
-            return res.render('signin', { title: 'Sign In', errorMessage: info.message });
+            return res.render('signin', { title: config.websiteName, errorMessage: info.message });
         }
 
         return req.logIn(user, function(err) {
             if (err) {
-                return res.render('signin', { title: 'Sign In', errorMessage: err.message });
+                return res.render('signin', { title: config.websiteName, errorMessage: err.message });
             } else {
                 return res.redirect('/');
             }
@@ -64,7 +64,7 @@ router.post('/signup', function(req, res, next) {
 
     Model.createNewUser(user.username, user.password, function (err, newUser) {
         if (err) {
-            res.render('signup', { title: 'signup', errorMessage: 'username already exists' });
+            res.render('signup', { title: config.websiteName, errorMessage: 'username already exists' });
         } else {
             res.redirect(307, '/signin');
         }

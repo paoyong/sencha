@@ -2,8 +2,7 @@ doctype html
 html
     head
         title= subpy
-        link(href='http://fonts.googleapis.com/css?family=Lato:400,300,700', rel='stylesheet', type='text/css')
-        link(href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300, 00,600,700', rel='stylesheet', type='text/css')
+        link(href='http://fonts.googleapis.com/css?family=Lato:300,400,600,700', rel='stylesheet', type='text/css')
         link(rel="stylesheet", href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css")
         // link(rel="stylesheet", href="/stylesheets/normalize.css")
         // link(rel="stylesheet", href="/stylesheets/skeleton.css")
@@ -13,6 +12,7 @@ html
         script(src="http://fb.me/react-0.13.1.js")
         script(src="/javascripts/helper-functions.js")
         script(src="/javascripts/Post.jsx", type="text/jsx")
+        script(src="/javascripts/UpvoteButton.jsx", type="text/jsx")
         meta(name='viewport', content='width=device-width, initial-scale=1')
     body
         div#topbar
@@ -33,10 +33,10 @@ html
 
         // Sidebar stuff
         div#sidebar
-            h3 Submit a new post
-            a.button.u-full-width(href= subpy + '/submit') Link Post
+            h3 Submit
+            a.button(href= subpy + '/submit') Link Post
             br
-            a.button.u-full-width(href= subpy + '/submit?text=true') Text Post
+            a.button(href= subpy + '/submit?text=true') Text Post
 
         div#content
             block content

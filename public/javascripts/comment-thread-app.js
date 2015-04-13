@@ -9,9 +9,13 @@ var App = React.createClass({
             comments: [],
         };
     },
-    handleUpvote: function(postId) {
+    handleUpvote: function(commentId) {
+        console.log(commentId);
+        //TODO
     },
-    handleRemoveUpvote: function(postId) {
+    handleRemoveUpvote: function(commentId) {
+        console.log(commentId);
+        //TODO
     },
     handleCommentSubmit: function(message) {
         $.ajax({
@@ -53,6 +57,11 @@ var App = React.createClass({
                 />
                 <CommentThread
                     comments={this.state.comments}
+                    usernameRoute={this.props.usernameRoute}
+                    upvoteImageURL={this.props.upvoteImageURL}
+                    upvotedImageURL={this.props.upvotedImageURL}
+                    handleUpvote={this.handleUpvote}
+                    handleRemoveUpvote={this.handleRemoveUpvote}
                 />
             </div>
         );
@@ -84,9 +93,28 @@ var CommentForm = React.createClass({
 });
 
 var CommentThread = React.createClass({
+     propTypes: {
+        comments           : React.PropTypes.array,
+        handleUpvote       : React.PropTypes.func.isRequired,
+        handleRemoveUpvote : React.PropTypes.func.isRequired,
+        handleReply        : React.PropTypes.func.isRequired,
+        upvoteImageURL     : React.PropTypes.string.isRequired,
+        upvotedImageURL    : React.PropTypes.string.isRequired,
+        usernameRoute      : React.PropTypes.string.isRequired,
+    },
     render: function() {
+        var props = this.props;
         var comments = this.props.comments.map(function(comment) {
-            return <Comment comment={comment} usernameRoute="/u/"/>
+            return (
+                <Comment
+                    comment={comment}
+                    handleUpvote={props.handleUpvote}
+                    handleRemoveUpvote={props.handleRemoveUpvote}
+                    upvoteImageURL={props.upvoteImageURL}
+                    upvotedImageURL={props.upvotedImageURL}
+                    usernameRoute={props.usernameRoute}
+                />
+            );
         });
 
         return (
@@ -98,6 +126,12 @@ var CommentThread = React.createClass({
 });
 
 React.render(
-    <App url={commentsGETURL} pollInterval={pollInterval}/>,
+    <App
+        url={commentsGETURL}
+        pollInterval={pollInterval}
+        usernameRoute='/u/'
+        upvoteImageURL='/images/upvote_comment.svg'
+        upvotedImageURL='/images/upvoted_comment.svg'
+    />,
     document.getElementById("react-comment-app-mount")
 );
