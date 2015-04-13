@@ -75,7 +75,8 @@ var CommentForm = React.createClass({
     render: function() {
         return (
             <form className='new-comment-form' onSubmit={this.handleSubmit}>
-                <input type='text' ref='message' maxLength='300' placeholder='Reply to thread...' />
+                <textarea type='text' ref='message' maxLength='300' placeholder='Reply to thread...' className="thread-reply-textarea"/>
+                <br />
                 <input type='submit' value='Reply' />
             </form>
         );
@@ -85,7 +86,7 @@ var CommentForm = React.createClass({
 var CommentThread = React.createClass({
     render: function() {
         var comments = this.props.comments.map(function(comment) {
-            return <Comment comment={comment}/>
+            return <Comment comment={comment} usernameRoute="/u/"/>
         });
 
         return (

@@ -1,4 +1,5 @@
 /** @jsx React.DOM */
+var converter = new Showdown.converter();
 
 var Comment = React.createClass({
     propTypes: {
@@ -18,20 +19,23 @@ var Comment = React.createClass({
         }),
         upvoteImageURL  : React.PropTypes.string.isRequired,
         upvotedImageURL : React.PropTypes.string.isRequired,
-        commentsURL     : React.PropTypes.string.isRequired
+        commentsURL     : React.PropTypes.string.isRequired,
+        usernameRoute   : React.PropTypes.string.isRequired,
     },
     render: function() {
         var comment = this.props.comment;
         var className = "comment " + "depth" + comment.depth;
+        var rawMarkup = converter.makeHtml(comment.message);
 
         return (
             <li className={className}>
                 <CommentTopBanner
-                    author = {comment.author}
-                    score  = {comment.score}
-                    age    = {comment.age}
+                    author        = {comment.author}
+                    score         = {comment.score}
+                    age           = {comment.age}
+                    usernameRoute = {this.props.usernameRoute}
                 />
-                <p className="comment-message">{comment.message}</p>
+                <span className="comment-message" dangerouslySetInnerHTML={{__html: rawMarkup}} />
             </li>
         );
     }
@@ -45,12 +49,13 @@ var CommentTopBanner = React.createClass({
     },
     render: function() {
         var ageString = getAgeString(this.props.age);
+        var authorHref = this.props.usernameRoute + this.props.author;
 
         return (
             <p className="comment-top-banner">
-                <span className="comment-author">{this.props.author}</span>
-                <span className="comment-score"> | {this.props.score} points </span>
-                <span className="comment-age"> | {ageString} ago </span>
+                <a href={authorHref} className="comment-author">{this.props.author}</a>
+                <span className="comment-score"> {this.props.score} points </span>
+                <span className="comment-age"> {ageString} ago </span>
             </p>
         );
     }

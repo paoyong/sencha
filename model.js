@@ -195,7 +195,7 @@ function getPosts(userId, subpy, sortBy, ageWord, limit, callback) {
 
     var ageSelection = 'now() - post.creation_time';
 
-    var select = 'post.id, post.author, post.title, post.url, post.self_text, post.score, post.subpy';
+    var select = 'post.id, post.author, post.title, post.url, post.self_text, post.score, post.subpy, post.comment_count';
 
     var maxAgeWhereClause = 'AND ' + ageSelection + ' < INTERVAL \'' + maxAge + '\''
 

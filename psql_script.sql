@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS post (
         REFERENCES subpy(name)
         ON UPDATE CASCADE ON DELETE NO ACTION,
     creation_time   timestamptz NOT NULL default now(),
+    comment_count   integer NOT NULL default 0,
     PRIMARY KEY (id)
 );
 
@@ -168,3 +169,24 @@ CREATE TRIGGER comment_upvote_insert
     FOR EACH ROW
     EXECUTE PROCEDURE comment_upvote_update_scores();
 
+CREATE OR REPLACE FUNCTION increment_post_comment_count_on_comment_insert() RETURNS TRIGGER AS
+$$
+    BEGIN
+        IF TG_OP = 'INSERT' THEN
+            UPDATE post
+                SET comment_count = comment_count + 1
+                WHERE post.id = NEW.post_id;
+            RETURN NEW;
+        ELSIF TG_OP = 'DELETE' THEN
+            UPDATE post
+                SET comment_count = comment_count - 1
+                WHERE post.id = OLD.post_id;
+            RETURN OLD;
+        END IF;
+    END;
+$$ language plpgsql;
+
+CREATE TRIGGER comment_insert
+    AFTER INSERT OR DELETE ON comments
+    FOR EACH ROW
+    EXECUTE PROCEDURE increment_post_comment_count_on_comment_insert();

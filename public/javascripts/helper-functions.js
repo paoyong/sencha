@@ -19,7 +19,7 @@ function getAgeString(age) {
         bannerAge = age.hours;
 
         if (age.hours === 1) {
-            bannerAge += ' hour ';
+            bannerAge = ' an hour ';
         } else {
             bannerAge += ' hours ';
         }
@@ -43,4 +43,15 @@ function getAgeString(age) {
     }
 
     return bannerAge;
+}
+
+function getCommentCountString(numComments) {
+    var commentString = '';
+    commentString += numComments + ' comment';
+
+    if (numComments !== 1) {
+        commentString += 's';
+    }
+
+    return commentString;
 }

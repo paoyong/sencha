@@ -15,6 +15,7 @@ var Post = React.createClass({
             score: React.PropTypes.number,
             subpy: React.PropTypes.string,
             upvoted: React.PropTypes.bool,
+            comment_count: React.PropTypes.number,
             age: React.PropTypes.object
         }),
         upvoteImageURL: React.PropTypes.string.isRequired,
@@ -41,6 +42,7 @@ var Post = React.createClass({
                     author={post.author}
                     upvoted={post.upvoted}
                     commentsURL={this.props.commentsURL}
+                    commentCount={post.comment_count}
                 />
             </li>
         );
@@ -88,11 +90,12 @@ var PostInfoBanner = React.createClass({
         var postPointsClassname = this.getPostPointsClassname();
         var formattedPointsText = this.getFormattedPointsText();
         var authorURL = '/u/' + this.props.author;
+        var commentString = getCommentCountString(this.props.commentCount);
 
         return (
             <div className="post-info-banner">
                 <p>
-                <span className={postPointsClassname}>{this.props.score}</span> {formattedPointsText} | Submitted by <a href={authorURL} className="post-author">{this.props.author}</a> <span className="post-age">{bannerAge}</span> ago | <a href={this.props.commentsURL}>comments</a>
+                <span className={postPointsClassname}>{this.props.score}</span> {formattedPointsText} | Submitted by <a href={authorURL} className="post-author">{this.props.author}</a> <span className="post-age">{bannerAge}</span> ago | <a href={this.props.commentsURL}>{commentString}</a>
                 </p>
             </div>
         );
@@ -110,13 +113,16 @@ var UpvoteButton = React.createClass({
     render: function() {
         var imageSrc = this.getImage();
         var upvoteFunction;
+        var upvoteButtonClassName = "upvote-button";
 
         if (this.props.upvoted) {
             upvoteFunction = this.props.handleRemoveUpvote;
+            upvoteButtonClassName += " upvote-button-upvoted";
         } else {
             upvoteFunction = this.props.handleUpvote;
+            upvoteButtonClassName += " upvote-button-upvote";
         }
 
-        return <img className="upvote-button" src={imageSrc} onClick={upvoteFunction.bind(null, this.props.postId)} className="upvote-button" />
+        return <img className={upvoteButtonClassName} src={imageSrc} onClick={upvoteFunction.bind(null, this.props.postId)} />
     }
 });

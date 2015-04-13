@@ -16,8 +16,9 @@ body {
     margin: auto;
     /* font-size: 16px; */
     max-width: 700px;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 300;
+    /* font-family: 'Source Sans Pro', sans-serif; */
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
     color: #333;
     font-size: 16px;
 }
@@ -43,6 +44,13 @@ hr {
 
 li {
     list-style-type: none;
+}
+
+.thread-reply-textarea {
+    width: 300px;
+    height: 100px;
+    font-size: 1rem;
+    font-family: 'Lato', sans-serif;
 }
 
 /* ------------------------------
@@ -146,6 +154,15 @@ li {
     margin-right: 12px;
 }
 
+.upvote-button-upvote {
+    opacity: 0.75;
+}
+
+.upvote-button-upvote:hover {
+    opacity: 1.0;
+}
+
+
 
 /* ------------------------------
  * Comment.jsx
@@ -163,3 +180,9 @@ li {
     font-size: 0.75rem;
     display: block;
 }
+
+.comment-author {
+    font-weight: 400;
+    color: #616161;
+}
+
