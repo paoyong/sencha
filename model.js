@@ -36,6 +36,12 @@ var Subpy = DB.Model.extend({
     hasTimestamps: ['creation_time']
 });
 
+var Comment = DB.Model.extend({
+    tableName: 'comments',
+    idAttribute: 'id',
+    hasTimestamps: ['creation_time']
+});
+
 // ------------------------------
 // createNewUser
 // ------------------------------
@@ -260,6 +266,15 @@ function getComments(userId, postId, callback) {
     });
 }
 
+// ------------------------------
+// postComment
+// ------------------------------
+function postComment(author, postId, message, parentId, callback) {
+    knex.raw('INSERT INTO comments (author, message, parent_id, post_id) VALUES ($1, $2, $3, $4)', [author, message, parentId, postId]).then(function(newComment) {
+        callback(newComment);
+    });
+}
+
 module.exports = {
     User: User,
     Post: Post,
@@ -274,5 +289,6 @@ module.exports = {
     getPosts: getPosts,
     doesSubpyExist: doesSubpyExist,
     getSubpys: getSubpys,
-    getComments: getComments
+    getComments: getComments,
+    postComment: postComment
 };

@@ -145,7 +145,7 @@ $$
             UPDATE users
                 SET comments_score = comments_score + 1
                 WHERE username = comment_author;
-            UPDATE post
+            UPDATE comments
                 SET score = score + 1
                 WHERE id = NEW.comment_id;
             RETURN NEW;
@@ -155,7 +155,7 @@ $$
             UPDATE users
                 SET comments_score = comments_score - 1
                 WHERE username = comment_author;
-            UPDATE post
+            UPDATE comments
                 SET score = score - 1
                 WHERE id = OLD.comment_id;
             RETURN OLD;

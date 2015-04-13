@@ -1,0 +1,7 @@
+extends layout
+
+block content
+    h1 Comments
+    div#react-comment-app-mount
+    script(src='/javascripts/Comment.jsx', type='text/jsx')
+    script#comment-thread-script(src='/javascripts/comment-thread-app.js', type='text/jsx', postId= postId)

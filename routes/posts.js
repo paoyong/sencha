@@ -31,16 +31,6 @@ router.get('/:subpy', function(req, res, next) {
     });
 });
 
-router.get('/:subpy/:post/comments', function(req, res, next) {
-    var subpy = req.params.subpy;
-
-    res.render('comments', {
-        title: config.websiteName,
-        subpy: subpy,
-        user: req.user
-    });
-});
-
 // TODO: Find a way to implement calls to upvote a post without relying on routing. Or doing batch upvoting.
 router.post('/upvote/:postId', function(req, res, next) {
     var user = req.user;

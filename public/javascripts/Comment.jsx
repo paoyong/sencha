@@ -20,10 +20,10 @@ var Comment = React.createClass({
         commentsURL: React.PropTypes.string.isRequired
     },
     render: function() {
-        var post = this.props.post;
+        var comment = this.props.comment;
 
         return (
-
+            <p>This is a comment</p>
         );
     }
 });

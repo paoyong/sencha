@@ -21,4 +21,16 @@ router.get('/:subpy', function(req, res, next) {
     });
 });
 
+// Go to comment thread of the post
+router.get('/:subpy/:postId/comments', function(req, res, next) {
+    var subpy = req.params.subpy;
+
+    res.render('comment-thread', {
+        title: config.websiteName,
+        subpy: subpy,
+        user: req.user,
+        postId: req.params.postId
+    });
+});
+
 module.exports = router;

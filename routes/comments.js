@@ -18,16 +18,19 @@ router.get('/:postId', function(req, res, next) {
     });
 });
 
-router.post('/reply/:postId') {
+router.post('/reply/:postId', function(req, res, next) {
     var user = req.user;
     var parent_id = req.query.parent_id;
+    console.log(req.body);
+    var message = req.body.message;
 
     if (!parent_id) {
         parent_id = null;
     }
 
-    Model.postComment(user.username, req.params.postId, parent_id, function(savedComment) {
+    Model.postComment(user.username, req.params.postId, message, parent_id, function(savedComment) {
         console.log('Added comment');
     });
-}
+});
+
 module.exports = router;
