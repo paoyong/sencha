@@ -3,19 +3,38 @@ var postId = scriptDOM.getAttribute('postId');
 var commentsGETURL = '/comments/' + postId;
 var pollInterval = 4000;
 
-var App = React.createClass({
+var CommentThreadApp = React.createClass({
     getInitialState: function() {
         return {
             comments: [],
         };
     },
+    updateCommentsAfterUpvote: function(commentId, isUpvoting) {
+        var updatedComments = findAndUpdateUpvoted(this.state.comments, commentId, isUpvoting);
+        this.setState({comments: updatedComments});
+    },
+    updateAfterUpvote: function(commentId, isUpvoting) {
+        this.updateCommentsAfterUpvote(commentId, isUpvoting);
+
+        var ajaxURL = '/comments/'
+        if (isUpvoting) {
+            ajaxURL += 'upvote/' + commentId;
+        } else {
+            ajaxURL += 'remove-upvote/' + commentId;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: ajaxURL
+        });
+    },
     handleUpvote: function(commentId) {
         console.log(commentId);
-        //TODO
+        this.updateAfterUpvote(commentId, true);
     },
     handleRemoveUpvote: function(commentId) {
         console.log(commentId);
-        //TODO
+        this.updateAfterUpvote(commentId, false);
     },
     handleCommentSubmit: function(message) {
         $.ajax({
@@ -125,7 +144,7 @@ var CommentThread = React.createClass({
 });
 
 React.render(
-    <App
+    <CommentThreadApp
         url={commentsGETURL}
         pollInterval={pollInterval}
         usernameRoute='/u/'

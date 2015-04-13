@@ -235,3 +235,7 @@ li {
 .comment-points-banner-upvoted {
     color: #FCA53D;
 }
+
+.comment-upvote-button {
+    cursor: pointer;
+}

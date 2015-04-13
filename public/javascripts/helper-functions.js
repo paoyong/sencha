@@ -55,3 +55,20 @@ function getCommentCountString(numComments) {
 
     return commentString;
 }
+
+function findAndUpdateUpvoted(currArr, targetId, isUpvoting) {
+    for (var i = 0, len = currArr.length; i < len; i++) {
+        if (currArr[i].id === targetId) {
+            currArr[i].upvoted = isUpvoting;
+
+            if (isUpvoting) {
+                currArr[i].score++;
+            } else {
+                currArr[i].score--;
+            }
+        }
+    }
+
+    return currArr;
+}
+

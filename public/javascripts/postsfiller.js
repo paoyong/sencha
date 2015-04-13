@@ -22,23 +22,8 @@ var App = React.createClass({
         this.setState(newUpvotePool);
     },
     updatePostsAfterUpvote: function(postId, isUpvoting) {
-        // Update the state of posts for client side.
-        // We are just mimicing server side updates.
-        var currPosts = this.state.posts;
-
-        for (var i = 0, len = currPosts.length; i < len; i++) {
-            if (currPosts[i].id === postId) {
-                currPosts[i].upvoted = isUpvoting;
-
-                if (isUpvoting) {
-                    currPosts[i].score++;
-                } else {
-                    currPosts[i].score--;
-                }
-            }
-        }
-
-        this.setState({posts: currPosts});
+        var updatedPosts = findAndUpdateUpvoted(this.state.posts, postId, isUpvoting);
+        this.setState({posts: updatedPosts});
     },
     updateAfterUpvote: function(postId, isUpvoting) {
         this.updatePostsAfterUpvote(postId, isUpvoting);
