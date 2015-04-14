@@ -52,9 +52,19 @@ var CommentThreadApp = React.createClass({
         });
     },
     handleReply: function(parentId, message) {
-        console.log(parentId);
-        console.log(message);
-        // TODO
+        $.ajax({
+            url: '/comments/reply/' + postId + '?parent_id=' + parentId,
+            dataType: 'json',
+            type: 'POST',
+            data: {message: message},
+            success: function(data) {
+                console.log(data);
+                // this.addComment(data);
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(this.props.url, status, err.toString());
+            }.bind(this)
+        })
     },
     loadCommentsFromServer: function() {
         $.ajax({

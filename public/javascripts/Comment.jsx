@@ -7,15 +7,16 @@ var Comment = React.createClass({
         handleRemoveUpvote : React.PropTypes.func.isRequired,
         handleReply        : React.PropTypes.func.isRequired,
         comment            : React.PropTypes.shape({
-            id      : React.PropTypes.string,
-            author  : React.PropTypes.string,
-            message : React.PropTypes.string,
-            score   : React.PropTypes.number,
-            age     : React.PropTypes.object,
-            subpy   : React.PropTypes.string,
-            path    : React.PropTypes.array,
-            depth   : React.PropTypes.number,
-            upvoted : React.PropTypes.bool
+            id        : React.PropTypes.string,
+            author    : React.PropTypes.string,
+            message   : React.PropTypes.string,
+            score     : React.PropTypes.number,
+            age       : React.PropTypes.object,
+            subpy     : React.PropTypes.string,
+            path      : React.PropTypes.array,
+            depth     : React.PropTypes.number,
+            parent_id : React.PropTypes.number,
+            upvoted   : React.PropTypes.bool
         }),
         upvoteImageURL  : React.PropTypes.string.isRequired,
         upvotedImageURL : React.PropTypes.string.isRequired,
@@ -44,6 +45,7 @@ var Comment = React.createClass({
                     upvoteImageURL     = {this.props.upvoteImageURL}
                     upvotedImageURL    = {this.props.upvotedImageURL}
                     commentId          = {comment.id}
+                    parentId           = {comment.parent_id}
                     onReply            = {this.props.handleReply}
                 />
             </li>
@@ -105,7 +107,7 @@ var CommentBottomBanner = React.createClass({
     },
     handleReply: function(e) {
         console.log(e);
-        this.props.onReply(1, "hi");
+        this.props.onReply(this.props.commentId, "hi");
     },
     render: function() {
         var UpvoteButtonProps = {

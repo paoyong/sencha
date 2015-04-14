@@ -274,13 +274,13 @@ function getSubpys(limit, callback) {
 // Given a postId, returns a comment thread
 function getComments(userId, postId, callback) {
     // Query adapted from http://cramer.io/2010/05/30/scaling-threaded-comments-on-django-at-disqus/
-    var commentThreadQuery = 'WITH RECURSIVE cte (id, author, message, score, creation_time, post_id, path, parent_id, depth)  AS ( SELECT  id, author, message, score, creation_time, post_id, array[id] AS path, parent_id, 1 AS depth FROM    comments WHERE   parent_id IS NULL UNION ALL SELECT  comments.id, comments.author, comments.message, comments.score, comments.creation_time, comments.post_id, cte.path || comments.id, comments.parent_id, cte.depth + 1 AS depth FROM    comments JOIN cte ON comments.parent_id = cte.id) SELECT id, author, message, score, now() - creation_time as age, path, depth, parent_id FROM cte WHERE post_id=$1 ORDER BY path';
+    var commentThreadQuery = 'WITH RECURSIVE cte (id, author, message, score, creation_time, post_id, path, parent_id, depth)  AS ( SELECT  id, author, message, score, creation_time, post_id, array[id] AS path, parent_id, 1 AS depth FROM    comments WHERE   parent_id IS NULL UNION ALL SELECT  comments.id, comments.author, comments.message, comments.score, comments.creation_time, comments.post_id, cte.path || comments.id, comments.parent_id, cte.depth + 1 AS depth FROM    comments JOIN cte ON comments.parent_id = cte.id) SELECT id, author, message, score, now() - creation_time as age, path, depth FROM cte WHERE post_id=$1 ORDER BY path';
 
     var query = commentThreadQuery;
 
     if (userId) {
         // The same as getPosts when user is logged in - we want to join with comment_upvoted to determine if upvoted or not.
-        query = 'SELECT DISTINCT ON (c.id) c.id, author, message, score, age, path, depth, parent_id (CASE WHEN user_id = 1 THEN true ELSE false END) as upvoted FROM (' + commentThreadQuery + ') c LEFT OUTER JOIN comment_upvoted ON c.id = comment_id;';
+        query = 'SELECT DISTINCT ON (c.id) c.id, author, message, score, age, path, depth, (CASE WHEN user_id = 1 THEN true ELSE false END) as upvoted FROM (' + commentThreadQuery + ') c LEFT OUTER JOIN comment_upvoted ON c.id = comment_id;';
     }
 
     knex.raw(query, [postId]).then(function(result) {
@@ -315,4 +315,5 @@ module.exports = {
     removeUpvote: removeUpvote,
     commentUpvote: commentUpvote,
     removeCommentUpvote: removeCommentUpvote
+
 };
