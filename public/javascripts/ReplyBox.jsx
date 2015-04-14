@@ -2,13 +2,14 @@
 var converter = new Showdown.converter();
 
 var ReplyBox = React.createClass({
+    propTypes: {
+        onReply: React.PropTypes.func.isRequired,
+        defaultClassName: React.PropTypes.string.isRequired
+    },
     getInitialState: function() {
         return {
             isSubmitting: false
         };
-    },
-    propTypes: {
-        onReply: React.PropTypes.func.isRequired
     },
     handleReplySubmit: function(text) {
         this.props.onReply(text);
@@ -16,7 +17,9 @@ var ReplyBox = React.createClass({
     },
     render: function() {
         return (
-            <ReplyButton isSubmitting={this.state.isSubmitting} onReplySubmit={this.handleReplySubmit} />
+            <span className={this.props.defaultClassName}>
+                <ReplyButton isSubmitting={this.state.isSubmitting} onReplySubmit={this.handleReplySubmit} defaultClassName={this.props.defaultClassName} />
+            </span>
         );
     }
 });
@@ -24,7 +27,8 @@ var ReplyBox = React.createClass({
 var ReplyButton = React.createClass({
     propTypes: {
         isSubmitting: React.PropTypes.bool.isRequired,
-        onReplySubmit: React.PropTypes.func.isRequired
+        onReplySubmit: React.PropTypes.func.isRequired,
+        defaultClassName: React.PropTypes.string.isRequired
     },
     getInitialState: function() {
         return {isSubmitting: this.props.isSubmitting};
@@ -34,9 +38,12 @@ var ReplyButton = React.createClass({
         this.setState({isSubmitting: true});
     },
     handleSubmit: function(e) {
-        var text = React.findDOMNode(this.refs.textArea).value;
-        this.props.onReplySubmit(text);
         this.setState({isSubmitting: false});
+        var text = React.findDOMNode(this.refs.textArea).value;
+        if (text === '') {
+            return;
+        }
+        this.props.onReplySubmit(text);
     },
     getOnClickFunction: function() {
         return this.state.isSubmitting ? this.handleSubmit : this.startSubmit;
@@ -44,14 +51,14 @@ var ReplyButton = React.createClass({
     render: function() {
         var textareaComponent;
         if (this.state.isSubmitting) {
-            textareaComponent = <textarea ref="textArea" />;
+            textareaComponent = <textarea className={this.props.defaultClassName + "-textarea"} ref="textArea" />;
         }
 
         return (
             <div>
                 <div ref="textareaMount" />
                 {textareaComponent}
-                <input type="button" value="reply" onClick={this.getOnClickFunction()} />
+                <a className={this.props.defaultClassName + "-reply-button"} onClick={this.getOnClickFunction()}>reply</a>
             </div>
         );
     }

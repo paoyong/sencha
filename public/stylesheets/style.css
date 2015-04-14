@@ -215,6 +215,18 @@ li {
     margin-left: 100px;
 }
 
+.depth4 {
+    margin-left: 150px;
+}
+
+.depth5 {
+    margin-left: 200px;
+}
+
+.depth6 {
+    margin-left: 250px;
+}
+
 .comment {
     margin-bottom: 20px;
 }
@@ -239,3 +251,11 @@ li {
 .comment-upvote-button {
     cursor: pointer;
 }
+
+/* ------------------------------
+ * ReplyBox.jsx
+ * ------------------------------ */
+ .reply-box-reply-button {
+    color: #acacac;
+    cursor: pointer;
+ }
