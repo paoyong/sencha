@@ -29,7 +29,7 @@ var Comment = React.createClass({
         return (
             <li className={className}>
                 <CommentTopBanner
-                    upvoted       = {comment.upvoted} 
+                    upvoted       = {comment.upvoted}
                     author        = {comment.author}
                     score         = {comment.score}
                     age           = {comment.age}
@@ -39,7 +39,7 @@ var Comment = React.createClass({
                     message={comment.message}
                 />
                 <CommentBottomBanner
-                    upvoted            = {comment.upvoted} 
+                    upvoted            = {comment.upvoted}
                     handleUpvote       = {this.props.handleUpvote}
                     handleRemoveUpvote = {this.props.handleRemoveUpvote}
                     upvoteImageURL     = {this.props.upvoteImageURL}
@@ -105,11 +105,11 @@ var CommentBottomBanner = React.createClass({
         upvotedImageURL: React.PropTypes.string,
         commentId: React.PropTypes.string.isRequired
     },
-    handleReply: function(e) {
-        console.log(e);
-        this.props.onReply(this.props.commentId, "hi");
+    handleReply: function(text) {
+        this.props.onReply(this.props.commentId, text);
     },
     render: function() {
+                // <a onClick={this.handleReply}> Reply </a>
         var UpvoteButtonProps = {
             upvoted: this.props.upvoted,
             onUpvote: this.props.handleUpvote,
@@ -122,7 +122,7 @@ var CommentBottomBanner = React.createClass({
         return (
             <p className="comment-bottom-banner">
                 <UpvoteButton {...UpvoteButtonProps} />
-                <a onClick={this.handleReply}> Reply </a>
+                <ReplyBox onReply={this.handleReply}/>
             </p>
         );
     }

@@ -52,6 +52,7 @@ var CommentThreadApp = React.createClass({
         });
     },
     handleReply: function(parentId, message) {
+        console.log(parentId);
         $.ajax({
             url: '/comments/reply/' + postId + '?parent_id=' + parentId,
             dataType: 'json',
@@ -122,7 +123,7 @@ var CommentForm = React.createClass({
             <form className='new-comment-form' onSubmit={this.handleSubmit}>
                 <textarea type='text' ref='message' maxLength='300' placeholder='Reply to thread...' className="thread-reply-textarea"/>
                 <br />
-                <input type='submit' value='Reply' />
+                <input type="button" value="reply" />
             </form>
         );
     }
