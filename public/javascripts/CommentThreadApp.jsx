@@ -51,6 +51,11 @@ var CommentThreadApp = React.createClass({
             }.bind(this)
         });
     },
+    handleReply: function(parentId, message) {
+        console.log(parentId);
+        console.log(message);
+        // TODO
+    },
     loadCommentsFromServer: function() {
         $.ajax({
             url: this.props.url,
@@ -68,19 +73,22 @@ var CommentThreadApp = React.createClass({
         setInterval(this.loadPostsFromServer, this.props.pollInterval);
     },
     render: function() {
+        var CommentThreadProps = {
+            handleReply: this.handleReply,
+            comments: this.state.comments,
+            usernameRoute: this.props.usernameRoute,
+            upvoteImageURL: this.props.upvoteImageURL,
+            upvotedImageURL: this.props.upvotedImageURL,
+            handleUpvote: this.handleUpvote,
+            handleRemoveUpvote: this.handleRemoveUpvote
+        };
+
         return (
             <div className="comment-thread-app">
                 <CommentForm
                     onCommentSubmit={this.handleCommentSubmit}
                 />
-                <CommentThread
-                    comments={this.state.comments}
-                    usernameRoute={this.props.usernameRoute}
-                    upvoteImageURL={this.props.upvoteImageURL}
-                    upvotedImageURL={this.props.upvotedImageURL}
-                    handleUpvote={this.handleUpvote}
-                    handleRemoveUpvote={this.handleRemoveUpvote}
-                />
+                <CommentThread {...CommentThreadProps} />
             </div>
         );
     }
@@ -122,16 +130,22 @@ var CommentThread = React.createClass({
     },
     render: function() {
         var props = this.props;
+
+        var CommentProps = {
+            comment: {},
+            handleUpvote: props.handleUpvote,
+            handleRemoveUpvote: props.handleRemoveUpvote,
+            handleReply: props.handleReply,
+            upvoteImageURL: props.upvoteImageURL,
+            upvotedImageURL: props.upvotedImageURL,
+            usernameRoute: props.usernameRoute
+        };
+
         var comments = this.props.comments.map(function(comment) {
+            CommentProps.comment = comment;
+
             return (
-                <Comment
-                    comment={comment}
-                    handleUpvote={props.handleUpvote}
-                    handleRemoveUpvote={props.handleRemoveUpvote}
-                    upvoteImageURL={props.upvoteImageURL}
-                    upvotedImageURL={props.upvotedImageURL}
-                    usernameRoute={props.usernameRoute}
-                />
+                <Comment {...CommentProps} />
             );
         });
 

@@ -1,5 +1,4 @@
 /** @jsx React.DOM */
-
 var converter = new Showdown.converter();
 
 var Comment = React.createClass({
@@ -21,9 +20,6 @@ var Comment = React.createClass({
         upvoteImageURL  : React.PropTypes.string.isRequired,
         upvotedImageURL : React.PropTypes.string.isRequired,
         usernameRoute   : React.PropTypes.string.isRequired,
-    },
-    handleReply: function() {
-
     },
     render: function() {
         var comment = this.props.comment;
@@ -48,7 +44,7 @@ var Comment = React.createClass({
                     upvoteImageURL     = {this.props.upvoteImageURL}
                     upvotedImageURL    = {this.props.upvotedImageURL}
                     commentId          = {comment.id}
-                    onReply            = {this.handleReply}
+                    onReply            = {this.props.handleReply}
                 />
             </li>
         );
@@ -107,18 +103,24 @@ var CommentBottomBanner = React.createClass({
         upvotedImageURL: React.PropTypes.string,
         commentId: React.PropTypes.string.isRequired
     },
+    handleReply: function(e) {
+        console.log(e);
+        this.props.onReply(1, "hi");
+    },
     render: function() {
+        var UpvoteButtonProps = {
+            upvoted: this.props.upvoted,
+            onUpvote: this.props.handleUpvote,
+            onRemoveUpvote: this.props.handleRemoveUpvote,
+            upvoteImageURL: this.props.upvoteImageURL,
+            upvotedImageURL: this.props.upvotedImageURL,
+            targetId: this.props.commentId,
+            defaultClassName: "comment-upvote-button"
+        }
         return (
             <p className="comment-bottom-banner">
-                <UpvoteButton
-                    upvoted={this.props.upvoted}
-                    onUpvote={this.props.handleUpvote}
-                    onRemoveUpvote={this.props.handleRemoveUpvote}
-                    upvoteImageURL={this.props.upvoteImageURL}
-                    upvotedImageURL={this.props.upvotedImageURL}
-                    targetId={this.props.commentId}
-                    defaultClassName="comment-upvote-button"
-                />
+                <UpvoteButton {...UpvoteButtonProps} />
+                <a onClick={this.handleReply}> Reply </a>
             </p>
         );
     }

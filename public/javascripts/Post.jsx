@@ -5,7 +5,7 @@ var Post = React.createClass({
         handleUpvote: React.PropTypes.func.isRequired,
         handleRemoveUpvote: React.PropTypes.func.isRequired,
         post: React.PropTypes.shape({
-            id: React.PropTypes.number,
+            id: React.PropTypes.string,
             author: React.PropTypes.string,
             title: React.PropTypes.string,
             url: React.PropTypes.string,
@@ -23,26 +23,29 @@ var Post = React.createClass({
     render: function() {
         var post = this.props.post;
 
+        var UpvoteButtonProps = {
+            upvoted: post.upvoted,
+            onUpvote: this.props.handleUpvote,
+            onRemoveUpvote: this.props.handleRemoveUpvote,
+            upvoteImageURL: this.props.upvoteImageURL,
+            upvotedImageURL: this.props.upvotedImageURL,
+            targetId: post.id,
+            defaultClassName: "post-upvote-button"
+        };
+
+        var PostInfoBannerProps = {
+            score: post.score,
+            age: post.age,
+            author: post.author,
+            upvoted: post.upvoted,
+            commentsURL: this.props.commentsURL,
+            commentCount: post.comment_count
+        }
         return (
             <li className="post">
-                <UpvoteButton
-                    upvoted={post.upvoted}
-                    onUpvote={this.props.handleUpvote}
-                    onRemoveUpvote={this.props.handleRemoveUpvote}
-                    upvoteImageURL={this.props.upvoteImageURL}
-                    upvotedImageURL={this.props.upvotedImageURL}
-                    targetId={post.id}
-                    defaultClassName="post-upvote-button"
-                />
+                <UpvoteButton {...UpvoteButtonProps} />
                 <PostTitle post={post} />
-                <PostInfoBanner
-                    score={post.score}
-                    age={post.age}
-                    author={post.author}
-                    upvoted={post.upvoted}
-                    commentsURL={this.props.commentsURL}
-                    commentCount={post.comment_count}
-                />
+                <PostInfoBanner {...PostInfoBannerProps} />
             </li>
         );
     }

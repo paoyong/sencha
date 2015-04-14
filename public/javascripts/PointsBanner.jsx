@@ -4,7 +4,7 @@ var PointsBanner = React.createClass({
     propTypes: {
         preText            : React.PropTypes.string,
         postText           : React.PropTypes.string,
-        upvoted            : React.PropTypes.bool.isRequired,
+        upvoted            : React.PropTypes.bool,
         score              : React.PropTypes.number.isRequired,
         defaultClassName   : React.PropTypes.string.isRequired
     },
