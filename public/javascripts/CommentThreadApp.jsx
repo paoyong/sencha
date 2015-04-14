@@ -123,7 +123,7 @@ var CommentForm = React.createClass({
             <form className='new-comment-form' onSubmit={this.handleSubmit}>
                 <textarea type='text' ref='message' maxLength='300' placeholder='Reply to thread...' className="thread-reply-textarea"/>
                 <br />
-                <input type="button" value="reply" />
+                <input type="submit" value="reply" />
             </form>
         );
     }
