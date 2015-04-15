@@ -8,9 +8,15 @@ var pollInterval = 20 * 1000;
 var CommentThreadApp = React.createClass({
     getInitialState: function() {
         return {
-            post: {},
+            post: null,
             comments: []
         };
+    },
+    componentDidMount: function() {
+        this.loadCommentsFromServer();
+        this.loadPostFromServer();
+        setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+        setInterval(this.loadPostFromServer, this.props.pollInterval);
     },
     updateCommentsAfterUpvote: function(commentId, isUpvoting) {
         var updatedComments = findAndUpdateUpvoted(this.state.comments, commentId, isUpvoting);
@@ -80,12 +86,6 @@ var CommentThreadApp = React.createClass({
             }.bind(this)
         });
     },
-    componentDidMount: function() {
-        this.loadCommentsFromServer();
-        this.loadPostFromServer();
-        setInterval(this.loadCommentsFromServer, this.props.pollInterval);
-        setInterval(this.loadPostFromServer, this.props.pollInterval);
-    },
     handleUpvote: function(postId) {
         console.log(postId);
     },
@@ -113,9 +113,20 @@ var CommentThreadApp = React.createClass({
             commentsURL: '/comments/'
         };
 
+
+        // TODO: This is pretty hacky, but I'm not sure
+        // how else to do it by using componentDidMount
+        var commentCount = 0;
+        var PostComponent;
+        if (this.state.post) {
+            commentCount = this.state.post.comment_count;
+            PostComponent = <Post {...PostProps} />
+        }
+
         return (
             <div className="comment-thread-app">
-                <Post {...PostProps} />
+                {PostComponent}
+                <h3>{commentCount} comments</h3>
                 <CommentForm
                     onCommentSubmit={this.handleReply}
                 />
