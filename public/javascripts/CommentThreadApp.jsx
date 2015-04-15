@@ -38,14 +38,12 @@ var CommentThreadApp = React.createClass({
         this.updateAfterUpvote(commentId, false);
     },
     handleCommentSubmit: function(message) {
-        // var oldComments = this.state.comments;
         $.ajax({
             url: '/comments/reply/' + postId,
             dataType: 'json',
             type: 'POST',
             data: {message: message},
             success: function(data) {
-                console.log('hihihih');
                 this.loadCommentsFromServer();
             }.bind(this),
             error: function(xhr, status, err) {
