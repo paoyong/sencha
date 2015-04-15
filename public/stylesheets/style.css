@@ -29,6 +29,7 @@ ul, li {
 
 body {
     margin: auto;
+    padding: 0 10px 0 10px;
     /* font-size: 16px; */
     max-width: 960px;
     /* font-family: 'Source Sans Pro', sans-serif; */
@@ -152,6 +153,14 @@ textarea {
  * ------------------------------ */
 #sidebar {
     float: right;
+    display: inline-block;
+}
+
+@media (max-width: 600px) {
+    #sidebar {
+        display: block;
+        float: none;
+    }
 }
 
 #subpy {
@@ -211,6 +220,10 @@ textarea {
 
 .posts-app ul {
     list-style-type: none;
+}
+
+.posts-app li {
+    display: block;
 }
 
 /* ------------------------------
@@ -322,3 +335,4 @@ textarea {
     color: #acacac;
     cursor: pointer;
  }
+

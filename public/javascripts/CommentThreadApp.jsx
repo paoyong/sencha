@@ -37,29 +37,16 @@ var CommentThreadApp = React.createClass({
         console.log(commentId);
         this.updateAfterUpvote(commentId, false);
     },
-    handleCommentSubmit: function(message) {
+    handleReply: function(parentId, message) {
         $.ajax({
             url: '/comments/reply/' + postId,
-            dataType: 'json',
+            dataType: 'text',
             type: 'POST',
-            data: {message: message},
+            data: {
+                message: message,
+                parent_id: parentId
+            },
             success: function(data) {
-                this.loadCommentsFromServer();
-            }.bind(this),
-            error: function(xhr, status, err) {
-                console.error(this.props.url, status, err.toString());
-            }.bind(this)
-        });
-    },
-    handleReply: function(parentId, message) {
-        // Post reply to server
-        $.ajax({
-            url: '/comments/reply/' + postId + '?parent_id=' + parentId,
-            dataType: 'json',
-            type: 'POST',
-            data: {message: message},
-            success: function(data) {
-                console.log(data);
                 this.loadCommentsFromServer();
             }.bind(this),
             error: function(xhr, status, err) {
@@ -97,7 +84,7 @@ var CommentThreadApp = React.createClass({
         return (
             <div className="comment-thread-app">
                 <CommentForm
-                    onCommentSubmit={this.handleCommentSubmit}
+                    onCommentSubmit={this.handleReply}
                 />
                 <CommentThread {...CommentThreadProps} />
             </div>
@@ -115,7 +102,7 @@ var CommentForm = React.createClass({
             return;
         }
 
-        this.props.onCommentSubmit(message);
+        this.props.onCommentSubmit(null, message);
         React.findDOMNode(this.refs.message).value = '';
     },
     render: function() {

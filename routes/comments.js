@@ -20,22 +20,27 @@ router.get('/:postId', function(req, res, next) {
 
 router.post('/reply/:postId', function(req, res, next) {
     var user = req.user;
-    var parent_id = req.query.parent_id;
+    var parent_id = req.body.parent_id;
     var message = req.body.message;
 
     if (!parent_id) {
         parent_id = null;
     }
 
-    Model.postComment(user.username, req.params.postId, message, parent_id, function(err) {
-        if (!err) {
-            res.status(200);
-            // res.send('successfully submitted comment.');
-        } else {
-            res.status(500);
-            res.send('Error inserting new comment in server');
-        }
-    });
+    if (user === undefined) {
+        res.status(400);
+        res.send('Must login before posting a comment');
+    } else {
+        Model.postComment(user.username, req.params.postId, message, parent_id, function(err) {
+            if (!err) {
+                res.status(200);
+                res.send('Successfully posted comment!');
+            } else {
+                res.status(500);
+                res.send('Error inserting new comment in server');
+            }
+        });
+    }
 });
 
 router.post('/upvote/:commentId', function(req, res, next) {
