@@ -27,7 +27,7 @@ html
                     if user
                             a(href='/u/' + user.username)= user.username
                             | (
-                            span= user.posts_score
+                            span= user.posts_score + user.comments_score
                             | ) |
                             a(href='/signout')  logout
                     else

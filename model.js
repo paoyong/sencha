@@ -280,7 +280,7 @@ function getComments(userId, postId, callback) {
 
     if (userId) {
         // The same as getPosts when user is logged in - we want to join with comment_upvoted to determine if upvoted or not.
-        query = 'SELECT * FROM (SELECT DISTINCT ON (c.id) c.id, author, message, score, age, path, depth, (CASE WHEN user_id = 1 THEN true ELSE false END) as upvoted FROM (' + commentThreadQuery + ') c LEFT OUTER JOIN comment_upvoted ON c.id = comment_id ORDER BY c.id) as q ORDER BY path';
+        query = 'SELECT * FROM (SELECT DISTINCT ON (c.id) c.id, author, message, score, age, path, depth, (CASE WHEN user_id = ' + userId + ' THEN true ELSE false END) as upvoted FROM (' + commentThreadQuery + ') c LEFT OUTER JOIN comment_upvoted ON c.id = comment_id ORDER BY c.id) as q ORDER BY path';
     }
 
     knex.raw(query, [postId]).then(function(result) {

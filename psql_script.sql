@@ -151,7 +151,7 @@ $$
                 WHERE id = NEW.comment_id;
             RETURN NEW;
         ELSIF TG_OP = 'DELETE' THEN
-            SELECT author INTO STRICT comment_author FROM post
+            SELECT author INTO STRICT comment_author FROM comments
                 WHERE id = OLD.comment_id;
             UPDATE users
                 SET comments_score = comments_score - 1

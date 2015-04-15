@@ -46,7 +46,7 @@ var Post = React.createClass({
                 <div className="post-upvote-button-wrapper">
                     <UpvoteButton {...UpvoteButtonProps} />
                 </div>
-                <PostTitle post={post} /> <br />
+                <PostTitle post={post} commentsURL={this.props.commentsURL} /> <br />
                 <PostInfoBanner {...PostInfoBannerProps} />
             </li>
         );
@@ -56,17 +56,15 @@ var Post = React.createClass({
 var PostTitle = React.createClass({
     render: function() {
         var post = this.props.post;
+        var postURL = post.url;
 
-        // TODO: Handle case where no self text but is not link
-        if (post.selfText) {
-            return (
-                <span className="post-title">{post.title}</span>
-            );
-        } else {
-            return (
-                <a href={post.url} className="post-title">{post.title}</a>
-            );
+        if (postURL === null) {
+            postURL = this.props.commentsURL;
         }
+
+        return (
+            <a href={postURL} className="post-title">{post.title}</a>
+        );
     }
 });
 
