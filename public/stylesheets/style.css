@@ -63,10 +63,6 @@ hr {
     margin-top: 5px;
 }
 
-li {
-    list-style-type: none;
-}
-
 /* Inspiration from Skeleton.css */
 .button, input[type="submit"] {
     background: none;
@@ -148,6 +144,18 @@ textarea {
     height: 105px;
 }
 
+blockquote {
+    background: #efefef;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    padding: 10px;
+    padding-left: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-left: 5px solid #ccc;
+}
+
 /* ------------------------------
  * layout.jade
  * ------------------------------ */
@@ -222,8 +230,8 @@ textarea {
     list-style-type: none;
 }
 
-.posts-app li {
-    display: block;
+#react-comment-app-mount > div > li {
+    list-style-type: none;
 }
 
 /* ------------------------------
@@ -235,6 +243,7 @@ textarea {
     margin-bottom: 10px;
     padding-bottom: 15px;
 }
+
 
 .post-title {
     font-size: 1.25rem;
@@ -282,6 +291,10 @@ textarea {
 /* ------------------------------
  * Comment.jsx
  * ------------------------------ */
+#react-comment-app-mount > div > ul > li {
+    list-style-type: none;
+}
+
 .depth2 {
     margin-left: 50px;
 }
@@ -306,10 +319,17 @@ textarea {
     margin-bottom: 20px;
     color: #626262;
 }
+
 .comment p {
     margin-top: 5px;
     margin-bottom: 0px;
 }
+
+.comment blockquote p  {
+    margin: 0;
+    padding: 0;
+}
+
 .comment-top-banner {
     color: #acacac;
     font-size: 0.875rem;
@@ -366,3 +386,4 @@ textarea {
     margin-top: 5px;
     padding: 7px;
 }
+

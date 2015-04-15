@@ -38,11 +38,9 @@ var CommentThreadApp = React.createClass({
         });
     },
     handleUpvote: function(commentId) {
-        console.log(commentId);
         this.updateAfterUpvote(commentId, true);
     },
     handleRemoveUpvote: function(commentId) {
-        console.log(commentId);
         this.updateAfterUpvote(commentId, false);
     },
     handleReply: function(parentId, message) {
@@ -86,12 +84,6 @@ var CommentThreadApp = React.createClass({
             }.bind(this)
         });
     },
-    handleUpvote: function(postId) {
-        console.log(postId);
-    },
-    handleRemoveUpvote: function(postId) {
-        console.log(postId);
-    },
     render: function() {
         var CommentThreadProps = {
             handleReply: this.handleReply,
@@ -103,7 +95,6 @@ var CommentThreadApp = React.createClass({
             handleRemoveUpvote: this.handleRemoveUpvote
         };
 
-        console.log(this.state.post);
         var PostProps = {
             handleUpvote: this.handleUpvote,
             handleRemoveUpvote: this.handleRemoveUpvote,
