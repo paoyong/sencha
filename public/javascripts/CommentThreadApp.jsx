@@ -1,6 +1,7 @@
 var scriptDOM = document.getElementById('comment-thread-script');
 var postId = scriptDOM.getAttribute('postId');
 var commentsGETURL = '/comments/' + postId;
+
 var pollInterval = 4000;
 
 var CommentThreadApp = React.createClass({
@@ -37,14 +38,15 @@ var CommentThreadApp = React.createClass({
         this.updateAfterUpvote(commentId, false);
     },
     handleCommentSubmit: function(message) {
+        // var oldComments = this.state.comments;
         $.ajax({
             url: '/comments/reply/' + postId,
             dataType: 'json',
             type: 'POST',
             data: {message: message},
             success: function(data) {
-                console.log(data);
-                // this.addComment(data);
+                console.log('hihihih');
+                this.loadCommentsFromServer();
             }.bind(this),
             error: function(xhr, status, err) {
                 console.error(this.props.url, status, err.toString());
@@ -52,7 +54,7 @@ var CommentThreadApp = React.createClass({
         });
     },
     handleReply: function(parentId, message) {
-        console.log(parentId);
+        // Post reply to server
         $.ajax({
             url: '/comments/reply/' + postId + '?parent_id=' + parentId,
             dataType: 'json',
@@ -60,12 +62,12 @@ var CommentThreadApp = React.createClass({
             data: {message: message},
             success: function(data) {
                 console.log(data);
-                // this.addComment(data);
+                this.loadCommentsFromServer();
             }.bind(this),
             error: function(xhr, status, err) {
                 console.error(this.props.url, status, err.toString());
             }.bind(this)
-        })
+        });
     },
     loadCommentsFromServer: function() {
         $.ajax({

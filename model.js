@@ -5,7 +5,7 @@ var config = require('./config');
 var knex = require('knex')({
     client: 'postgres',
     // Uncomment to enable SQL query logging in console.
-    debug   : true,
+    // debug   : true,
     connection: {
         host    : '127.0.0.1',
         user    : 'postgres',
@@ -292,8 +292,12 @@ function getComments(userId, postId, callback) {
 // postComment
 // ------------------------------
 function postComment(author, postId, message, parentId, callback) {
-    knex.raw('INSERT INTO comments (author, message, parent_id, post_id) VALUES ($1, $2, $3, $4)', [author, message, parentId, postId]).then(function(newComment) {
-        callback(newComment);
+    knex.raw('INSERT INTO comments (author, message, parent_id, post_id) VALUES ($1, $2, $3, $4)', [author, message, parentId, postId]).then(function(result) {
+        if (result.rowCount === 1) {
+            callback(null);
+        } else {
+            callback("Error inserting new comment");
+        }
     });
 }
 

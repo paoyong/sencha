@@ -27,8 +27,14 @@ router.post('/reply/:postId', function(req, res, next) {
         parent_id = null;
     }
 
-    Model.postComment(user.username, req.params.postId, message, parent_id, function(savedComment) {
-        console.log('Added comment');
+    Model.postComment(user.username, req.params.postId, message, parent_id, function(err) {
+        if (!err) {
+            res.status(200);
+            res.send(result.rows[0]);
+        } else {
+            res.status(500);
+            res.send('Error inserting new comment in server');
+        }
     });
 });
 
@@ -40,6 +46,7 @@ router.post('/upvote/:commentId', function(req, res, next) {
         res.send('Cannot upvote when not logged in!');
     } else {
         Model.commentUpvote(user.id, req.params.commentId, function() {
+            res.status(200);
             res.send('Upvoted comment');
         });
     }

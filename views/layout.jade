@@ -20,18 +20,18 @@ html
         div#topbar
             h1
                 a(href='/')#title= title
-            // Top subpys listing
-            div#react-subpyfiller-app-mount
 
-            div#user-bar
-                if user
-                    a(href='/u/' + user.username)= user.username
-                    | (
-                    span= user.posts_score
-                    | ) |
-                    a(href='/signout')  logout
-                else
-                    a(href='/signin') Sign In
+            div
+                span#react-subpyfiller-app-mount
+                span#user-bar
+                    if user
+                            a(href='/u/' + user.username)= user.username
+                            | (
+                            span= user.posts_score
+                            | ) |
+                            a(href='/signout')  logout
+                    else
+                        a(href='/signin') Sign In
 
         // Sidebar stuff
         div#sidebar

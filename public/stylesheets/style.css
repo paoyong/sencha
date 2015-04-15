@@ -1,4 +1,6 @@
-/* universal */
+/* ------------------------------
+ * universal
+ * ------------------------------ */
 * {
     box-sizing: border-box;
 }
@@ -65,13 +67,15 @@ li {
 }
 
 /* Inspiration from Skeleton.css */
-.button {
+.button, input[type="submit"] {
+    background: none;
     display: inline-block;
     text-align: center;
-    font-size: 0.75rem;
-    line-height: 38px;
-    height: 50px;
-    width: 200px;
+    font-size: 0.675rem;
+    line-height: 28px;
+    height: 40px;
+    width: 150px;
+    letter-spacing: 0.2em;
     border-radius: 5px;
     padding: 5px 10px 5px 10px;
     border: 1px solid #BABABA;
@@ -82,16 +86,34 @@ li {
     text-transform: uppercase;
 }
 
-.button:hover  {
+input[type="submit"] {
+    line-height: 0px;
+    font-size: 8px;
+    width: 100px;
+    height: 25px;
+    font-size: 0.5rem;
+}
+
+.button:hover, input[type="submit"]:hover  {
     text-decoration: none;
     color: #777;
     border-color: #777;
 }
+
 .thread-reply-textarea {
     width: 300px;
     height: 100px;
     font-size: 1rem;
     font-family: 'Lato', sans-serif;
+}
+
+textarea {
+    resize: none;
+    border: 1px solid #BABABA;
+    border-radius: 4px;
+    font-weight: 400;
+    width: 284px;
+    height: 105px;
 }
 
 /* ------------------------------
@@ -119,7 +141,7 @@ li {
     border-bottom: 1px solid #ddd;
     margin-bottom: 10px;
     margin-top: 30px;
-    height: 120px;
+    height: 100px;
 }
 
 #topbar h1 a {
@@ -132,6 +154,10 @@ li {
 /* ------------------------------
  * subpyfiller.js
  * ------------------------------ */
+.subpys-list-app {
+    display: inline-block;
+    float: left;
+}
 .subpys-list li {
     display: inline;
     margin-right: 6px;
@@ -160,22 +186,22 @@ li {
  * Post.jsx
  * ------------------------------ */
 .post {
+    padding: 0;
+    margin: 0;
     margin-bottom: 10px;
-    padding: 10px 10px 10px 10px;
+    padding-bottom: 15px;
 }
 
 .post-title {
     font-size: 1.25rem;
-    display: block;
+    display: inline-block;
     margin-bottom: 5px;
-    margin-left: 50px;
 }
 
 .post-info-banner {
-    margin-left: 50px;
     color: #acacac;
     font-size: 0.875rem;
-    display: block;
+    display: inline-block;
 }
 
 .post-info-banner a, .post-points {
@@ -186,12 +212,17 @@ li {
     color: #FCA53D;
 }
 
+.post-upvote-button-wrapper {
+    width: 45px;
+    height: 50px;
+    display: inline-block;
+    float: left;
+}
+
 .post-upvote-button {
     cursor: pointer;
-    float: left;
-    position: relative;
-    top: 5px;
-    margin-right: 12px;
+    display: inline-block;
+    margin-top: 9px;
 }
 
 .post-upvote-button-not-upvoted {
@@ -229,6 +260,7 @@ li {
 
 .comment {
     margin-bottom: 20px;
+    color: #626262;
 }
 .comment p {
     margin-top: 5px;
@@ -243,7 +275,7 @@ li {
     font-weight: 700;
     color: #5395FF;
 }
- 
+
 .comment-points-banner-upvoted {
     color: #FCA53D;
 }

@@ -43,8 +43,10 @@ var Post = React.createClass({
         }
         return (
             <li className="post">
-                <UpvoteButton {...UpvoteButtonProps} />
-                <PostTitle post={post} />
+                <div className="post-upvote-button-wrapper">
+                    <UpvoteButton {...UpvoteButtonProps} />
+                </div>
+                <PostTitle post={post} /> <br />
                 <PostInfoBanner {...PostInfoBannerProps} />
             </li>
         );
