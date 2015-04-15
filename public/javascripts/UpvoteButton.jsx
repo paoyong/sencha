@@ -22,6 +22,10 @@ var UpvoteButton = React.createClass({
         var upvoteFunction;
         var upvoteButtonClassName = this.props.defaultClassName;
 
+        var wrapperStyle = {
+            display: 'inline-block'
+        }
+
         if (this.props.upvoted) {
             upvoteFunction = this.props.onRemoveUpvote;
             upvoteButtonClassName += " " + this.props.defaultClassName + "-upvoted";
@@ -31,11 +35,13 @@ var UpvoteButton = React.createClass({
         }
 
         return (
-            <img
-                className={upvoteButtonClassName}
-                src={imageSrc}
-                onClick={upvoteFunction.bind(null, this.props.targetId)}
-            />
+            <div className={this.props.defaultClassName + "-wrapper"} style={wrapperStyle}>
+                <img
+                    className={upvoteButtonClassName}
+                    src={imageSrc}
+                    onClick={upvoteFunction.bind(null, this.props.targetId)}
+                />
+            </div>
         );
     }
 });

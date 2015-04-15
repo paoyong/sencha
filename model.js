@@ -1,6 +1,7 @@
 var bcrypt = require('bcrypt-nodejs');
 var async = require('async');
 var config = require('./config');
+var ageSelection = 'now() - post.creation_time';
 
 var knex = require('knex')({
     client: 'postgres',
@@ -215,7 +216,6 @@ function getPosts(userId, subpy, sortBy, ageWord, limit, callback) {
         maxAge = '100000 years'
     }
 
-    var ageSelection = 'now() - post.creation_time';
 
     var select = 'post.id, post.author, post.title, post.url, post.self_text, post.score, post.subpy, post.comment_count';
 
@@ -239,6 +239,27 @@ function getPosts(userId, subpy, sortBy, ageWord, limit, callback) {
     });
 }
 
+// ------------------------------
+// getPostById
+// ------------------------------
+function getPostById(userId, postId, callback) {
+    var query = '';
+    var bindings = [];
+
+    var select = 'post.id, post.author, post.title, post.url, post.self_text, post.score, post.subpy, post.comment_count, ' + ageSelection + ' as age';
+
+    if (userId === null) {
+        query = 'SELECT ' + select + ', false as upvoted FROM post WHERE post.id=$1';
+        bindings = [postId];
+    } else {
+        query = 'SELECT ' + select + ', (CASE WHEN user_id=$2 THEN true ELSE false END) as upvoted FROM post LEFT OUTER JOIN upvoted ON post_id=post.id WHERE post.id=$1';
+        bindings = [postId, userId];
+    }
+
+    knex.raw(query, bindings).then(function(result) {
+        callback(result.rows[0]);
+    });
+}
 
 // ------------------------------
 // doesSubpyExist
@@ -312,6 +333,7 @@ module.exports = {
     grabUserByUsername: grabUserByUsername,
     upvote: upvote,
     getPosts: getPosts,
+    getPostById: getPostById,
     doesSubpyExist: doesSubpyExist,
     getSubpys: getSubpys,
     getComments: getComments,

@@ -16,9 +16,15 @@ var ReplyBox = React.createClass({
         this.setState({isSubmitting: true});
     },
     render: function() {
+        var ReplyButtonProps = {
+            isSubmitting: this.state.isSubmitting,
+            onReplySubmit: this.handleReplySubmit,
+            defaultClassName: this.props.defaultClassName
+        };
+
         return (
             <span className={this.props.defaultClassName}>
-                <ReplyButton isSubmitting={this.state.isSubmitting} onReplySubmit={this.handleReplySubmit} defaultClassName={this.props.defaultClassName} />
+                <ReplyButton  {...ReplyButtonProps}/>
             </span>
         );
     }
@@ -28,7 +34,7 @@ var ReplyButton = React.createClass({
     propTypes: {
         isSubmitting: React.PropTypes.bool.isRequired,
         onReplySubmit: React.PropTypes.func.isRequired,
-        defaultClassName: React.PropTypes.string.isRequired
+        defaultClassName: React.PropTypes.string.isRequired,
     },
     getInitialState: function() {
         return {isSubmitting: this.props.isSubmitting};
@@ -48,18 +54,33 @@ var ReplyButton = React.createClass({
     getOnClickFunction: function() {
         return this.state.isSubmitting ? this.handleSubmit : this.startSubmit;
     },
+    cancel: function() {
+        this.setState({isSubmitting: false});
+    },
     render: function() {
-        var textareaComponent;
+        var textareaComponent, cancelButtonComponent;
+
         if (this.state.isSubmitting) {
-            textareaComponent = <textarea className={this.props.defaultClassName + "-textarea"} ref="textArea" />;
+            textareaComponent = (
+                <div>
+                    <textarea className={this.props.defaultClassName + "-textarea"} ref="textArea" />
+                </div>
+            );
+
+            cancelButtonComponent = (
+                <span>
+                    {' • '}
+                    <a className={this.props.defaultClassName + "-cancel-button"} onClick={this.cancel}>cancel</a>
+                </span>
+            );
         }
 
         return (
-            <div>
-                <div ref="textareaMount" />
+            <span className={this.props.defaultClassName + "-banner"}>
                 {textareaComponent}
                 <a className={this.props.defaultClassName + "-reply-button"} onClick={this.getOnClickFunction()}>reply</a>
-            </div>
+                {cancelButtonComponent}
+            </span>
         );
     }
 });

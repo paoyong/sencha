@@ -1,7 +1,7 @@
 var scriptDOM = document.getElementById('postfiller-script');
 var subpy = scriptDOM.getAttribute('subpy');
 var commentsRoute = '/r/' + subpy + '/comments/'
-var defaultURL = '/posts/' + subpy + '?age=day&sort_by=new';
+var defaultURL = '/posts/r/' + subpy + '?age=day&sort_by=new';
 
 // Milliseconds for every ajax call to the server
 var pollInterval = 4000;

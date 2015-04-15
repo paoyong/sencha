@@ -328,11 +328,41 @@ textarea {
     cursor: pointer;
 }
 
+.comment-upvote-button-wrapper {
+    width: 15px;
+}
+
 /* ------------------------------
  * ReplyBox.jsx
  * ------------------------------ */
- .reply-box-reply-button {
-    color: #acacac;
-    cursor: pointer;
- }
 
+.reply-box-banner {
+    font-size: 0.875rem;
+    color: #acacac;
+}
+
+.reply-box-reply-button,
+.reply-box-cancel-button {
+    color: #929292;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.reply-box-reply-button:hover,
+.reply-box-cancel-button:hover {
+    color: #777;
+    text-decoration: none;
+}
+
+.reply-box-cancel-button {
+    color: #E93E37;
+}
+
+.reply-box-cancel-button:hover {
+    color: #8C4646;
+}
+
+.reply-box-textarea {
+    margin-top: 5px;
+    padding: 7px;
+}

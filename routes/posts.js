@@ -4,7 +4,7 @@ var check = require('../check');
 var router = express.Router();
 var Model = require('../model.js');
 
-router.get('/:subpy', function(req, res, next) {
+router.get('/r/:subpy', function(req, res, next) {
     var subpy = req.params.subpy;
     var user = req.user;
 
@@ -28,6 +28,22 @@ router.get('/:subpy', function(req, res, next) {
     // If logged in, get posts as a logged in user to show upvotes.
     Model.getPosts(userId, subpy, sortBy, ageWord, config.numPostsToShow, function(rows) {
         res.send(rows);
+    });
+});
+
+router.get('/:postId', function(req, res, next) {
+    var userId;
+    var user = req.user;
+
+    if (!user) {
+        userId = null;
+    } else {
+        userId = user.id;
+    }
+
+    Model.getPostById(userId, req.params.postId, function(post) {
+        res.status(200);
+        res.send(post);
     });
 });
 

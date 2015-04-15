@@ -1,13 +1,15 @@
 var scriptDOM = document.getElementById('comment-thread-script');
 var postId = scriptDOM.getAttribute('postId');
 var commentsGETURL = '/comments/' + postId;
+var postGETURL = '/posts/' + postId;
 
-var pollInterval = 4000;
+var pollInterval = 20 * 1000;
 
 var CommentThreadApp = React.createClass({
     getInitialState: function() {
         return {
-            comments: [],
+            post: {},
+            comments: []
         };
     },
     updateCommentsAfterUpvote: function(commentId, isUpvoting) {
@@ -66,9 +68,29 @@ var CommentThreadApp = React.createClass({
             }.bind(this)
         });
     },
+    loadPostFromServer: function() {
+        $.ajax({
+            url: this.props.GETPostURL,
+            dataType: 'json',
+            success: function(data) {
+                this.setState({post: data});
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(this.props.url, status, err.toString());
+            }.bind(this)
+        });
+    },
     componentDidMount: function() {
         this.loadCommentsFromServer();
-        setInterval(this.loadPostsFromServer, this.props.pollInterval);
+        this.loadPostFromServer();
+        setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+        setInterval(this.loadPostFromServer, this.props.pollInterval);
+    },
+    handleUpvote: function(postId) {
+        console.log(postId);
+    },
+    handleRemoveUpvote: function(postId) {
+        console.log(postId);
     },
     render: function() {
         var CommentThreadProps = {
@@ -81,8 +103,19 @@ var CommentThreadApp = React.createClass({
             handleRemoveUpvote: this.handleRemoveUpvote
         };
 
+        console.log(this.state.post);
+        var PostProps = {
+            handleUpvote: this.handleUpvote,
+            handleRemoveUpvote: this.handleRemoveUpvote,
+            post: this.state.post,
+            upvoteImageURL: '/images/upvote.svg',
+            upvotedImageURL: '/images/upvoted.svg',
+            commentsURL: '/comments/'
+        };
+
         return (
             <div className="comment-thread-app">
+                <Post {...PostProps} />
                 <CommentForm
                     onCommentSubmit={this.handleReply}
                 />
@@ -158,6 +191,7 @@ var CommentThread = React.createClass({
 React.render(
     <CommentThreadApp
         url={commentsGETURL}
+        GETPostURL={postGETURL}
         pollInterval={pollInterval}
         usernameRoute='/u/'
         upvoteImageURL='/images/upvote_comment.svg'

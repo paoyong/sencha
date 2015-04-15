@@ -2,8 +2,8 @@
 
 var Post = React.createClass({
     propTypes: {
-        handleUpvote: React.PropTypes.func.isRequired,
-        handleRemoveUpvote: React.PropTypes.func.isRequired,
+        handleUpvote: React.PropTypes.func,
+        handleRemoveUpvote: React.PropTypes.func,
         post: React.PropTypes.shape({
             id: React.PropTypes.string,
             author: React.PropTypes.string,
@@ -43,9 +43,7 @@ var Post = React.createClass({
         }
         return (
             <li className="post">
-                <div className="post-upvote-button-wrapper">
-                    <UpvoteButton {...UpvoteButtonProps} />
-                </div>
+                <UpvoteButton {...UpvoteButtonProps} />
                 <PostTitle post={post} commentsURL={this.props.commentsURL} /> <br />
                 <PostInfoBanner {...PostInfoBannerProps} />
             </li>

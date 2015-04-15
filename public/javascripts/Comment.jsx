@@ -121,7 +121,7 @@ var CommentBottomBanner = React.createClass({
         }
         return (
             <p className="comment-bottom-banner">
-                <UpvoteButton {...UpvoteButtonProps} />
+                <UpvoteButton {...UpvoteButtonProps} />{' '}
                 <ReplyBox onReply={this.handleReply} defaultClassName="reply-box"/>
             </p>
         );
