@@ -8,7 +8,8 @@ var Model = require('../model.js');
 // Home page
 // ------------------------------
 router.get('/', function(req, res, next) {
-    res.redirect('/r/dota2');
+    // TODO: This is currently hacky right now.
+    res.redirect('/r/reactjs');
     // res.render('index', { title: config.websiteName, subpy: 'front page', user: req.user });
 });
 
