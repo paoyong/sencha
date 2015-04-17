@@ -1,6 +1,6 @@
 var bcrypt = require('bcrypt-nodejs');
 var async = require('async');
-var config = require('./config');
+var config = require('../config');
 var ageSelection = 'now() - post.creation_time';
 
 var knex = require('knex')({

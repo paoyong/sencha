@@ -1,5 +1,6 @@
 var subpy = $('#subpy').text();
 var defaultURL = '/subpylist?limit=10';
+var React = require('react');
 
 // Milliseconds for every ajax call to the server
 var pollInterval = 4000;

@@ -1,5 +1,7 @@
 /** @jsx React.DOM */
 
+var React = require('react');
+
 var PointsBanner = React.createClass({
     propTypes: {
         preText            : React.PropTypes.string,
@@ -35,3 +37,5 @@ var PointsBanner = React.createClass({
         );
     }
 });
+
+module.exports = PointsBanner;

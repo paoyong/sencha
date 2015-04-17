@@ -1,4 +1,7 @@
 /** @jsx React.DOM */
+
+var React = require('react');
+
 var converter = new Showdown.converter();
 
 var ReplyBox = React.createClass({
@@ -84,3 +87,5 @@ var ReplyButton = React.createClass({
         );
     }
 });
+
+module.exports = ReplyBox;

@@ -1,0 +1,37 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/iojs', '/usr/local/bin/npm', 'run', 'dev' ]
+2 info using npm@2.7.1
+3 info using node@v1.6.2
+4 verbose run-script [ 'predev', 'dev', 'postdev' ]
+5 info predev pyramus@0.0.0
+6 info dev pyramus@0.0.0
+7 verbose unsafe-perm in lifecycle true
+8 info pyramus@0.0.0 Failed to exec dev script
+9 verbose stack Error: pyramus@0.0.0 dev: `webpack-dev-server --devtool evail --progress --colors--content-base build`
+9 verbose stack Exit status 1
+9 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:213:16)
+9 verbose stack     at emitTwo (events.js:87:13)
+9 verbose stack     at EventEmitter.emit (events.js:169:7)
+9 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/spawn.js:14:12)
+9 verbose stack     at emitTwo (events.js:87:13)
+9 verbose stack     at ChildProcess.emit (events.js:169:7)
+9 verbose stack     at maybeClose (child_process.js:984:16)
+9 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:1057:5)
+10 verbose pkgid pyramus@0.0.0
+11 verbose cwd /Users/keithy/Desktop/projects/pyramus
+12 error Darwin 14.1.0
+13 error argv "/usr/local/bin/iojs" "/usr/local/bin/npm" "run" "dev"
+14 error node v1.6.2
+15 error npm  v2.7.1
+16 error code ELIFECYCLE
+17 error pyramus@0.0.0 dev: `webpack-dev-server --devtool evail --progress --colors--content-base build`
+17 error Exit status 1
+18 error Failed at the pyramus@0.0.0 dev script 'webpack-dev-server --devtool evail --progress --colors--content-base build'.
+18 error This is most likely a problem with the pyramus package,
+18 error not with npm itself.
+18 error Tell the author that this fails on your system:
+18 error     webpack-dev-server --devtool evail --progress --colors--content-base build
+18 error You can get their info via:
+18 error     npm owner ls pyramus
+18 error There is likely additional logging output above.
+19 verbose exit [ 1, true ]

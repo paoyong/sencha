@@ -1,5 +1,5 @@
 var express = require('express');
-var config = require('../config');
+var config = require('../../config');
 var router = express.Router();
 var passport = require('passport');
 var Model = require('../model.js');

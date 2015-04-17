@@ -1,4 +1,10 @@
 /** @jsx React.DOM */
+
+var React = require('react');
+var UpvoteButton = require('./UpvoteButton.jsx');
+var ReplyBox = require('./ReplyBox.jsx');
+var PointsBanner = require('./PointsBanner.jsx');
+var helpers = require('../helper-functions.js');
 var converter = new Showdown.converter();
 
 var Comment = React.createClass({
@@ -73,7 +79,7 @@ var CommentTopBanner = React.createClass({
         age     : React.PropTypes.object.isRequired
     },
     render: function() {
-        var ageString = getAgeString(this.props.age);
+        var ageString = helpers.getAgeString(this.props.age);
         var authorHref = this.props.usernameRoute + this.props.author;
 
         return (
@@ -127,3 +133,5 @@ var CommentBottomBanner = React.createClass({
         );
     }
 });
+
+module.exports = Comment;

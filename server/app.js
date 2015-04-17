@@ -1,15 +1,14 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var config = require('./config');
+var config = require('../config');
 var passport = require('passport');
 var session = require('express-session');
 
 var app = express();
 
+// Routes
 var indexRouter = require('./routes/index');
 var localAuthRouter = require('./routes/local-auth');
 var postsRouter = require('./routes/posts');
@@ -19,24 +18,23 @@ var uRouter = require('./routes/u');
 var subpylistRouter = require('./routes/subpylist');
 var commentsRouter = require('./routes/comments');
 
+// passport.js
 require('./passport.js')(passport);
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
-// app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(session({ secret: 'hamster kitten fight' }));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.set('views', path.join(__dirname, '..', 'views'));
+app.set('view engine', 'jade');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+
+// serve static content
+app.use(express.static(path.join(__dirname, '..', 'client')));
+
+// use routes
 app.use('/', indexRouter);
 app.use('/', localAuthRouter);
 app.use('/r', rRouter);

@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Model = require('../model');
-var config = require('../config');
+var config = require('../../config');
 
 router.get('/', function(req, res, next) {
     var limit = req.query.limit;

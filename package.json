@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node server/app.js",
+    "dev": "webpack-dev-server --devtool evail --progress --colors--content-base build --port 9090"
   },
   "dependencies": {
     "async": "^0.9.0",
@@ -15,6 +16,7 @@
     "express": "~4.11.1",
     "express-session": "^1.10.4",
     "jade": "~1.9.1",
+    "jsx-loader": "^0.13.1",
     "knex": "^0.7.6",
     "morgan": "~1.5.1",
     "passport": "^0.2.1",
@@ -25,7 +27,10 @@
     "serve-favicon": "~2.2.0"
   },
   "devDependencies": {
-    "webpack": "^1.8.4",
+    "babel": "^5.1.10",
+    "babel-core": "^5.1.10",
+    "babel-loader": "^5.0.0",
+    "webpack": "^1.8.5",
     "webpack-dev-server": "^1.8.0"
   }
 }

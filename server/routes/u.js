@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var config = require('../config.js');
+var config = require('../../config.js');
 var Model = require('../model.js');
 
 router.get('/:user', function(req, res, next) {

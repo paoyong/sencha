@@ -1,5 +1,10 @@
 /** @jsx React.DOM */
 
+var PointsBanner = require('./PointsBanner.jsx');
+var UpvoteButton = require('./UpvoteButton.jsx')
+var helpers = require('../helper-functions.js');
+var React = require('react');
+
 var Post = React.createClass({
     propTypes: {
         handleUpvote: React.PropTypes.func,
@@ -68,9 +73,9 @@ var PostTitle = React.createClass({
 
 var PostInfoBanner = React.createClass({
     render: function() {
-        var bannerAge = getAgeString(this.props.age);
+        var bannerAge = helpers.getAgeString(this.props.age);
         var authorURL = '/u/' + this.props.author;
-        var commentString = getCommentCountString(this.props.commentCount);
+        var commentString = helpers.getCommentCountString(this.props.commentCount);
 
         return (
             <div className="post-info-banner">
@@ -86,3 +91,5 @@ var PostInfoBanner = React.createClass({
         );
     }
 });
+
+module.exports = Post;

@@ -4,17 +4,10 @@ html
         title= subpy
         link(href='http://fonts.googleapis.com/css?family=Lato:300,400,600,700', rel='stylesheet', type='text/css')
         link(rel="stylesheet", href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css")
-        link(rel="stylesheet", href="/stylesheets/normalize.css")
+        link(rel="stylesheet", href="/css/normalize.css")
         // link(rel="stylesheet", href="/stylesheets/skeleton.css")
-        link(rel="stylesheet", href="/stylesheets/style.css")
+        link(rel="stylesheet", href="/css/style.css")
         script(src="https://code.jquery.com/jquery-2.1.3.js")
-        script(src="http://fb.me/JSXTransformer-0.13.1.js")
-        script(src="http://fb.me/react-0.13.1.js")
-        script(src="/javascripts/stdm-react.js")
-        script(src="/javascripts/helper-functions.js")
-        script(src="/javascripts/Post.jsx", type="text/jsx")
-        script(src="/javascripts/UpvoteButton.jsx", type="text/jsx")
-        script(src="/javascripts/PointsBanner.jsx", type="text/jsx")
         meta(name='viewport', content='width=device-width, initial-scale=1')
     body
         div#topbar
@@ -33,7 +26,6 @@ html
                     else
                         a(href='/signin') Sign In
 
-        // Sidebar stuff
         div#sidebar
             h3 Submit
             a.button(href= subpy + '/submit') Link Post
@@ -43,4 +35,4 @@ html
         div#content
             block content
 
-        script(src="/javascripts/subpyfiller.js", type="text/jsx")
+        script(src="http://localhost:9090/assets/SubpyFiller.bundle.js")

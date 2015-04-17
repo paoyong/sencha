@@ -5,6 +5,13 @@ var postGETURL = '/posts/' + postId;
 
 var pollInterval = 20 * 1000;
 
+var Comment = require('./components/Comment.jsx');
+var Post = require('./components/Post.jsx');
+var ReplyBox = require('./components/ReplyBox.jsx');
+var UpvoteButton = require('./components/UpvoteButton.jsx');
+var PointsBanner = require('./components/PointsBanner.jsx');
+var React = require('react');
+
 var CommentThreadApp = React.createClass({
     getInitialState: function() {
         return {

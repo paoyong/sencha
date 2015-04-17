@@ -1,10 +1,15 @@
-var scriptDOM = document.getElementById('postfiller-script');
+var scriptDOM = document.getElementById('postsAppScript');
 var subpy = scriptDOM.getAttribute('subpy');
 var commentsRoute = '/r/' + subpy + '/comments/'
 var defaultURL = '/posts/r/' + subpy + '?age=alltime&sort_by=top';
 
-// Milliseconds for every ajax call to the server
-var pollInterval = 4000;
+var config = require('../config');
+var helpers = require('./helper-functions');
+
+var Post = require('./components/Post.jsx');
+var UpvoteButton = require('./components/UpvoteButton.jsx');
+var PointsBanner = require('./components/PointsBanner.jsx');
+var React = require('react');
 
 var App = React.createClass({
     getInitialState: function() {
@@ -19,7 +24,7 @@ var App = React.createClass({
         this.setState(newUpvotePool);
     },
     updatePostsAfterUpvote: function(postId, isUpvoting) {
-        var updatedPosts = findAndUpdateUpvoted(this.state.posts, postId, isUpvoting);
+        var updatedPosts = helpers.findAndUpdateUpvoted(this.state.posts, postId, isUpvoting);
         this.setState({posts: updatedPosts});
     },
     updateAfterUpvote: function(postId, isUpvoting) {
@@ -49,7 +54,6 @@ var App = React.createClass({
             url: this.props.url,
             dataType: 'json',
             success: function(data) {
-                console.log(data);
                 this.setState({posts: data});
             }.bind(this),
             error: function(xhr, status, err) {
@@ -108,7 +112,7 @@ var PostsList = React.createClass({
 React.render(
     <App
         url={defaultURL}
-        pollInterval={pollInterval}
+        pollInterval={config.postPollInterval}
         upvoteImageURL={"/images/upvote.svg"}
         upvotedImageURL={"/images/upvoted.svg"}
         commentsRoute={commentsRoute}

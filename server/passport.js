@@ -1,4 +1,4 @@
-var config           = require('./config.js'),
+var config           = require('../config.js'),
     LocalStrategy    = require('passport-local').Strategy,
     Model            = require('./model.js'),
     bcrypt           = require('bcrypt-nodejs');

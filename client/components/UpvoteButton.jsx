@@ -1,5 +1,7 @@
 /** @jsx React.DOM */
 
+var React = require('react');
+
 var UpvoteButton = React.createClass({
     propTypes: {
         upvoted            : React.PropTypes.bool.isRequired,
@@ -45,3 +47,5 @@ var UpvoteButton = React.createClass({
         );
     }
 });
+
+module.exports = UpvoteButton;
