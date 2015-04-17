@@ -1,7 +1,7 @@
 var scriptDOM = document.getElementById('postfiller-script');
 var subpy = scriptDOM.getAttribute('subpy');
 var commentsRoute = '/r/' + subpy + '/comments/'
-var defaultURL = '/posts/r/' + subpy + '?age=day&sort_by=new';
+var defaultURL = '/posts/r/' + subpy + '?age=alltime&sort_by=top';
 
 // Milliseconds for every ajax call to the server
 var pollInterval = 4000;
@@ -12,9 +12,6 @@ var App = React.createClass({
             posts: [],
             upvotePool: {}
         };
-    },
-    sendUpvotesToServer: function() {
-        // TODO
     },
     updateUpvotePool: function(postId, isUpvoting) {
         var newUpvotePool = this.state.upvotePool;
@@ -42,13 +39,9 @@ var App = React.createClass({
         });
     },
     handleUpvote: function(postId) {
-        console.log('upvote');
-        console.log(postId);
         this.updateAfterUpvote(postId, true);
     },
     handleRemoveUpvote: function(postId) {
-        console.log('removeupvote');
-        console.log(postId);
         this.updateAfterUpvote(postId, false);
     },
     loadPostsFromServer: function() {
@@ -56,6 +49,7 @@ var App = React.createClass({
             url: this.props.url,
             dataType: 'json',
             success: function(data) {
+                console.log(data);
                 this.setState({posts: data});
             }.bind(this),
             error: function(xhr, status, err) {
