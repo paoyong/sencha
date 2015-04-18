@@ -33,6 +33,7 @@ app.use(cookieParser());
 
 // serve static content
 app.use(express.static(path.join(__dirname, '..', 'client')));
+app.use(express.static(path.join(__dirname, '..', 'client/build')));
 
 // use routes
 app.use('/', indexRouter);

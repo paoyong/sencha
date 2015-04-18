@@ -3,8 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node server/app.js",
-    "dev": "webpack-dev-server --devtool evail --progress --colors--content-base build --port 9090"
+    "start": "iojs server/app.js",
+    "dev": "webpack-dev-server --devtool evail --progress --colors--content-base build ",
+    "dev": "webpack --watch",
+    "build": "webpack"
   },
   "dependencies": {
     "async": "^0.9.0",
@@ -24,12 +26,14 @@
     "pg": "^4.3.0",
     "react": "^0.13.1",
     "reactify": "^1.1.0",
+    "remarkable": "^1.6.0",
     "serve-favicon": "~2.2.0"
   },
   "devDependencies": {
     "babel": "^5.1.10",
     "babel-core": "^5.1.10",
     "babel-loader": "^5.0.0",
+    "react-hot-loader": "^1.2.5",
     "webpack": "^1.8.5",
     "webpack-dev-server": "^1.8.0"
   }

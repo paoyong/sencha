@@ -4,5 +4,4 @@ block content
     h1
         a(href='/r/' + subpy)#subpy= subpy
     div#react-comment-app-mount
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js')
-    script#comment-thread-script(src='http://localhost:9090/assets/CommentThreadApp.bundle.js', postId= postId)
+    script#comment-thread-script(src='/build/CommentThreadApp.bundle.js', postId= postId)

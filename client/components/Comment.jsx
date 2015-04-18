@@ -5,7 +5,9 @@ var UpvoteButton = require('./UpvoteButton.jsx');
 var ReplyBox = require('./ReplyBox.jsx');
 var PointsBanner = require('./PointsBanner.jsx');
 var helpers = require('../helper-functions.js');
-var converter = new Showdown.converter();
+
+var Remarkable = require('remarkable');
+var md = new Remarkable();
 
 var Comment = React.createClass({
     propTypes: {
@@ -64,7 +66,7 @@ var CommentMessage = React.createClass({
         message: React.PropTypes.string
     },
     render: function() {
-        var rawMarkup = converter.makeHtml(this.props.message);
+        var rawMarkup = md.render(this.props.message);
 
         return <span className="comment-message" dangerouslySetInnerHTML={{__html: rawMarkup}} />
 

@@ -2,8 +2,6 @@
 
 var React = require('react');
 
-var converter = new Showdown.converter();
-
 var ReplyBox = React.createClass({
     propTypes: {
         onReply: React.PropTypes.func.isRequired,

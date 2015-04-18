@@ -50,6 +50,32 @@ var CommentThreadApp = React.createClass({
     handleRemoveUpvote: function(commentId) {
         this.updateAfterUpvote(commentId, false);
     },
+    updatePost: function(postId, isUpvoting) {
+        var newPost = this.state.post;
+        var ajaxURL = '/posts/'
+
+        if (isUpvoting) {
+            newPost.score++;
+            newPost.upvoted = true;
+            ajaxURL += 'upvote/' + postId;
+        } else {
+            newPost.score--;
+            newPost.upvoted = false;
+            ajaxURL += 'remove-upvote/' + postId;
+        }
+
+        this.setState({post: newPost});
+        $.ajax({
+            type: 'POST',
+            url: ajaxURL
+        });
+    },
+    handlePostUpvote: function(postId) {
+        this.updatePost(postId, true);
+    },
+    handlePostRemoveUpvote: function(postId) {
+        this.updatePost(postId, false);
+    },
     handleReply: function(parentId, message) {
         $.ajax({
             url: '/comments/reply/' + postId,
@@ -103,8 +129,8 @@ var CommentThreadApp = React.createClass({
         };
 
         var PostProps = {
-            handleUpvote: this.handleUpvote,
-            handleRemoveUpvote: this.handleRemoveUpvote,
+            handleUpvote: this.handlePostUpvote,
+            handleRemoveUpvote: this.handlePostRemoveUpvote,
             post: this.state.post,
             upvoteImageURL: '/images/upvote.svg',
             upvotedImageURL: '/images/upvoted.svg',
