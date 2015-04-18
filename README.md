@@ -1,11 +1,20 @@
 # Pyramus
 ## About
-Reddit clone with React data binding, express routing, and psql database.
+Reddit clone using React components and PostgresQL database.
 
 *Special thanks to the `#postgresql` irc group for the immense help in my SQL!*
 
-## Todo
-These are the big todos in my list currently:
+## Non-NPM Requirements
+* PostgresQL
+* iojs
 
-* Caching queries to improve website load times
-* Browserify jsx components
+## Installation
+1. `npm update`
+2. `psql -U postgres -a -f server/psql_scripts.sql` to build PostgresQL schema
+3. `npm run build` to build \*.bundle.js files.
+4. `npm start`
+
+## Todo
+
+* Caching queries to improve website load times.
+* Reducing size of webpack bundles.
