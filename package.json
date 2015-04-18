@@ -5,7 +5,6 @@
   "scripts": {
     "start": "iojs server/app.js",
     "dev": "webpack-dev-server --devtool evail --progress --colors--content-base build ",
-    "dev": "webpack --watch",
     "build": "webpack"
   },
   "dependencies": {
