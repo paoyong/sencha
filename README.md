@@ -21,8 +21,10 @@ Reddit clone using React components and PostgresQL database.
 
 ## React Components
 
+### Introduction
 This is to give a brief overview of what coding a component in React is like. To achieve this I will go over my code for a component in my project: the `<UpvoteButton />`.
 
+### React overview
 React is a Javascript view library that pushes for a component based workflow based on immutable data. Immutable data is easy to reason about, which is important in a big project because you want to reduce as much complexity as you can.
 
 React uses two types of data types:
@@ -32,6 +34,7 @@ React uses two types of data types:
 
 The way I do React components is to keep everything in props, so all the data in the scope of the component is immutable. React will not allow a prop value to be changed. I was able to use the `<UpvoteButton />` component in both the `<Post />` component and the `<Comment />` component, just by passing different properties to it. The component's only job is to render the component from the data passed to it, and call functions based on user's actions and the component's prop values.
 
+### `<UpvoteButton />` component
 To illustrate this, let's take a closer look at the `<UpvoteButton />` component:
 
 First I use the React createClass factory, and I pass in propTypes options to declare what the props are going to be passed in. I declare that these props are required, so that React can throw an error if they are not passed into the upvote button component. This ensures that all the data passed into the UpvoteButton is correct.
@@ -72,6 +75,7 @@ Notice that in all these code snippets I never change the `upvoted` prop (becaus
 
 By defining all the data that an `<UpvoteButton />` component would need, I was able to use the same `<UpvoteButton />` component in both my posts and comments.
 
+### Components structure
 So the way I do my reddit clone, for example take my `PostsApp.jsx` structure:
 
     <PostsApp />                <-- Only place with mutable state. React automatically re-renders necessary child components based on state change.
@@ -81,4 +85,5 @@ So the way I do my reddit clone, for example take my `PostsApp.jsx` structure:
 
 I also have all of my components in [a single folder](https://github.com/keithyong/pyramus/tree/master/client) making my file structure clean. I use webpack so that I can `require` components into my apps.
 
+### Conclusion
 In the end, the only state I ever use is in my `<App />` components, and all that state is passed down to my props-only components. If you are interested in learning more, I highly recommend [Facebook's React tutorial](http://facebook.github.io/react/docs/tutorial.html), as it gets you comfortable using props and states which are the bread and butter of React.
