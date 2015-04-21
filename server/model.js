@@ -216,11 +216,8 @@ function getPosts(userId, subpy, sortBy, ageWord, limit, callback) {
         maxAge = '100000 years'
     }
 
-
     var select = 'post.id, post.author, post.title, post.url, post.self_text, post.score, post.subpy, post.comment_count';
-
-    var maxAgeWhereClause = 'AND ' + ageSelection + ' < INTERVAL \'' + maxAge + '\''
-
+    var maxAgeWhereClause = 'AND ' + ageSelection + ' < INTERVAL \'' + maxAge + '\'';
     var query = '';
     var queryBindings = [];
 
@@ -230,7 +227,6 @@ function getPosts(userId, subpy, sortBy, ageWord, limit, callback) {
         queryBindings = [subpy, orderBy, limit];
     } else {
         query = 'SELECT DISTINCT ON (post.id) ' + select + ', CASE WHEN user_id=$1 THEN true ELSE false END as upvoted, ' + ageSelection + ' as age FROM post LEFT OUTER JOIN upvoted ON post_id = post.id WHERE subpy=$2 ' + maxAgeWhereClause + ' ORDER BY post.id, upvoted DESC, $3 LIMIT $4';
-
         queryBindings = [userId, subpy, orderBy, limit];
     }
 

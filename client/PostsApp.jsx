@@ -1,11 +1,14 @@
+// Handle pass in data
 var scriptDOM = document.getElementById('postsAppScript');
 var subpy = scriptDOM.getAttribute('subpy');
-var commentsRoute = '/r/' + subpy + '/comments/'
+var user = scriptDOM.getAttribute('username');
+
+// Routes
+var commentsRoute = '/r/' + subpy + '/comments/';
 var defaultURL = '/posts/r/' + subpy + '?age=alltime&sort_by=top';
 
 var config = require('../config');
 var helpers = require('./helper-functions');
-
 var Post = require('./components/Post.jsx');
 var UpvoteButton = require('./components/UpvoteButton.jsx');
 var PointsBanner = require('./components/PointsBanner.jsx');

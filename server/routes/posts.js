@@ -4,6 +4,12 @@ var check = require('../check');
 var router = express.Router();
 var Model = require('../model.js');
 
+// Get all posts by username
+router.get('/u/:username', function(req, res, next) {
+    var user = req.params.username;
+
+});
+
 router.get('/r/:subpy', function(req, res, next) {
     var subpy = req.params.subpy;
     var user = req.user;
