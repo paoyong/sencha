@@ -21,8 +21,6 @@ Reddit clone using React components and PostgresQL database.
 
 ## React Components
 
-This is an overview of what coding in React is like. This is not a tutorial, you won't get everything I say, but hopefully you will read this and sort of get what the philosophy behind React components is.
-
 React is a Javascript view library that pushes for a component based workflow based on immutable data. Immutable data is easy to reason about, which is important in a big project because you want to reduce as much complexity as you can.
 
 React uses two types of data types:
@@ -75,6 +73,6 @@ So the way I do my reddit clone, for example take my `PostsApp.jsx` structure:
             <UpvoteButton />    <-- Immutable props
             <PointsBanner />    <-- Immutable props
 
-I also have all of my components in [a single folder](https://github.com/keithyong/pyramus/tree/master/client), which cleans up the workflow. I use webpack so that I can `require` components into my apps.
+I also have all of my components in [a single folder](https://github.com/keithyong/pyramus/tree/master/client) making my file structure clean. I use webpack so that I can `require` components into my apps.
 
 In the end, the only state I ever use is in my `<App />` component, and all that state is passed down to my props-only components. I would say this covers about most of what the Flux architecture is about. If you are interested in learning more, I highly recommend [Facebook's React tutorial](http://facebook.github.io/react/docs/tutorial.html), as it gets you comfortable using props and states which are the bread and butter of React.
