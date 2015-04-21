@@ -34,8 +34,9 @@ React uses two types of data types:
 
 The way I do React components is to keep everything in props, so all the data in the scope of the component is immutable. React will not allow a prop value to be changed. I was able to use the `<UpvoteButton />` component in both the `<Post />` component and the `<Comment />` component, just by passing different properties to it. The component's only job is to render the component from the data passed to it, and call functions based on user's actions and the component's prop values.
 
-### `<UpvoteButton />` component
 To illustrate this, let's take a closer look at the `<UpvoteButton />` component:
+
+### UpvoteButton component
 
 First I use the React createClass factory, and I pass in propTypes options to declare what the props are going to be passed in. I declare that these props are required, so that React can throw an error if they are not passed into the upvote button component. This ensures that all the data passed into the UpvoteButton is correct.
 
