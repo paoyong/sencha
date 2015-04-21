@@ -252,7 +252,7 @@ function getPostById(userId, postId, callback) {
         query = 'SELECT ' + select + ', false as upvoted FROM post WHERE post.id=$1';
         bindings = [postId];
     } else {
-        query = 'SELECT ' + select + ', (CASE WHEN user_id=$2 THEN true ELSE false END) as upvoted FROM post LEFT OUTER JOIN upvoted ON post_id=post.id WHERE post.id=$1';
+        query = 'SELECT ' + select + ', (CASE WHEN user_id=$2 THEN true ELSE false END) as upvoted FROM post LEFT OUTER JOIN upvoted ON post_id=post.id WHERE post.id=$1 ORDER BY upvoted DESC LIMIT 1';
         bindings = [postId, userId];
     }
 

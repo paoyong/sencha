@@ -4,9 +4,9 @@ var path = require('path');
 
 module.exports = {
     entry: {
-        CommentThreadApp: ['./client/CommentThreadApp.jsx'],
-        PostsApp: ['./client/PostsApp.jsx'],
-        SubpyFiller: ['./client/SubpyFiller.jsx'],
+        CommentThreadApp: './client/CommentThreadApp.jsx',
+        PostsApp: './client/PostsApp.jsx',
+        SubpyFiller: './client/SubpyFiller.jsx',
         vendors: ['react']
     },
     output: {

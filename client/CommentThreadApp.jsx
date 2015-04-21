@@ -137,6 +137,8 @@ var CommentThreadApp = React.createClass({
             commentsURL: '/comments/'
         };
 
+        console.log(this.state.post);
+
 
         // TODO: This is pretty hacky, but I'm not sure
         // how else to do it by using componentDidMount
