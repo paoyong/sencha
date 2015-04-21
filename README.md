@@ -46,26 +46,27 @@ First I use the React createClass factory, and I pass in propTypes options to de
             upvotedImageURL    : React.PropTypes.string.isRequired,
             defaultClassName   : React.PropTypes.string.isRequired
         },
+    ...
 
 Let's look at the `upvoted` prop. This prop can either be true or false, but it can never be changed inside the component. When `upvoted` is true, I tell the UpvoteButton to render with my `upvotedImageURL` to show the image of an upvoted button. If false, I pick the `upvoteImageURL`, which is gray:
 
-        if (this.props.upvoted) {
-            // render with orange upvoted image
-            return this.props.upvotedImageURL;
-        } else {
-            // render with gray un-upvoted image
-            return this.props.upvoteImageURL;
-        }
+    if (this.props.upvoted) {
+        // render with orange upvoted image
+        return this.props.upvotedImageURL;
+    } else {
+        // render with gray un-upvoted image
+        return this.props.upvoteImageURL;
+    }
 
 Also, if `upvoted` is true, I make the UpvoteButton component call the `onRemoveUpvote` function on click. I also change the className based on the `upvoted` prop. This makes me able to easily select upvoted and not-upvoted components in CSS. Here is the code:
 
-        if (this.props.upvoted) {
-            upvoteFunction = this.props.onRemoveUpvote;
-            upvoteButtonClassName += " " + this.props.defaultClassName + "-upvoted";
-        } else {
-            upvoteFunction = this.props.onUpvote;
-            upvoteButtonClassName += " " + this.props.defaultClassName + "-not-upvoted";
-        }
+    if (this.props.upvoted) {
+        upvoteFunction = this.props.onRemoveUpvote;
+        upvoteButtonClassName += " " + this.props.defaultClassName + "-upvoted";
+    } else {
+        upvoteFunction = this.props.onUpvote;
+        upvoteButtonClassName += " " + this.props.defaultClassName + "-not-upvoted";
+    }
 
 Notice that in all these code snippets I never change the `upvoted` prop (because I can't - React will yell at me). The `<UpvoteButton />` component is only responsible for rendering the correct images and pick the functions to call on click based on whatever its props are.
 
