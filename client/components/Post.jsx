@@ -46,10 +46,12 @@ var Post = React.createClass({
             commentsURL: this.props.commentsURL,
             commentCount: post.comment_count
         }
+
         return (
             <li className="post">
                 <UpvoteButton {...UpvoteButtonProps} />
                 <PostTitle post={post} commentsURL={this.props.commentsURL} /> <br />
+                <p>{post.self_text}</p>
                 <PostInfoBanner {...PostInfoBannerProps} />
             </li>
         );
