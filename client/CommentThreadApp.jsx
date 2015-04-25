@@ -11,6 +11,7 @@ var ReplyBox = require('./components/ReplyBox.jsx');
 var UpvoteButton = require('./components/UpvoteButton.jsx');
 var PointsBanner = require('./components/PointsBanner.jsx');
 var React = require('react');
+var helpers = require('./helper-functions')
 
 var CommentThreadApp = React.createClass({
     getInitialState: function() {
@@ -26,7 +27,7 @@ var CommentThreadApp = React.createClass({
         setInterval(this.loadPostFromServer, this.props.pollInterval);
     },
     updateCommentsAfterUpvote: function(commentId, isUpvoting) {
-        var updatedComments = findAndUpdateUpvoted(this.state.comments, commentId, isUpvoting);
+        var updatedComments = helpers.findAndUpdateUpvoted(this.state.comments, commentId, isUpvoting);
         this.setState({comments: updatedComments});
     },
     updateAfterUpvote: function(commentId, isUpvoting) {
