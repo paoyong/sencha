@@ -47,11 +47,15 @@ var Post = React.createClass({
             commentCount: post.comment_count
         }
 
+        var selfTextBanner = '';
+        if (post.self_text) {
+            selfTextBanner = <p className="self-text-banner">{post.self_text}</p>
+        }
         return (
             <li className="post">
                 <UpvoteButton {...UpvoteButtonProps} />
                 <PostTitle post={post} commentsURL={this.props.commentsURL} /> <br />
-                <p>{post.self_text}</p>
+                {selfTextBanner}
                 <PostInfoBanner {...PostInfoBannerProps} />
             </li>
         );

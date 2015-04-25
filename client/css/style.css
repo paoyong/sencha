@@ -234,57 +234,6 @@ blockquote {
     list-style-type: none;
 }
 
-/* ------------------------------
- * Post.jsx
- * ------------------------------ */
-.post {
-    padding: 0;
-    margin: 0;
-    margin-bottom: 10px;
-    padding-bottom: 15px;
-}
-
-
-.post-title {
-    font-size: 1.25rem;
-    display: inline-block;
-    margin-bottom: 5px;
-}
-
-.post-info-banner {
-    color: #acacac;
-    font-size: 0.875rem;
-    display: inline-block;
-}
-
-.post-info-banner a, .post-points {
-    color: #616161;
-}
-
-.post-points-banner-upvoted {
-    color: #FCA53D;
-}
-
-.post-upvote-button-wrapper {
-    width: 45px;
-    height: 50px;
-    display: inline-block;
-    float: left;
-}
-
-.post-upvote-button {
-    cursor: pointer;
-    display: inline-block;
-    margin-top: 9px;
-}
-
-.post-upvote-button-not-upvoted {
-    opacity: 0.75;
-}
-
-.post-upvote-button-not-upvoted:hover {
-    opacity: 1.0;
-}
 
 
 
@@ -387,3 +336,58 @@ blockquote {
     padding: 7px;
 }
 
+/* ------------------------------
+ * Post.jsx
+ * ------------------------------ */
+.post {
+    padding: 0;
+    margin: 0;
+    margin-bottom: 10px;
+    padding-bottom: 15px;
+}
+
+
+.post-title {
+    font-size: 1.25rem;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.post-info-banner {
+    color: #acacac;
+    font-size: 0.875rem;
+    display: inline-block;
+}
+
+.post-info-banner a, .post-points {
+    color: #616161;
+}
+
+.post-info-banner p {
+    margin: 0;
+}
+
+.post-points-banner-upvoted {
+    color: #FCA53D;
+}
+
+.post-upvote-button-wrapper {
+    width: 45px;
+    height: 50px;
+    display: inline-block;
+    float: left;
+}
+
+.post-upvote-button {
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 9px;
+}
+
+.post-upvote-button-not-upvoted {
+    opacity: 0.75;
+}
+
+.post-upvote-button-not-upvoted:hover {
+    opacity: 1.0;
+}
