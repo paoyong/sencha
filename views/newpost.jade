@@ -6,12 +6,14 @@ block content
         h2 Submit a new link post
     form(name="newpost", action= "/r/" + subpy + "/submit", method="post")
         label(for="title") Title
-        input.u-full-width(type="text", name="title", required="true", placeholder="Title...")
+        input(type="text", name="title", required="true", placeholder="Title...")
+        br
         if textPost
-            textarea.u-full-width(type="text", name="selftext", placeholder="Say something..." id="self-text-box")
+            textarea(type="text", name="selftext", placeholder="Say something..." id="self-text-box")
         else
             label(for="link") Link
-            input.u-full-width(type="text", name="link", required="true", placeholder="URL...")
+            input(type="text", name="link", required="true", placeholder="URL...")
         label(for="subpy") Subpy
-        input.u-full-width(type="text", name="subpy", required="true", value=subpy)
+        input(type="text", name="subpy", required="true", value=subpy)
+        br
         input.button.button-primary(type="submit", value="Submit")

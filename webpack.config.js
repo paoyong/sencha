@@ -3,6 +3,9 @@ var config = require('./config');
 var path = require('path');
 
 module.exports = {
+    externals: {
+        'react': 'React'
+    },
     entry: {
         CommentThreadApp: './client/CommentThreadApp.jsx',
         PostsApp: './client/PostsApp.jsx',
