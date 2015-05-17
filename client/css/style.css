@@ -234,9 +234,6 @@ blockquote {
     list-style-type: none;
 }
 
-
-
-
 /* ------------------------------
  * Comment.jsx
  * ------------------------------ */
@@ -390,4 +387,8 @@ blockquote {
 
 .post-upvote-button-not-upvoted:hover {
     opacity: 1.0;
+}
+
+.post-self-text-banner {
+    margin: 0;
 }

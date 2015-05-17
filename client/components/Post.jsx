@@ -49,7 +49,7 @@ var Post = React.createClass({
 
         var selfTextBanner = '';
         if (post.self_text) {
-            selfTextBanner = <p className="self-text-banner">{post.self_text}</p>
+            selfTextBanner = <p className="post-self-text-banner">{post.self_text}</p>
         }
         return (
             <li className="post">

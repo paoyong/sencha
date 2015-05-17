@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS post (
     PRIMARY KEY (id)
 );
 
+
 CREATE TABLE IF NOT EXISTS upvoted (
     user_id         integer NOT NULL
         REFERENCES users(id)
@@ -93,6 +94,7 @@ CREATE TABLE IF NOT EXISTS comment_upvoted (
         ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (user_id, comment_id)
 );
+
 
 -- TRIGGER FUNCTIONS
 
