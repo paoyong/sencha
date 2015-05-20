@@ -51,7 +51,7 @@ router.get('/signup', function(req, res, next) {
     if (req.isAuthenticated()) {
         res.redirect('/');
     } else {
-        res.render('signup', { title: 'Sign Up' });
+        res.render('signup', { title: config.websiteName });
     }
 });
 
