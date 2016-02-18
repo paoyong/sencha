@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "iojs server/app.js",
+    "start": "node server/app.js",
     "dev": "webpack-dev-server --devtool evail --progress --colors--content-base build ",
     "build": "webpack"
   },

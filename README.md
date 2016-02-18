@@ -6,7 +6,6 @@ Reddit clone using React components and PostgresQL database.
 
 ## Non-NPM Requirements
 * PostgresQL
-* iojs
 
 ## Installation
 Make sure to have postgresQL installed. On windows, don't forget to set up the PATH variable for `psql`.
