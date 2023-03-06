@@ -1,8 +1,6 @@
-# Pyramus
+# Sencha
 ## About
 Reddit clone using React components and PostgresQL database.
-
-*Special thanks to the `#postgresql` irc group for the immense help in my SQL!*
 
 ## Non-NPM Requirements
 * PostgresQL
