@@ -201,4 +201,16 @@ CREATE TRIGGER comment_insert
     FOR EACH ROW
     EXECUTE PROCEDURE on_add_delete_comment();
 
+CREATE TABLE IF NOT EXISTS users (
+    id              serial,
+    username        varchar(100) NOT NULL UNIQUE,
+    password        varchar(100) NOT NULL,
+    posts_score     integer NOT NULL default 0,
+    comments_score  integer NOT NULL default 0,
+    creation_time   timestamptz NOT NULL default now(),
+    PRIMARY KEY (id)
+);
+
 INSERT INTO subpy VALUES (DEFAULT, 'reactjs', DEFAULT);
+INSERT INTO users VALUES (DEFAULT, 'paoyong', 'password123', DEFAULT, DEFAULT, DEFAULT);
+INSERT INTO post VALUES (DEFAULT, 'paoyong', 'ReactJS Hello World', 'url', '', DEFAULT, 'reactjs', DEFAULT, DEFAULT);
