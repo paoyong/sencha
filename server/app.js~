@@ -58,5 +58,5 @@ app.listen(config.port);
 console.log();
 console.log();
 console.log('------------------------------')
-console.log('SENCHA listening on port ' + config.port);
+console.log('sencha listening on port ' + config.port);
 console.log('------------------------------')
